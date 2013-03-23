@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.jbpm</groupId>
+  <artifactId>console-rest-jms-poc</artifactId>
+  <packaging>pom</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <properties>
+    <jbpm.version>6.0.0-SNAPSHOT</jbpm.version>
+    <switchyard.version>0.7.0.Final</switchyard.version>
+    <resteasy.version>2.3.4.Final</resteasy.version>
+    <hornetq.version>2.2.13.Final</hornetq.version>
+
+    <arquillian.version>1.0.3.Final</arquillian.version>
+    <shrinkwrap.version>2.0.0-beta-2</shrinkwrap.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- this poc -->
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-console-ng-services-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-console-ng-services-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-console-ng-services-jms</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-console-ng-services-shared</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- general -->
+      <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <version>1.0-SP4</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.spec.javax.ejb</groupId>
+        <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+        <version>1.0.2.Final</version>
+      </dependency>
+
+      <!-- jbpm -->
+      <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-internal</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+
+      <!-- jms -->
+      <dependency>
+        <groupId>javax.jms</groupId>
+        <artifactId>jms</artifactId>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hornetq</groupId>
+        <artifactId>hornetq-core-client</artifactId>
+        <version>${hornetq.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hornetq</groupId>
+        <artifactId>hornetq-jms-client</artifactId>
+        <version>${hornetq.version}</version>
+      </dependency>
+
+      <!-- TEST -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.3.170</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- rest tests -->
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <version>${resteasy.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxb-provider</artifactId>
+        <version>${resteasy.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-cdi</artifactId>
+        <version>${resteasy.version}</version>
+      </dependency>
+
+      <!-- arquillian -->
+      <!-- Override dependency resolver with test version. This must go *BEFORE* the Arquillian BOM. -->
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-bom</artifactId>
+        <version>${shrinkwrap.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <!-- arquillian: contains all versions for specific arquillian artifacts -->
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>${arquillian.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.switchyard</groupId>
+          <artifactId>switchyard-plugin</artifactId>
+          <executions>
+            <execution>
+              <goals>
+                <goal>configure</goal>
+              </goals>
+              <configuration>
+                <scannerClassNames>
+                  <param>org.switchyard.component.bean.config.model.BeanSwitchYardScanner</param>
+                  <param>org.switchyard.transform.config.model.TransformSwitchYardScanner</param>
+                </scannerClassNames>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <configuration>
+            <executable>java</executable>
+            <classpathScope>test</classpathScope>
+            <mainClass>org.jboss.humantaskswitchyard.HornetQClient</mainClass>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.0</version>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+
+</project>
+

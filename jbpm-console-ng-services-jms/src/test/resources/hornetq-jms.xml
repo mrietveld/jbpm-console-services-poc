@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messaging-deployment xmlns="urn:jboss:messaging-deployment:1.0">
+  <hornetq-server>
+    <jms-destinations>
+      <jms-queue name="JBPM.SESSION.DOMAIN">
+        <entry name="queue/JBPM.SESSION.DOMAIN" />
+        <entry name="java:jboss/exported/jms/queue/JBPM.SESSION.DOMAIN" />
+      </jms-queue>
+      <jms-queue name="JBPM.TASK.DOMAIN">
+        <entry name="queue/JBPM.TASK.DOMAIN" />
+        <entry name="java:jboss/exported/jms/queue/JBPM.TASK.DOMAIN" />
+      </jms-queue>
+    </jms-destinations>
+  </hornetq-server>
+</messaging-deployment>
