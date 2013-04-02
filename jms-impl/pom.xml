@@ -25,12 +25,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-services-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-services-shared</artifactId>
+      <groupId>org.jbpm.services.poc</groupId>
+      <artifactId>client</artifactId>
     </dependency>
 
     <!-- jbpm -->

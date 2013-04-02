@@ -46,7 +46,7 @@ import org.jbpm.console.ng.services.jms.dynamic.DynamicQueueCreationBean;
 import org.jbpm.console.ng.services.jms.mdb.KnowledgeSessionMessageBean;
 import org.jbpm.console.ng.services.jms.mdb.TaskMessageBean;
 import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
-import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProviderImpl;
+import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +76,7 @@ import org.slf4j.LoggerFactory;
 @ServerSetup(ArquillianIntegrationTest.MessageBeanTestSetup.class)
 public class ArquillianIntegrationTest {
 
-    private Logger logger = LoggerFactory.getLogger(ArquillianIntegrationTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ArquillianIntegrationTest.class);
 
     private static Properties arquillianLaunchProperties = getArquillianLaunchProperties();
 
@@ -121,7 +121,7 @@ public class ArquillianIntegrationTest {
 
         @Override
         public void setup(ManagementClient managementClient, String containerId) throws Exception {
-            System.out.println("DEPLOY");
+            logger.info("Deploying JMS Queues");
 
             if (arquillianLaunchProperties.containsKey("glassfish-embedded")) {
                 throw new UnsupportedOperationException("Glassfish JMS Queue creation not yet supported.");
@@ -192,20 +192,30 @@ public class ArquillianIntegrationTest {
         File[] libs = Maven
                 .resolver()
                 .loadPomFromFile("pom.xml")
-                .resolve("org.hornetq:hornetq-core-client", 
+                .resolve( // this poc
+                        "org.jbpm.services.poc:client",
+                        // hornetq
+                        "org.hornetq:hornetq-core-client", 
                         "org.hornetq:hornetq-jms-client", 
+                        // camel
                         "org.apache.camel:camel-jms",
                         "org.apache.camel:camel-ejb",
                         "org.apache.camel:camel-cdi",
-                        "org.jbpm:jbpm-console-ng-services-client",
-                        "org.jbpm:jbpm-console-ng-services-shared",
-                        "org.jbpm:jbpm-persistence-jpa"
+                        // jbpm/kie
+                        "org.jbpm:jbpm-persistence-jpa",
+                        "org.kie:kie-internal",
+                        // specs/jboss
+                        "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec"
                         ).withTransitivity().asFile();
 
+        for( File file : libs ) { 
+           System.out.println( "* " + file.getName() );
+        }
+        
         return ShrinkWrap.create(WebArchive.class)
                 .addClasses(CamelBootstrap.class, CamelRouteBuilder.class)
                 .addClasses(ServerConsoleRequest.class, ConsoleProcessRequestBean.class)
-                .addClasses(DomainRuntimeManagerProvider.class, DomainRuntimeManagerProviderImpl.class)
+                .addClasses(DomainRuntimeManagerProvider.class)
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(libs);
     }

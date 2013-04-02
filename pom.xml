@@ -16,12 +16,12 @@
   </licenses>
 
   <modules>
-    <module>jbpm-console-ng-services-client</module>
-    <module>jbpm-console-ng-services-rest</module>
-    <module>jbpm-console-ng-services-jms</module>
-    <module>jbpm-console-ng-services-examples</module>
+    <module>client</module>
+    <module>jms-impl</module>
+    <module>rest-impl</module>
+    <module>examples</module>
   </modules>
-  
+
   <properties>
     <jbpm.version>6.0.0-SNAPSHOT</jbpm.version>
     <switchyard.version>0.7.0.Final</switchyard.version>
@@ -39,23 +39,18 @@
     <dependencies>
       <!-- this poc -->
       <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-console-ng-services-client</artifactId>
+        <groupId>org.jbpm.services.poc</groupId>
+        <artifactId>client</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-console-ng-services-rest</artifactId>
+        <groupId>org.jbpm.services.poc</groupId>
+        <artifactId>jms-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-console-ng-services-jms</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jbpm</groupId>
-        <artifactId>jbpm-console-ng-services-shared</artifactId>
+        <groupId>org.jbpm.services.poc</groupId>
+        <artifactId>rest-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
 
@@ -127,6 +122,32 @@
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-jms</artifactId>
         <version>${camel.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.camel</groupId>
@@ -137,6 +158,24 @@
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-cdi</artifactId>
         <version>${camel.version}</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>geronimo-jcdi_1.0_spec</artifactId>
+            <groupId>org.apache.geronimo.specs</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>geronimo-atinject_1.0_spec</artifactId>
+            <groupId>org.apache.geronimo.specs</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>deltaspike-core-api</artifactId>
+            <groupId>org.apache.deltaspike.core</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+            <groupId>org.apache.geronimo.specs</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <!-- TEST -->
@@ -222,5 +261,41 @@
   </build>
 
 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jms</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>camel-core</artifactId>
+          <groupId>org.apache.camel</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-core</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-jms</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-tx</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>camel-spring</artifactId>
+          <groupId>org.apache.camel</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-beans</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-context</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
 </project>
 
