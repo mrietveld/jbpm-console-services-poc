@@ -24,11 +24,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-console-ng-services-client</artifactId>
-    </dependency>
-
     <!-- jbpm -->
     <dependency>
       <groupId>org.kie</groupId>
