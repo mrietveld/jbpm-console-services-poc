@@ -16,6 +16,7 @@
   </licenses>
 
   <modules>
+    <module>shared</module>
     <module>client</module>
     <module>jms-impl</module>
     <module>rest-impl</module>
@@ -38,6 +39,11 @@
   <dependencyManagement>
     <dependencies>
       <!-- this poc -->
+      <dependency>
+        <groupId>org.jbpm.services.poc</groupId>
+        <artifactId>shared</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.jbpm.services.poc</groupId>
         <artifactId>client</artifactId>
@@ -71,6 +77,11 @@
         <version>${jbpm.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.kie.commons</groupId>
+        <artifactId>kie-commons-validation</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-persistence-jpa</artifactId>
         <version>${jbpm.version}</version>
@@ -98,7 +109,7 @@
         <version>1.0.2.Final</version>
       </dependency>
 
-      <!-- rest -->
+      <!-- rest  // DELETE ME
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jaxrs</artifactId>
@@ -114,6 +125,7 @@
         <artifactId>resteasy-cdi</artifactId>
         <version>${resteasy.version}</version>
       </dependency>
+      -->
 
       <!-- jms -->
       <dependency>
@@ -135,12 +147,12 @@
       <!-- camel -->
       <dependency>
         <groupId>org.apache.camel</groupId>
-        <artifactId>camel-jms</artifactId>
+        <artifactId>camel-ejb</artifactId>
         <version>${camel.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.camel</groupId>
-        <artifactId>camel-ejb</artifactId>
+        <artifactId>camel-cxf</artifactId>
         <version>${camel.version}</version>
       </dependency>
       <dependency>
@@ -166,6 +178,7 @@
           </exclusion>
         </exclusions>
       </dependency>
+
 
       <!-- persistence and other misc. deps -->
       <dependency>
@@ -266,42 +279,5 @@
     </pluginManagement>
   </build>
 
-
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jms</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>camel-core</artifactId>
-          <groupId>org.apache.camel</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-core</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-jms</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-tx</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>camel-spring</artifactId>
-          <groupId>org.apache.camel</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-beans</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-context</artifactId>
-          <groupId>org.springframework</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-  </dependencies>
 </project>
 

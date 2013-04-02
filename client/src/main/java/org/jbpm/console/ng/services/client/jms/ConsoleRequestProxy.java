@@ -9,6 +9,8 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Session;
 
+import org.jbpm.console.ng.services.shared.MapMessageEnum;
+
 class ConsoleRequestProxy implements InvocationHandler {
 
     private boolean methodSet = false;

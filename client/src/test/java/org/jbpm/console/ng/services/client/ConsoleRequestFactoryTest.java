@@ -8,7 +8,7 @@ import org.hornetq.jms.client.HornetQMapMessage;
 import org.jbpm.console.ng.services.client.jms.ClientConsoleRequest;
 import org.jbpm.console.ng.services.client.jms.ConsoleRequestFactory;
 import org.jbpm.console.ng.services.client.jms.ConsoleRequestHolder;
-import org.jbpm.console.ng.services.client.jms.MapMessageEnum;
+import org.jbpm.console.ng.services.shared.MapMessageEnum;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
