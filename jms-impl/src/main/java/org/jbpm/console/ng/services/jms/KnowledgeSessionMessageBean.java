@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.jms.mdb;
+package org.jbpm.console.ng.services.jms;
 
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/JBPM.SESSION") })
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/JBPM.SESSION.#") })
 public class KnowledgeSessionMessageBean implements MessageListener {
 
     private Logger logger = LoggerFactory.getLogger(KnowledgeSessionMessageBean.class);

@@ -32,11 +32,19 @@
     <!-- jbpm -->
     <dependency>
       <groupId>org.kie</groupId>
+      <artifactId>kie-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kie</groupId>
       <artifactId>kie-internal</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-persistence-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-runtime-manager</artifactId>
     </dependency>
 
     <!-- jms -->
@@ -54,10 +62,6 @@
     </dependency>
 
     <!-- camel -->
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jms</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-ejb</artifactId>
@@ -81,13 +85,31 @@
       <artifactId>cdi-api</artifactId>
     </dependency>
 
+    <!-- persistence -->
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.0-api</artifactId>
+    </dependency>
+    
+    <!--  test persistence -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>4.1.6.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.1.6.Final</version>
+    </dependency>
+
     <!-- TEST -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
+    
     <!-- arquillian -->
     <dependency>
       <groupId>org.jboss.arquillian.junit</groupId>

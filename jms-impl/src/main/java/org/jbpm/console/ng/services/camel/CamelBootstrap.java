@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.jms;
+package org.jbpm.console.ng.services.camel;
 
 import java.util.Properties;
 
@@ -40,9 +40,6 @@ public class CamelBootstrap {
     
     @PostConstruct
     public void initializeCamel() throws Exception {
-        // Setup components
-        camelCtx.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
-        
         EjbComponent ejb = camelCtx.getComponent("ejb", EjbComponent.class);
         ejb.setContext(createInitialContext());
         

@@ -42,9 +42,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jbpm.console.ng.services.client.jms.ConsoleRequestFactory;
 import org.jbpm.console.ng.services.client.jms.ConsoleRequestHolder;
+import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
+import org.jbpm.console.ng.services.ejb.ServerConsoleRequest;
 import org.jbpm.console.ng.services.jms.dynamic.DynamicQueueCreationBean;
-import org.jbpm.console.ng.services.jms.mdb.KnowledgeSessionMessageBean;
-import org.jbpm.console.ng.services.jms.mdb.TaskMessageBean;
 import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
 import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
 import org.junit.Ignore;
@@ -194,18 +194,24 @@ public class ArquillianIntegrationTest {
                 .loadPomFromFile("pom.xml")
                 .resolve( // this poc
                         "org.jbpm.services.poc:client",
+                        "org.jbpm.services.poc:jms-impl",
                         // hornetq
                         "org.hornetq:hornetq-core-client", 
                         "org.hornetq:hornetq-jms-client", 
                         // camel
-                        "org.apache.camel:camel-jms",
                         "org.apache.camel:camel-ejb",
                         "org.apache.camel:camel-cdi",
                         // jbpm/kie
                         "org.jbpm:jbpm-persistence-jpa",
+                        "org.jbpm:jbpm-runtime-manager",
+                        "org.kie:kie-api",
                         "org.kie:kie-internal",
+                        "org.kie:kie-commons",
                         // specs/jboss
-                        "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec"
+                        "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec",
+                        "org.hiberate:hibernate-entitymanager",
+                        "org.hiberate:hibernate-core",
+                        "org.hibernate.javax.persistence:hibernate-jpa-2.0-api"
                         ).withTransitivity().asFile();
 
         for( File file : libs ) { 
@@ -213,9 +219,6 @@ public class ArquillianIntegrationTest {
         }
         
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(CamelBootstrap.class, CamelRouteBuilder.class)
-                .addClasses(ServerConsoleRequest.class, ConsoleProcessRequestBean.class)
-                .addClasses(DomainRuntimeManagerProvider.class)
                 .addAsResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(libs);
     }

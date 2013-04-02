@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.jms;
+package org.jbpm.console.ng.services.ejb;
 
 
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSException;
+import javax.jms.MapMessage;
 
 import org.jbpm.console.ng.services.client.jms.MapMessageEnum;
 import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
@@ -21,10 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-@Stateless(name = "ConsoleProcessRequestBean", mappedName = "ConsoleProcessRequestBean")
-public class ConsoleProcessRequestBean {
+@Stateless(name = "ProcessRequestBean", mappedName = "ProcessRequestBean")
+public class ProcessRequestBean {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsoleProcessRequestBean.class);
+    private static Logger logger = LoggerFactory.getLogger(ProcessRequestBean.class);
             
     @Inject
     private DomainRuntimeManagerProvider runtimeManagerProvider;
@@ -33,11 +34,11 @@ public class ConsoleProcessRequestBean {
     // but if that changes, there will be a problem (mriet, 03-2013)
     private static CorrelationKeyFactory keyFactory = KieInternalServices.Factory.get().newCorrelationKeyFactory();
     
-    public void doTaskServiceOperation(HashMap<Object, Object> requestMap) {
-        String domainName = (String) requestMap.get(MapMessageEnum.DomainName.toString());
-        String kieSessionid = (String) requestMap.get(MapMessageEnum.KieSessionId.toString());
-        String objectClass = (String) requestMap.get(MapMessageEnum.ObjectClass.toString());
-        String methodName = (String) requestMap.get(MapMessageEnum.MethodName.toString());
+    public void doTaskServiceOperation(MapMessage requestMap) throws JMSException {
+        String domainName = (String) requestMap.getString(MapMessageEnum.DomainName.toString());
+        String kieSessionid = (String) requestMap.getString(MapMessageEnum.KieSessionId.toString());
+        String objectClass = (String) requestMap.getString(MapMessageEnum.ObjectClass.toString());
+        String methodName = (String) requestMap.getString(MapMessageEnum.MethodName.toString());
         
         if( true ) { 
             logger.info(domainName + ":" + objectClass + "." + methodName);

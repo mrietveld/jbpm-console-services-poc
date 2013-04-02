@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.jms;
+package org.jbpm.console.ng.services.ejb;
 
 import java.util.ArrayList;
 import java.util.List;

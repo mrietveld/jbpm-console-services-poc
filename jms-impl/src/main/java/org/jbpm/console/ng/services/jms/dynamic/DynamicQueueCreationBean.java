@@ -21,7 +21,7 @@ import javax.naming.NamingException;
 
 import org.hornetq.api.core.management.ObjectNameBuilder;
 import org.hornetq.api.jms.management.JMSServerControl;
-import org.jbpm.console.ng.services.jms.mdb.TaskMessageBean;
+import org.jbpm.console.ng.services.jms.TaskMessageBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

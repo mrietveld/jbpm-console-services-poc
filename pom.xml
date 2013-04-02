@@ -57,12 +57,27 @@
       <!-- jbpm -->
       <dependency>
         <groupId>org.kie</groupId>
+        <artifactId>kie-api</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.kie</groupId>
         <artifactId>kie-internal</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.kie</groupId>
+        <artifactId>kie-commons</artifactId>
         <version>${jbpm.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-persistence-jpa</artifactId>
+        <version>${jbpm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm</groupId>
+        <artifactId>jbpm-runtime-manager</artifactId>
         <version>${jbpm.version}</version>
       </dependency>
 
@@ -122,32 +137,6 @@
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-jms</artifactId>
         <version>${camel.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-spring</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.camel</groupId>
@@ -176,6 +165,23 @@
             <groupId>org.apache.geronimo.specs</groupId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+      <!-- persistence and other misc. deps -->
+      <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.0-api</artifactId>
+        <version>1.0.1.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>4.1.6.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.1.6.Final</version>
       </dependency>
 
       <!-- TEST -->
