@@ -10,7 +10,7 @@
 
   <container qualifier="jboss" default="true">
     <configuration>
-      <property name="jbossHome">target/jboss-as-${jboss.version:7.1.1.Final}</property>
+      <property name="jbossHome">target/jboss-as-${jboss.version:7.1.3.Final}</property>
       <property name="allowConnectingToRunningServer">false</property>
       <property name="serverConfig">${jboss.server.config.file.name:standalone-full.xml}</property>
     </configuration>

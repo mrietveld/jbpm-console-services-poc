@@ -1,13 +1,11 @@
-package org.jbpm.console.ng.services.shared;
+package org.jbpm.console.ng.services.domain;
 
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
+import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
-
-import org.kie.internal.runtime.manager.RuntimeManager;
-import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 
 /**
  * This is the "mock" class that does the following: <ul>
@@ -21,12 +19,14 @@ import org.kie.internal.runtime.manager.RuntimeManagerFactory;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class DomainRuntimeManagerProvider {
 
-    /* (non-Javadoc)
-     * @see org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider#getRuntimeManager(java.lang.String)
-     */
     @Lock(LockType.READ)
-    public RuntimeManager getRuntimeManager(String domainId) { 
+    public Object getRuntimeManager(String domainId) { 
         return null;
+    }
+    
+    @Produces
+    public DomainRuntimeManagerProvider getInstance() { 
+        return this;
     }
     
 }

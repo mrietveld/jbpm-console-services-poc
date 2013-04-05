@@ -4,20 +4,10 @@ package org.jbpm.console.ng.services.ejb;
 import java.util.HashMap;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 
-import org.jbpm.console.ng.services.shared.DomainRuntimeManagerProvider;
 import org.jbpm.console.ng.services.shared.MapMessageEnum;
-import org.kie.internal.KieInternalServices;
-import org.kie.internal.process.CorrelationKeyFactory;
-import org.kie.internal.runtime.manager.Context;
-import org.kie.internal.runtime.manager.RuntimeManager;
-import org.kie.internal.runtime.manager.context.CorrelationKeyContext;
-import org.kie.internal.runtime.manager.context.EmptyContext;
-import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
-import org.kie.internal.task.api.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +17,6 @@ public class ProcessRequestBean {
 
     private static Logger logger = LoggerFactory.getLogger(ProcessRequestBean.class);
             
-    @Inject
-    private DomainRuntimeManagerProvider runtimeManagerProvider;
-    
-    // The methods from the CorrelationKeyFactory instance are (at the moment) coincidentally thread-safe, 
-    // but if that changes, there will be a problem (mriet, 03-2013)
-    private static CorrelationKeyFactory keyFactory = KieInternalServices.Factory.get().newCorrelationKeyFactory();
     
     public void doTaskServiceOperation(MapMessage requestMap) throws JMSException {
         String domainName = (String) requestMap.getString(MapMessageEnum.DomainName.toString());
@@ -41,10 +25,10 @@ public class ProcessRequestBean {
         String methodName = (String) requestMap.getString(MapMessageEnum.MethodName.toString());
         
         if( true ) { 
-            logger.info(domainName + ":" + objectClass + "." + methodName);
+            System.out.println(domainName + ":" + objectClass + "." + methodName);
         }
         else { 
-            TaskService taskService = getRuntime(domainName, kieSessionid).getTaskService();
+//            TaskService taskService = getRuntime(domainName, kieSessionid).getTaskService();
        //     invokeMethod(TaskService.class, request, taskService);
         }
     }
@@ -87,6 +71,9 @@ public class ProcessRequestBean {
         e.printStackTrace();
     }
     
+    /** 
+     * add when org.kie/org.jbpm dependencies are added
+     * 
     public org.kie.internal.runtime.manager.Runtime getRuntime(String domainName, String ksessionId) {
         RuntimeManager runtimeManager = runtimeManagerProvider.getRuntimeManager(domainName);
 
@@ -105,6 +92,7 @@ public class ProcessRequestBean {
         
         return runtimeManager.getRuntime(managerContext);
     }
+    **/
     
     public ServerConsoleRequest hashMaptoServerConsoleRequest(HashMap<Object, Object> hashMap) throws JMSException {
         ServerConsoleRequest request = new ServerConsoleRequest();

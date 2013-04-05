@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 
 @MessageDriven(activationConfig = { 
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/JBPM.TASK.#")
-        }, name="TaskMDB")
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/queue/JBPM.TASK") }, 
+        name = "TaskMDB")
 public class TaskMessageBean implements MessageListener {
 
     private Logger logger = LoggerFactory.getLogger(TaskMessageBean.class);
@@ -30,23 +30,24 @@ public class TaskMessageBean implements MessageListener {
 
     @Inject
     private ProcessRequestBean consoleProcessRequest;
-    
+
     public void onMessage(Message message) {
         respond(message);
     }
 
     private void respond(Message message) {
         logger.info("Message received: " + message.toString());
+
         Connection connection = null;
         Session session = null;
         try {
+            consoleProcessRequest.doTaskServiceOperation((MapMessage) message);
+
             connection = connectionFactory.createConnection();
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            
-            consoleProcessRequest.doTaskServiceOperation((MapMessage) message);
-            
             MessageProducer producer = session.createProducer(message.getJMSReplyTo());
+            
             producer.send(message);
         } catch (InvalidDestinationException e) {
             System.out.println("Dropping invalid message" + e.getMessage());
