@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceRequest>
+  <operation method="myMethod" service="org.kie.api.runtime.KieSession">
+    <args type="java.util.ArrayList" index="0">
+      <content xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:base64Binary">rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAKdAAEYXNkZng=
+      </content>
+    </args>
+  </operation>
+</ServiceRequest>
