@@ -3,12 +3,21 @@ bin/
 target/
 local/
 
-# Eclipse ide
-.project
-.classpath
-.settings/
+# Configuration/IDE
+.*
+!.gitignore
+# - Intellij
+*.ipr
+# - NetBeans
+nbproject/
+*.iws
+*.iml
+
+# Test data
+*.db
+*.tlog
+*.log
 
 # things that don't exist here
 /asciidoc/
-/target/
 /scratch-ws-*/
