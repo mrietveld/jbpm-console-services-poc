@@ -10,7 +10,7 @@
 
   <artifactId>jms-impl</artifactId>
   <packaging>war</packaging>
-  <name>jBPM Services PoC :: JMS Impl</name>
+  <name>jBPM Services PoC :: Camel Impl</name>
 
   <licenses>
     <license>
@@ -34,24 +34,6 @@
       <groupId>org.kie</groupId>
       <artifactId>kie-internal</artifactId>
     </dependency>
-    <!-- jbpm 
-    <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.commons</groupId>
-      <artifactId>kie-commons-validation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-persistence-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-runtime-manager</artifactId>
-    </dependency>
--->
 
     <!-- jms -->
     <dependency>
@@ -70,20 +52,20 @@
     <!-- camel -->
     <dependency>
       <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jms</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-restlet</artifactId>
+      <version>${camel.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
       <artifactId>camel-ejb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-cdi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-cxf</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jms</artifactId>
-      <version>${camel.version}</version>
     </dependency>
 
     <!-- general -->

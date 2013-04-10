@@ -11,7 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
-import org.jbpm.console.ng.services.client.ProcessInfo;
+import org.jbpm.console.ng.services.client.remote.api.ProcessInstanceStatus;
 import org.jbpm.console.ng.services.rest.AbstractRuntimeResource;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -43,7 +43,7 @@ public class KnowledgeSessionResource extends AbstractRuntimeResource {
     
     @POST
     @Path("/startProcess")
-    public ProcessInfo startProcess(@QueryParam("processId") String processId, @QueryParam("params") Map<String, String> parameters) {
+    public ProcessInstanceStatus startProcess(@QueryParam("processId") String processId, @QueryParam("params") Map<String, String> parameters) {
         processId = processId.toLowerCase();
 
         Map<String, Object> convertedParams = new HashMap<String, Object>();
@@ -64,7 +64,7 @@ public class KnowledgeSessionResource extends AbstractRuntimeResource {
             processInstance = this.kieSession.startProcess(processId, convertedParams);
         }
         
-        return new ProcessInfo(processInstance);
+        return new ProcessInstanceStatus(processInstance);
     }
 
     @POST
@@ -85,11 +85,11 @@ public class KnowledgeSessionResource extends AbstractRuntimeResource {
 
     @GET
     @Path("/procInst/{id: \\d+}")
-    public ProcessInfo getProcessInstanceInfo(@PathParam("id") String processInstanceId) {
+    public ProcessInstanceStatus getProcessInstanceInfo(@PathParam("id") String processInstanceId) {
         try {
             long longId = Long.parseLong(processInstanceId);
             ProcessInstance processInstance = kieSession.getProcessInstance(longId, true);
-            return new ProcessInfo(processInstance);
+            return new ProcessInstanceStatus(processInstance);
         } catch (NumberFormatException nfe) {
             // exception mapper?
         }
