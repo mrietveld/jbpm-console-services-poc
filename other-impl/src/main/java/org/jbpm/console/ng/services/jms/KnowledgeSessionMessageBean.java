@@ -14,6 +14,7 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 
 import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
+import org.jbpm.console.ng.services.ejb.ServerConsoleRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,7 @@ public class KnowledgeSessionMessageBean implements MessageListener {
         Connection connection = null;
         Session session = null;
         try {
+            ServerConsoleRequest request = 
             consoleProcessRequest.doTaskServiceOperation((MapMessage) message);
             
             connection = connectionFactory.createConnection();

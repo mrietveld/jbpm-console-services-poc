@@ -7,6 +7,10 @@ import javax.ejb.LockType;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
+import org.jbpm.console.ng.services.qualifiers.SingletonProvider;
+import org.kie.internal.runtime.manager.RuntimeManager;
+import org.kie.internal.runtime.manager.RuntimeManagerFactory;
+
 /**
  * This is the "mock" class that does the following: <ul>
  * <li>Finds or creates the proper {@link RuntimeManagerFactory} instance for the 
@@ -17,16 +21,17 @@ import javax.inject.Singleton;
  */
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
+@Lock(LockType.READ)
 public class DomainRuntimeManagerProvider {
 
-    @Lock(LockType.READ)
-    public Object getRuntimeManager(String domainId) { 
-        return null;
-    }
-    
     @Produces
+    @SingletonProvider
     public DomainRuntimeManagerProvider getInstance() { 
         return this;
+    }
+    
+    public RuntimeManager getRuntimeManager(String domainId) { 
+        return null;
     }
     
 }

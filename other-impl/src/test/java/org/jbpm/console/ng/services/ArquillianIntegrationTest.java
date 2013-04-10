@@ -9,7 +9,15 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import javax.jms.*;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
+import javax.jms.Queue;
+import javax.jms.Session;
+import javax.jms.TemporaryQueue;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -20,18 +28,12 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.as.arquillian.api.ServerSetup;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.jbpm.console.ng.services.client.jms.ConsoleRequestFactory;
-import org.jbpm.console.ng.services.client.jms.ConsoleRequestHolder;
 import org.jbpm.console.ng.services.setup.ArquillianServerSetupTask;
 import org.jbpm.console.ng.services.shared.MapMessageEnum;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
