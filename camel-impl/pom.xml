@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>jms-impl</artifactId>
+  <artifactId>camel-impl</artifactId>
   <packaging>war</packaging>
   <name>jBPM Services PoC :: Camel Impl</name>
 
@@ -27,7 +27,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jbpm.services.poc</groupId>
-      <artifactId>shared</artifactId>
+      <artifactId>client</artifactId>
     </dependency>
 
     <dependency>
