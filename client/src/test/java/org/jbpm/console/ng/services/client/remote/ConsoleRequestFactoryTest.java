@@ -7,12 +7,13 @@ import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
 import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.remote.api.KieSessionRequest;
 import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest.OperationRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.shared.MapMessageEnum;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kie.internal.task.api.TaskService;
 
 public class ConsoleRequestFactoryTest extends Assert { 
 
@@ -21,20 +22,21 @@ public class ConsoleRequestFactoryTest extends Assert {
     }
     
     @Test
-    public void createBasicRequest() { 
+    public void basicRequestShouldBeCreatedAndContainInfo() { 
        TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createConsoleTaskRequest("release", "correl-1");
        
        long taskId = 3;
        String userId = "bob";
        taskServiceRequest.activate(taskId, userId);
        
-       ServiceClientRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
+       ServiceRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
        OperationRequest operRequest = request.getOperations().poll();
-       assertTrue("activate".equals(operRequest.getMethod().getName()));
+       assertTrue("activate".equals(operRequest.getMethodName()));
+       assertTrue(TaskService.class.getName().equals(operRequest.getClass()));
        
        // test args
        Object [] args = operRequest.getArgs();
@@ -44,19 +46,19 @@ public class ConsoleRequestFactoryTest extends Assert {
     }
     
     @Test
-    public void createKieSessionRequest() { 
+    public void shouldBeAbleToCreateKieSessionRequestAndAddInfo() { 
        KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
 
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
        
-       ServiceClientRequest request = ((ClientRequestHolder) kieSessionRequest).getRequest();
+       ServiceRequest request = ((ClientRequestHolder) kieSessionRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
        OperationRequest operRequest = request.getOperations().poll();
-       assertTrue("startProcess".equals(operRequest.getMethod().getName()));
+       assertTrue("startProcess".equals(operRequest.getMethodName()));
        
        // test args
        Object [] args = operRequest.getArgs();
@@ -64,8 +66,8 @@ public class ConsoleRequestFactoryTest extends Assert {
        assertTrue(processName.equals(args[0]));
     }
     
-    @Test(expected=IllegalStateException.class)
-    public void requestOnlyCreatedOnce() { 
+    @Test
+    public void shouldBeAbleToAddMultipleOperations() { 
         KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
         
         kieSessionRequest.startProcess("test");
@@ -73,7 +75,7 @@ public class ConsoleRequestFactoryTest extends Assert {
     }
     
     @Test
-    public void exploreTaskServiceRequests() throws JMSException { 
+    public void shouldBeAbleToCreateJmsMapMessageWithInfo() throws JMSException { 
         String domain = "domain";
        TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createConsoleTaskRequest(domain);
        int taskId = 2;

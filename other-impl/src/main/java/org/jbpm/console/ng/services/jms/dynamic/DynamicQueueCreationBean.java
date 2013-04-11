@@ -21,7 +21,6 @@ import javax.naming.NamingException;
 
 import org.hornetq.api.core.management.ObjectNameBuilder;
 import org.hornetq.api.jms.management.JMSServerControl;
-import org.jbpm.console.ng.services.jms.TaskMessageBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
 @ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class DynamicQueueCreationBean {
 
-    private Logger logger = LoggerFactory.getLogger(TaskMessageBean.class);
+    private Logger logger = LoggerFactory.getLogger(DynamicQueueCreationBean.class);
 
     private List<String> queueList = new ArrayList<String>();
 

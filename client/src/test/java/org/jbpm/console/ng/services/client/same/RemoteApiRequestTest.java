@@ -8,9 +8,9 @@ import javax.jms.Message;
 
 import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
 import org.jbpm.console.ng.services.client.api.same.jms.SameApiRequestFactoryImpl;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest.OperationRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
 import org.jbpm.console.ng.services.shared.MapMessageEnum;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -33,13 +33,13 @@ public class RemoteApiRequestTest extends Assert {
        String userId = "bob";
        taskServiceRequest.activate(taskId, userId);
        
-       ServiceClientRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
+       ServiceRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
        OperationRequest operRequest = request.getOperations().poll();
-       assertTrue("activate".equals(operRequest.getMethod().getName()));
+       assertTrue("activate".equals(operRequest.getMethodName()));
        
        // test args
        Object [] args = operRequest.getArgs();
@@ -55,13 +55,13 @@ public class RemoteApiRequestTest extends Assert {
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
        
-       ServiceClientRequest request = ((ClientRequestHolder) kieSessionRequest).getRequest();
+       ServiceRequest request = ((ClientRequestHolder) kieSessionRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
        OperationRequest operRequest = request.getOperations().poll();
-       assertTrue("startProcess".equals(operRequest.getMethod().getName()));
+       assertTrue("startProcess".equals(operRequest.getMethodName()));
        
        // test args
        Object [] args = operRequest.getArgs();
@@ -81,13 +81,13 @@ public class RemoteApiRequestTest extends Assert {
         taskServiceRequest.activate(22, thirdOperSecondArg);
         taskServiceRequest.deleteComment(22, 45);
         
-        ServiceClientRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
+        ServiceRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
         Queue<OperationRequest> operations = request.getOperations();
         
         assertTrue("Expected 4 operations", operations.size() == 4);
         OperationRequest operRequest = operations.poll();
-        Method firstMethod = operRequest.getMethod();
-        assertTrue("First method incorrect: " + firstMethod.getName(), "startProcess".equals(firstMethod.getName()));
+        String firstMethod = operRequest.getMethodName();
+        assertTrue("First method incorrect: " + firstMethod, "startProcess".equals(firstMethod));
         
         operations.poll();
         operRequest = operations.poll();

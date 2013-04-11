@@ -2,18 +2,17 @@ package org.jbpm.console.ng.services.client.jms.serialization;
 
 import javax.jms.Message;
 
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceClientResponse;
-import org.jbpm.console.ng.services.client.jms.ServiceServerRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceResponse;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest;
 
 public interface MessageSerializationProvider {
 
-    public Message convertClientRequestToMessage(ServiceClientRequest request);
+    public Message convertClientRequestToMessage(ServiceRequest request);
     
-    public ServiceServerRequest convertMessageToServerRequest(Message msg);
+    public ServiceRequest convertMessageToServerRequest(Message msg);
     
-    public Message convertServerResponseToMessage(ServiceServerRequest request);
+    public Message convertResponseToMessage(ServiceResponse response);
     
-    public ServiceClientResponse convertMessageToClientResponse(Message message);
+    public ServiceResponse convertMessageToClientResponse(Message message);
     
 }

@@ -3,7 +3,7 @@ package org.jbpm.console.ng.services.client.api.same.jms;
 import java.lang.reflect.Proxy;
 
 import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider.RequestApiType;
 import org.kie.api.runtime.KieSession;
@@ -37,13 +37,13 @@ public class SameApiRequestFactoryImpl {
     
     private TaskService internalCreateConsoleTaskRequest(String domainName, String sessionid) { 
         Class<?>[] interfaces = { TaskService.class, ClientRequestHolder.class };
-        return (TaskService) Proxy.newProxyInstance(ServiceClientRequest.class.getClassLoader(), interfaces,
+        return (TaskService) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
                 new SameApiRequestProxy(domainName, sessionid));
     }
 
     private KieSession internalCreateConsoleKieSessionRequest(String domainName, String sessionid) { 
         Class<?>[] interfaces = { KieSession.class, ClientRequestHolder.class };
-        return (KieSession) Proxy.newProxyInstance(ServiceClientRequest.class.getClassLoader(), interfaces,
+        return (KieSession) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
                 new SameApiRequestProxy(domainName, sessionid));
     }
 

@@ -7,10 +7,9 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceClientResponse;
-import org.jbpm.console.ng.services.client.jms.ServiceServerRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceClientRequest.OperationRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceResponse;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
 import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 import org.jbpm.console.ng.services.shared.MapMessageEnum;
 
@@ -20,7 +19,7 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
 
     @Override
     // Add throws exception instead of returning null? 
-    public Message convertClientRequestToMessage(ServiceClientRequest request) {
+    public Message convertClientRequestToMessage(ServiceRequest request) {
         MapMessage message = null;
         String currentKey = null;
 
@@ -32,9 +31,9 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
                 message.setString(currentKey, request.getDomainName());
             }
 
-            if (request.getKsessionid() != null) {
+            if (request.getSessionid() != null) {
                 currentKey = MapMessageEnum.KieSessionId.toString();
-                message.setString(currentKey, request.getKsessionid());
+                message.setString(currentKey, request.getSessionid());
             }
 
             HashMap<String, Object> operationInfo;
@@ -44,9 +43,9 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
                 message.setObject(String.valueOf(i++), operationInfo);
 
                 currentKey = MapMessageEnum.MethodName.toString();
-                operationInfo.put(currentKey, operation.getMethod().getName());
-                currentKey = MapMessageEnum.ObjectClass.toString();
-                operationInfo.put(currentKey, operation.getMethod().getDeclaringClass().getSimpleName());
+                operationInfo.put(currentKey, operation.getMethodName());
+                currentKey = MapMessageEnum.ServiceType.toString();
+                operationInfo.put(currentKey, operation.getServiceType());
 
                 Object[] args = operation.getArgs();
                 if (args != null) {
@@ -76,21 +75,22 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
     }
 
     @Override
-    public ServiceServerRequest convertMessageToServerRequest(Message msg) {
+    public ServiceRequest convertMessageToServerRequest(Message msg) {
         // DBG Auto-generated method stub
         return null;
     }
 
     @Override
-    public Message convertServerResponseToMessage(ServiceServerRequest request) {
+    public Message convertResponseToMessage(ServiceResponse response) {
         // DBG Auto-generated method stub
         return null;
     }
 
     @Override
-    public ServiceClientResponse convertMessageToClientResponse(Message message) {
+    public ServiceResponse convertMessageToClientResponse(Message message) {
         // DBG Auto-generated method stub
         return null;
     }
+
 
 }

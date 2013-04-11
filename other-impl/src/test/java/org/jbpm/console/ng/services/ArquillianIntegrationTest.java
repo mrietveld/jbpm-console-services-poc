@@ -38,21 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * In order for this test to succeed:
- * <ul>
- * <li>With jBoss: you must add
- * <ul>
- * <code>&lt;jmx-management-enabled&gt;true&lt;/jmx-management-enabled&gt;</code>
- * </ul>
- * to the <code>&lt;hornetq-server&gt;</code> part of
- * <ul>
- * <code>target/jboss-as-${jboss.version}/standalone/configuration/standalone-full.xml</code>
- * </ul>
- * </li>
- * <li>With GlassFish: ???</li>
- * </ul>
- * 
- * 
+ * This is a simple test that tests whether the war can be succesfully deployed on WildFly (AS 7).
  */
 @RunAsClient
 @RunWith(Arquillian.class)
@@ -96,9 +82,10 @@ public class ArquillianIntegrationTest {
     public static Archive<?> importDeployment() {
         String project = "other-impl";
         String version = "0.0.1-SNAPSHOT";
-        String warPath = "target/" + project + "-" + version + ".war";
+        String warName = project + "-" + version + ".war";
+        String warPath = "target/" + warName;
         
-        ZipImporter importer = ShrinkWrap.create(ZipImporter.class, "test-jms.war").importFrom(new File(warPath));
+        ZipImporter importer = ShrinkWrap.create(ZipImporter.class, warName).importFrom(new File(warPath));
         return importer.as(WebArchive.class);
     }
 
@@ -130,7 +117,7 @@ public class ArquillianIntegrationTest {
             MapMessage requestMap = session.createMapMessage();
             requestMap.setString(MapMessageEnum.DomainName.toString(), info[0] );
             requestMap.setString(MapMessageEnum.KieSessionId.toString(), info[1] );
-            requestMap.setString(MapMessageEnum.ObjectClass.toString(), info[2] );
+            requestMap.setString(MapMessageEnum.ServiceType.toString(), info[2] );
             requestMap.setString(MapMessageEnum.MethodName.toString(), info[3] );
             
             requestMap.setJMSReplyTo(tempQueue);
@@ -171,7 +158,7 @@ public class ArquillianIntegrationTest {
             MapMessage requestMap = session.createMapMessage();
             requestMap.setString(MapMessageEnum.DomainName.toString(), info[0] );
             requestMap.setString(MapMessageEnum.KieSessionId.toString(), info[1] );
-            requestMap.setString(MapMessageEnum.ObjectClass.toString(), info[2] );
+            requestMap.setString(MapMessageEnum.ServiceType.toString(), info[2] );
             requestMap.setString(MapMessageEnum.MethodName.toString(), info[3] );
             
             requestMap.setJMSReplyTo(tempQueue);

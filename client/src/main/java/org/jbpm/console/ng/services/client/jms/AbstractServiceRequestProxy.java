@@ -10,7 +10,7 @@ import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializatio
 
 public abstract class AbstractServiceRequestProxy implements InvocationHandler {
 
-    protected ServiceClientRequest request;
+    protected ServiceRequest request;
     protected MessageSerializationProvider serializationProvider;
 
     protected static Set<String> unsupportedMethods = new HashSet<String>();
@@ -29,7 +29,7 @@ public abstract class AbstractServiceRequestProxy implements InvocationHandler {
     // package level constructor
     protected AbstractServiceRequestProxy(String domainName, String sessionId) { 
         // Message
-        this.request = new ServiceClientRequest(domainName, sessionId);
+        this.request = new ServiceRequest(domainName, sessionId);
     }
     
     public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
