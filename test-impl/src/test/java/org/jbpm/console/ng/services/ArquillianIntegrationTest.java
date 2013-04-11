@@ -13,12 +13,10 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.as.arquillian.api.ServerSetup;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jbpm.console.ng.services.setup.ArquillianServerSetupTask;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +29,6 @@ import org.slf4j.LoggerFactory;
  */
 @RunAsClient
 @RunWith(Arquillian.class)
-@ServerSetup(ArquillianServerSetupTask.class)
 public class ArquillianIntegrationTest extends Assert {
 
     private static Logger logger = LoggerFactory.getLogger(ArquillianIntegrationTest.class);
@@ -65,7 +62,7 @@ public class ArquillianIntegrationTest extends Assert {
 
     @Deployment(testable = false)
     public static Archive<?> importDeployment() {
-        String project = "test-impl";
+        String project = "other-impl";
         String version = "0.0.1-SNAPSHOT";
         String warPath = "target/" + project + "-" + version + ".war";
         
