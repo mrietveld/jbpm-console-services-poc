@@ -2,6 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>org.drools</groupId>
+    <artifactId>droolsjbpm-parent</artifactId>
+    <version>6.0.0-SNAPSHOT</version>
+  </parent>
+
   <groupId>org.jbpm.services.poc</groupId>
   <artifactId>rest-jms-poc</artifactId>
   <packaging>pom</packaging>
@@ -18,14 +24,12 @@
   <modules>
     <module>client</module>
     <module>other-impl</module>
-    <module>jms-impl</module>
-    <module>rest-impl</module>
+    <!-- <module>camel-impl</module> -->
     <module>examples</module>
   </modules>
 
   <properties>
     <jbpm.version>6.0.0-SNAPSHOT</jbpm.version>
-    <switchyard.version>0.7.0.Final</switchyard.version>
     <resteasy.version>2.3.4.Final</resteasy.version>
     <hornetq.version>2.2.13.Final</hornetq.version>
     <camel.version>2.10.3</camel.version>
@@ -51,7 +55,7 @@
       </dependency>
       <dependency>
         <groupId>org.jbpm.services.poc</groupId>
-        <artifactId>jms-impl</artifactId>
+        <artifactId>camel-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -94,22 +98,12 @@
 
       <!-- general -->
       <dependency>
-        <groupId>javax.enterprise</groupId>
-        <artifactId>cdi-api</artifactId>
-        <version>1.0-SP4</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.inject</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>1</version>
-      </dependency>
-      <dependency>
         <groupId>org.jboss.spec.javax.ejb</groupId>
         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
         <version>1.0.2.Final</version>
       </dependency>
 
-      <!-- rest  // DELETE ME
+      <!-- rest -->
       <dependency>
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-jaxrs</artifactId>
@@ -125,14 +119,8 @@
         <artifactId>resteasy-cdi</artifactId>
         <version>${resteasy.version}</version>
       </dependency>
-      -->
 
       <!-- jms -->
-      <dependency>
-        <groupId>javax.jms</groupId>
-        <artifactId>jms</artifactId>
-        <version>1.1</version>
-      </dependency>
       <dependency>
         <groupId>org.hornetq</groupId>
         <artifactId>hornetq-core-client</artifactId>
@@ -147,12 +135,7 @@
       <!-- camel -->
       <dependency>
         <groupId>org.apache.camel</groupId>
-        <artifactId>camel-jms</artifactId>
-        <version>${camel.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-cxf</artifactId>
+        <artifactId>camel-restlet</artifactId>
         <version>${camel.version}</version>
       </dependency>
       <dependency>
@@ -182,24 +165,6 @@
             <groupId>org.apache.geronimo.specs</groupId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-
-      <!-- persistence and other misc. deps -->
-      <dependency>
-        <groupId>org.hibernate.javax.persistence</groupId>
-        <artifactId>hibernate-jpa-2.0-api</artifactId>
-        <version>1.0.1.Final</version>
-      </dependency>
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>4.1.6.Final</version>
-      </dependency>
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>4.1.6.Final</version>
       </dependency>
 
       <!-- TEST -->
@@ -246,33 +211,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.switchyard</groupId>
-          <artifactId>switchyard-plugin</artifactId>
-          <executions>
-            <execution>
-              <goals>
-                <goal>configure</goal>
-              </goals>
-              <configuration>
-                <scannerClassNames>
-                  <param>org.switchyard.component.bean.config.model.BeanSwitchYardScanner</param>
-                  <param>org.switchyard.transform.config.model.TransformSwitchYardScanner</param>
-                </scannerClassNames>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <configuration>
-            <executable>java</executable>
-            <classpathScope>test</classpathScope>
-            <mainClass>org.jboss.humantaskswitchyard.HornetQClient</mainClass>
-          </configuration>
-        </plugin>
-
-        <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.0</version>
           <configuration>
@@ -285,4 +223,3 @@
   </build>
 
 </project>
-
