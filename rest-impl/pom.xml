@@ -27,8 +27,8 @@
 
     <!-- jbpm -->
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-internal</artifactId>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-runtime-manager</artifactId>
     </dependency>
 
     <!-- general -->
