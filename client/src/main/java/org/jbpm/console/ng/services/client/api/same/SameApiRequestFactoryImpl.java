@@ -1,15 +1,17 @@
-package org.jbpm.console.ng.services.client.api.same.jms;
+package org.jbpm.console.ng.services.client.api.same;
 
 import java.lang.reflect.Proxy;
 
-import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.api.AbstractApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider.RequestApiType;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.task.api.TaskService;
 
-public class SameApiRequestFactoryImpl {
+public class SameApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
 
     static { 
         ServiceRequestFactoryProvider.setInstance(RequestApiType.ORIGINAL, new SameApiRequestFactoryImpl());
@@ -36,15 +38,21 @@ public class SameApiRequestFactoryImpl {
     }
     
     private TaskService internalCreateConsoleTaskRequest(String domainName, String sessionid) { 
-        Class<?>[] interfaces = { TaskService.class, ClientRequestHolder.class };
-        return (TaskService) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
-                new SameApiRequestProxy(domainName, sessionid));
+        if( serializationProvider == null ) { 
+            throw new IllegalStateException("Serialization provider must be set before creating a request.");
+        }
+        Class<?>[] interfaces = { TaskService.class, MessageHolder.class };
+        return (TaskService) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
+                new SameApiRequestProxy(domainName, sessionid, serializationProvider));
     }
 
     private KieSession internalCreateConsoleKieSessionRequest(String domainName, String sessionid) { 
-        Class<?>[] interfaces = { KieSession.class, ClientRequestHolder.class };
-        return (KieSession) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
-                new SameApiRequestProxy(domainName, sessionid));
+        if( serializationProvider == null ) { 
+            throw new IllegalStateException("Serialization provider must be set before creating a request.");
+        }
+        Class<?>[] interfaces = { KieSession.class, MessageHolder.class };
+        return (KieSession) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
+                new SameApiRequestProxy(domainName, sessionid, serializationProvider));
     }
 
 }

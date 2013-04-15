@@ -1,19 +1,14 @@
 package org.jbpm.console.ng.services.client.same;
 
-import java.lang.reflect.Method;
-import java.util.Queue;
+import java.util.List;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-
-import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
-import org.jbpm.console.ng.services.client.api.same.jms.SameApiRequestFactoryImpl;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.same.SameApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
-import org.jbpm.console.ng.services.shared.MapMessageEnum;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider.Type;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
 import org.kie.api.runtime.KieSession;
@@ -22,7 +17,9 @@ import org.kie.internal.task.api.TaskService;
 public class RemoteApiRequestTest extends Assert { 
 
     private SameApiRequestFactoryImpl getConsoleRequestFactory() { 
-        return ServiceRequestFactoryProvider.createNewSameApiInstance();
+        SameApiRequestFactoryImpl factory = ServiceRequestFactoryProvider.createNewSameApiInstance();
+        factory.setSerialization(Type.MAP_MESSAGE);
+        return factory;
     }
     
     @Test
@@ -33,12 +30,12 @@ public class RemoteApiRequestTest extends Assert {
        String userId = "bob";
        taskServiceRequest.activate(taskId, userId);
        
-       ServiceRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
+       ServiceMessage request = ((MessageHolder) taskServiceRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
-       OperationRequest operRequest = request.getOperations().poll();
+       OperationMessage operRequest = request.getOperations().get(0);
        assertTrue("activate".equals(operRequest.getMethodName()));
        
        // test args
@@ -55,12 +52,12 @@ public class RemoteApiRequestTest extends Assert {
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
        
-       ServiceRequest request = ((ClientRequestHolder) kieSessionRequest).getRequest();
+       ServiceMessage request = ((MessageHolder) kieSessionRequest).getRequest();
        
        assertTrue(request != null); 
       
        // test method name
-       OperationRequest operRequest = request.getOperations().poll();
+       OperationMessage operRequest = request.getOperations().get(0);
        assertTrue("startProcess".equals(operRequest.getMethodName()));
        
        // test args
@@ -81,16 +78,15 @@ public class RemoteApiRequestTest extends Assert {
         taskServiceRequest.activate(22, thirdOperSecondArg);
         taskServiceRequest.deleteComment(22, 45);
         
-        ServiceRequest request = ((ClientRequestHolder) taskServiceRequest).getRequest();
-        Queue<OperationRequest> operations = request.getOperations();
+        ServiceMessage request = ((MessageHolder) taskServiceRequest).getRequest();
+        List<OperationMessage> operations = request.getOperations();
         
         assertTrue("Expected 4 operations", operations.size() == 4);
-        OperationRequest operRequest = operations.poll();
+        OperationMessage operRequest = operations.get(0);
         String firstMethod = operRequest.getMethodName();
         assertTrue("First method incorrect: " + firstMethod, "startProcess".equals(firstMethod));
         
-        operations.poll();
-        operRequest = operations.poll();
+        operRequest = operations.get(2);
         Object [] args = operRequest.getArgs();
         assertTrue("Expected 2 arguments for third operation, not " + args.length, args.length == 2);
         assertTrue("Expected '" + thirdOperSecondArg + "' as 2nd argument, not " + args[1], thirdOperSecondArg.equals(args[1]));
@@ -101,25 +97,6 @@ public class RemoteApiRequestTest extends Assert {
         KieSession kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
         
         kieSessionRequest.addEventListener(new DefaultAgendaEventListener());
-    }
-    
-    @Test
-    @Ignore
-    public void exploreTaskServiceRequests() throws JMSException { 
-        String domain = "domain";
-       TaskService taskServiceRequest = getConsoleRequestFactory().createConsoleTaskRequest(domain);
-       int taskId = 2;
-       String from = "bob";
-       String to = "mary";
-       taskServiceRequest.delegate(taskId, from, to);
-       
-       // Create a JMS session
-       Message jmsMsg = ((ClientRequestHolder) taskServiceRequest).createMessage(null);
-       assertNotNull(jmsMsg);
-       
-       assertTrue(domain.equals(jmsMsg.getStringProperty(MapMessageEnum.DomainName.toString())));
-       assertTrue("delegate".equals(jmsMsg.getStringProperty(MapMessageEnum.MethodName.toString())));
-       assertTrue( 3 == jmsMsg.getIntProperty(MapMessageEnum.NumArguments.toString()));
     }
     
 }

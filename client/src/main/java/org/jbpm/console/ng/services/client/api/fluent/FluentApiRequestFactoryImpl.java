@@ -2,14 +2,16 @@ package org.jbpm.console.ng.services.client.api.fluent;
 
 import java.lang.reflect.Proxy;
 
-import org.jbpm.console.ng.services.client.api.ClientRequestHolder;
+import org.jbpm.console.ng.services.client.api.AbstractApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.MessageHolder;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentKieSessionRequest;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentTaskServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.api.fluent.api.FluentWorkItemManagerRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider.RequestApiType;
 
-public class FluentApiRequestFactoryImpl {
+public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
 
     static { 
         ServiceRequestFactoryProvider.setInstance(RequestApiType.REMOTE, new FluentApiRequestFactoryImpl());
@@ -36,15 +38,21 @@ public class FluentApiRequestFactoryImpl {
     }
     
     private FluentTaskServiceRequest internalCreateConsoleTaskRequest(String domainName, String sessionid) { 
-        Class<?>[] interfaces = { FluentTaskServiceRequest.class, ClientRequestHolder.class };
-        return (FluentTaskServiceRequest) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
-                new FluentApiServiceRequestProxy(domainName, sessionid));
+        if( serializationProvider == null ) { 
+            throw new IllegalStateException("Serialization provider must be set before creating a request.");
+        }
+        Class<?>[] interfaces = { FluentTaskServiceRequest.class, MessageHolder.class };
+        return (FluentTaskServiceRequest) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
+                new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider ));
     }
 
     private FluentKieSessionRequest internalCreateConsoleKieSessionRequest(String domainName, String sessionid) { 
-        Class<?>[] interfaces = { FluentKieSessionRequest.class, ClientRequestHolder.class };
-        return (FluentKieSessionRequest) Proxy.newProxyInstance(ServiceRequest.class.getClassLoader(), interfaces,
-                new FluentApiServiceRequestProxy(domainName, sessionid));
+        if( serializationProvider == null ) { 
+            throw new IllegalStateException("Serialization provider must be set before creating a request.");
+        }
+        Class<?>[] interfaces = { FluentKieSessionRequest.class, FluentWorkItemManagerRequest.class, MessageHolder.class };
+        return (FluentKieSessionRequest) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
+                new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider));
     }
 
 }

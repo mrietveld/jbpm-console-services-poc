@@ -2,13 +2,14 @@ package org.jbpm.console.ng.services.client.api.fluent;
 
 import java.lang.reflect.Method;
 
-import org.jbpm.console.ng.services.client.jms.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.api.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 
 class FluentApiServiceRequestProxy extends AbstractServiceRequestProxy {
 
-    FluentApiServiceRequestProxy(String domainName, String sessionId) { 
+    FluentApiServiceRequestProxy(String domainName, String sessionId, MessageSerializationProvider serializationProvider) { 
         // Message
-        super(domainName,sessionId);
+        super(domainName,sessionId, serializationProvider);
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

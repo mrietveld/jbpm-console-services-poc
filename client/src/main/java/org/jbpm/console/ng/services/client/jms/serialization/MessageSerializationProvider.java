@@ -2,17 +2,15 @@ package org.jbpm.console.ng.services.client.jms.serialization;
 
 import javax.jms.Message;
 
-import org.jbpm.console.ng.services.client.jms.ServiceResponse;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
 
 public interface MessageSerializationProvider {
 
-    public Message convertClientRequestToMessage(ServiceRequest request);
+    public Message convertServiceMessageToJmsMessage(ServiceMessage request) throws Exception;
     
-    public ServiceRequest convertMessageToServerRequest(Message msg);
+    public ServiceMessage convertJmsMessageToServiceMessage(Message msg) throws Exception;
     
-    public Message convertResponseToMessage(ServiceResponse response);
-    
-    public ServiceResponse convertMessageToClientResponse(Message message);
-    
+    public enum Type { 
+        MAP_MESSAGE, JAXB, PROTOBUF, OTHER;
+    }
 }

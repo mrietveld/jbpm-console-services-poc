@@ -8,38 +8,58 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider.Type;
 import org.junit.Test;
 import org.kie.api.runtime.KieSession;
 
 public class SimpleJaxbTest {
 
     @Test
-    public void showXML() throws Exception {
-        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceRequest.class);
+    public void showRequestXML() throws Exception {
+        RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
+        requestFactory.setSerialization(Type.JAXB);
+        
+        TaskServiceRequest taskServiceRequest = requestFactory.createConsoleTaskRequest("release", "correl-1"); 
+        
+        taskServiceRequest.activate(1, "Danno");
+        taskServiceRequest.claimNextAvailable("Steve", "en-UK");
 
-        JaxbServiceRequest request = new JaxbServiceRequest();
-        request.operations = new ArrayList<JaxbOperationRequest>();
-
-        JaxbOperationRequest operation = new JaxbOperationRequest();
-        request.operations.add(operation);
-
-        operation.method = "myMethod";
-        operation.serviceClass = KieSession.class;
-        operation.args = new ArrayList<JaxbMethodArgument>();
-
-        JaxbMethodArgument arg = new JaxbMethodArgument();
-        operation.args.add(arg);
-
-        List<String> og = new ArrayList<String>();
-        og.add("asdf");
-        arg.index = 0;
-        arg.type = (og).getClass();
-        arg.content = convertToByteArray(og);
-
+        ServiceMessage serviceMsg = ((MessageHolder) taskServiceRequest).getRequest();
+        JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
+        
+        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class);
         Marshaller marshaller = jaxbCtx.createMarshaller();
-        marshaller.marshal(request, System.out);
+        marshaller.marshal(jaxbMsg, System.out);
     }
 
+    @Test
+    public void showResponseXML() throws Exception {
+        RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
+        requestFactory.setSerialization(Type.JAXB);
+        
+        TaskServiceRequest taskServiceRequest = requestFactory.createConsoleTaskRequest("release", "correl-1"); 
+        
+        taskServiceRequest.activate(1, "Danno");
+        taskServiceRequest.claimNextAvailable("Steve", "en-UK");
+
+        ServiceMessage serviceMsg = ((MessageHolder) taskServiceRequest).getRequest();
+        
+        for(OperationMessage oper : serviceMsg.getOperations()) { 
+            oper.setResult("RESULT!");
+        }
+        JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
+        
+        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class);
+        Marshaller marshaller = jaxbCtx.createMarshaller();
+        marshaller.marshal(jaxbMsg, System.out);
+    }
+    
     private byte[] convertToByteArray(Object input) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oout = new ObjectOutputStream(baos);

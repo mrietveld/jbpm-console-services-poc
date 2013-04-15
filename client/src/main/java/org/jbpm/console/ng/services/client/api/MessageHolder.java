@@ -3,11 +3,11 @@ package org.jbpm.console.ng.services.client.api;
 import javax.jms.Message;
 import javax.jms.Session;
 
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
 
-public interface ClientRequestHolder {
+public interface MessageHolder {
 
-    public ServiceRequest getRequest();
+    public ServiceMessage getRequest();
     
     public Message createMessage(Session session);
     

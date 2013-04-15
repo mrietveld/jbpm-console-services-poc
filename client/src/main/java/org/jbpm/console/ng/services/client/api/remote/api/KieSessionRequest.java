@@ -36,38 +36,6 @@ public interface KieSessionRequest {
     ProcessInstance startProcess(String processId, Map<String, Object> parameters);
 
     /**
-     * Creates a new process instance (but does not yet start it). The process
-     * (definition) that should be used is referenced by the given process id.
-     * Parameters can be passed to the process instance (as name-value pairs),
-     * and these will be set as variables of the process instance. You should
-     * only use this method if you need a reference to the process instance
-     * before actually starting it. Otherwise, use startProcess.
-     * 
-     * @param processId
-     *            the id of the process that should be started
-     * @param parameters
-     *            the process variables that should be set when creating the
-     *            process instance
-     * @return the <code>ProcessInstance</code> that represents the instance of
-     *         the process that was created (but not yet started)
-     */
-    ProcessInstance createProcessInstance(String processId, Map<String, Object> parameters);
-
-    /**
-     * Starts the given process instance (which was created by using
-     * createProcesInstance but not yet started). This method can only be called
-     * once for each process instance. You should only use this method if you
-     * need a reference to the process instance before actually starting it.
-     * Otherwise, use startProcess.
-     * 
-     * @param processInstanceId
-     *            the id of the process instance that needs to be started
-     * @return the <code>ProcessInstance</code> that represents the instance of
-     *         the process that was started
-     */
-    ProcessInstance startProcessInstance(long processInstanceId);
-
-    /**
      * Signals the engine that an event has occurred. The type parameter defines
      * which type of event and the event parameter can contain additional
      * information related to the event. All process instances that are
@@ -160,6 +128,6 @@ public interface KieSessionRequest {
      * 
      * @return the <code>WorkItemManager</code> related to this session
      */
-    WorkItemManager getWorkItemManager();
+    WorkItemManagerRequest getWorkItemManager();
 
 }

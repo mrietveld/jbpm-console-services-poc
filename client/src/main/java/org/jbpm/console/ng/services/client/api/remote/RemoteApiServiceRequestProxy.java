@@ -2,13 +2,14 @@ package org.jbpm.console.ng.services.client.api.remote;
 
 import java.lang.reflect.Method;
 
-import org.jbpm.console.ng.services.client.jms.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.api.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 
 class RemoteApiServiceRequestProxy extends AbstractServiceRequestProxy {
     
-    public RemoteApiServiceRequestProxy(String domainName, String sessionid) {
+    public RemoteApiServiceRequestProxy(String domainName, String sessionid, MessageSerializationProvider serializationProvider) {
         // Message
-        super(domainName, sessionid);
+        super(domainName, sessionid, serializationProvider);
     }
 
     @Override

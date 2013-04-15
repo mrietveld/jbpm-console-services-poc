@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ServiceRequest>
-  <operation method="myMethod" service="org.kie.api.runtime.KieSession">
-    <args type="java.util.ArrayList" index="0">
-      <content xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:base64Binary">rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAKdAAEYXNkZng=
+<message>
+  <domain>release</domain>
+  <sessionId>correl-1</sessionId>
+  <operation method="activate" serviceType="1">
+    <result type="java.lang.String">
+      <content xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">RESULT!
       </content>
-    </args>
+    </result>
   </operation>
-</ServiceRequest>
+  <operation method="claimNextAvailable" serviceType="1">
+    <result type="java.lang.String">
+      <content xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">RESULT!
+      </content>
+    </result>
+  </operation>
+</message>

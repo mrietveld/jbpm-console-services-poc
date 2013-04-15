@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.jbpm.console.ng.services.client.api.fluent.FluentApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
-import org.jbpm.console.ng.services.client.api.same.jms.SameApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.same.SameApiRequestFactoryImpl;
 
 public class ServiceRequestFactoryProvider {
     

@@ -1,14 +1,15 @@
-package org.jbpm.console.ng.services.client.api.same.jms;
+package org.jbpm.console.ng.services.client.api.same;
 
 import java.lang.reflect.Method;
 
-import org.jbpm.console.ng.services.client.jms.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.api.AbstractServiceRequestProxy;
+import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 
 class SameApiRequestProxy extends AbstractServiceRequestProxy {
 
     static { 
         String [] moreUnsuportedMethods = { 
-                ""
+                "add-more-unsupported-methods-if-needed"
         };
         
         for( String unsupMethod : moreUnsuportedMethods ) { 
@@ -16,9 +17,9 @@ class SameApiRequestProxy extends AbstractServiceRequestProxy {
         }
     }
     
-    public SameApiRequestProxy(String domainName, String sessionid) {
+    public SameApiRequestProxy(String domainName, String sessionid, MessageSerializationProvider serializationProvider) {
         // Message
-        super(domainName,sessionid);
+        super(domainName,sessionid, serializationProvider);
     }
 
     @Override
@@ -28,7 +29,7 @@ class SameApiRequestProxy extends AbstractServiceRequestProxy {
             return result;
         }
 
-        // No methods that have complex arguments (non-primitives) supported
+        // Another way to limit methods: no methods that have complex arguments (non-primitives) supported
         if (args != null) {
             int i = args.length;
             while (--i >= 0) {
