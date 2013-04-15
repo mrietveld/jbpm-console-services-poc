@@ -8,14 +8,13 @@ import javax.inject.Inject;
 
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
-import org.jbpm.runtime.manager.api.RuntimeManagerCacheEntryPoint;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.KieInternalServices;
 import org.kie.internal.process.CorrelationKeyFactory;
 import org.kie.internal.runtime.manager.Context;
 import org.kie.internal.runtime.manager.RuntimeEngine;
 import org.kie.internal.runtime.manager.RuntimeManager;
-import org.kie.internal.runtime.manager.context.CorrelationKeyContext;
+import org.kie.internal.runtime.manager.RuntimeManagerCacheEntryPoint;
 import org.kie.internal.runtime.manager.context.EmptyContext;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
 import org.kie.internal.task.api.TaskService;
@@ -126,25 +125,18 @@ public class ProcessRequestBean {
     
     protected RuntimeEngine getRuntimeEngine(String domainName, String sessionId, Long processInstanceId) { 
         RuntimeManager runtimeManager = ((RuntimeManagerCacheImpl) runtimeManagerCache).getRuntimeManager(domainName);
-        Context<?> runtimeContext = getRuntimeManagerContext(sessionId, processInstanceId);
+        Context<?> runtimeContext = getRuntimeManagerContext(processInstanceId);
         return runtimeManager.getRuntimeEngine(runtimeContext);
     }
     
-    private Context<?> getRuntimeManagerContext(String kieSessionId, Long processInstanceId) { 
+    private Context<?> getRuntimeManagerContext(Long processInstanceId) { 
         Context<?> managerContext;
         
         if( processInstanceId != null ) { 
             managerContext = new ProcessInstanceIdContext(processInstanceId);
-        } else if (kieSessionId == null) {
-            managerContext = EmptyContext.get();
         } else {
-            try {
-                Long longId = Long.parseLong(kieSessionId);
-                managerContext = ProcessInstanceIdContext.get(longId);
-            } catch (NumberFormatException nfe) {
-                managerContext = CorrelationKeyContext.get(keyFactory.newCorrelationKey(kieSessionId));
-            }
-        }
+            managerContext = EmptyContext.get();
+        } 
         
         return managerContext;
     }

@@ -7,7 +7,7 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 class RemoteApiServiceRequestProxy extends AbstractServiceRequestProxy {
     
-    public RemoteApiServiceRequestProxy(String domainName, String sessionid, MessageSerializationProvider serializationProvider) {
+    public RemoteApiServiceRequestProxy(String domainName, Long sessionid, MessageSerializationProvider serializationProvider) {
         // Message
         super(domainName, sessionid, serializationProvider);
     }

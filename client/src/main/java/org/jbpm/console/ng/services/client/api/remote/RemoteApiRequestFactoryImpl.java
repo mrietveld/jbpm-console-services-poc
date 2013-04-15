@@ -20,7 +20,7 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         // private constructor
     }
 
-    public TaskServiceRequest createTaskRequest(String domainName, String sessionId) {
+    public TaskServiceRequest createTaskRequest(String domainName, Long sessionId) {
         return internalCreateTaskRequest(domainName, sessionId);
     }
 
@@ -28,7 +28,7 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         return internalCreateTaskRequest(domainName, null);
     }
 
-    public KieSessionRequest createConsoleKieSessionRequest(String domainName, String sessionId) {
+    public KieSessionRequest createConsoleKieSessionRequest(String domainName, Long sessionId) {
         return internalCreateKieSessionRequest(domainName, sessionId);
     }
 
@@ -36,7 +36,7 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         return internalCreateKieSessionRequest(domainName, null);
     }
 
-    private TaskServiceRequest internalCreateTaskRequest(String domainName, String sessionid) {
+    private TaskServiceRequest internalCreateTaskRequest(String domainName, Long sessionid) {
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }
@@ -45,7 +45,7 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
                 new RemoteApiServiceRequestProxy(domainName, sessionid, serializationProvider));
     }
 
-    private KieSessionRequest internalCreateKieSessionRequest(String domainName, String sessionid) {
+    private KieSessionRequest internalCreateKieSessionRequest(String domainName, Long sessionid) {
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }

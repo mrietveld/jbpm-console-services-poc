@@ -2,9 +2,12 @@ package org.jbpm.console.ng.services.client.message;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import org.kie.api.runtime.KieSession;
 
 public class ServiceMessage {
 
@@ -115,14 +118,37 @@ public class ServiceMessage {
             setServiceType(method);
         } 
         
+        @SuppressWarnings("rawtypes")
         private void setServiceType(Method method) { 
-            String serviceSimpleName = method.getDeclaringClass().getSimpleName();
-            if( serviceSimpleName.toLowerCase().matches("kiesession.*") ) { 
-                this.serviceType = KIE_SESSION_REQUEST;
-            } else if( serviceSimpleName.toLowerCase().matches("taskservice.*") ) { 
-                this.serviceType = TASK_SERVICE_REQUEST;
+            Class serviceClass = method.getDeclaringClass();
+            this.serviceType = determineServiceType(serviceClass);
+            
+            if( this.serviceType == -1 ) { 
+                // Only necessary if we use the "Same" API
+              
+                Queue<Class<?>> interfaces = new LinkedList(Arrays.asList(KieSession.class.getInterfaces()));
+                while( ! interfaces.isEmpty() ) {
+                    Class<?> inter = interfaces.poll();
+                    if( serviceClass.equals(inter) ) { 
+                        this.serviceType = KIE_SESSION_REQUEST;
+                        return;
+                    }
+                    interfaces.addAll(Arrays.asList(inter.getInterfaces()));
+                }
+
+                // TaskService does not extend (nor is extended by) any other classes
+                
+                throw new UnsupportedOperationException("Unsupported service class: " + serviceClass.getCanonicalName() );
+            }
+        }
+        
+        private int determineServiceType(Class serviceClass) { 
+            if( serviceClass.getSimpleName().toLowerCase().matches(".*kiesession.*") ) { 
+                return KIE_SESSION_REQUEST;
+            } else if( serviceClass.getSimpleName().toLowerCase().matches(".*taskservice.*") ) { 
+                return TASK_SERVICE_REQUEST;
             } else { 
-                throw new UnsupportedOperationException("Unsupported service class: " + serviceSimpleName );
+                return -1;
             }
         }
         

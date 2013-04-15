@@ -10,11 +10,12 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
+import org.apache.log4j.Logger;
+import org.jbpm.console.ng.services.cdi.MessageSerializationProviderFactory;
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
 import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
-import org.slf4j.Logger;
 
 /**
  * This class is the link between incoming request (whether via REST or JMS or .. whatever) 
@@ -39,13 +40,15 @@ public class RequestMessageBean implements MessageListener {
     private ProcessRequestBean consoleProcessRequest;
 
     @Inject
-    private MessageSerializationProvider serializationProvider;
+    private MessageSerializationProviderFactory serializationProviderFactory;
 
     public void onMessage(Message message) {
         logger.info("Message received: " + message.toString());
         Connection connection = null;
         Session session = null;
         try {
+            int serializationType = message.getIntProperty("serializationType");
+            MessageSerializationProvider serializationProvider = serializationProviderFactory.getMessageSerializationProvider(serializationType);
             ServiceMessage request = serializationProvider.convertJmsMessageToServiceMessage(message);
             ServiceMessage response = new ServiceMessage(request);
             for (OperationMessage operation : request.getOperations()) {

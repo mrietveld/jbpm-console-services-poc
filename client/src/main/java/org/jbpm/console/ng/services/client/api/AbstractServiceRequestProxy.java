@@ -27,9 +27,13 @@ public abstract class AbstractServiceRequestProxy implements InvocationHandler {
     }
 
     // package level constructor
-    protected AbstractServiceRequestProxy(String domainName, String sessionId, MessageSerializationProvider serializationProvider) {
+    protected AbstractServiceRequestProxy(String domainName, Long sessionId, MessageSerializationProvider serializationProvider) {
         // Message
-        this.request = new ServiceMessage(domainName, sessionId);
+        String msgSessionId = null;
+        if( sessionId != null ) { 
+            msgSessionId = String.valueOf(sessionId);
+        }
+        this.request = new ServiceMessage(domainName, msgSessionId );
         this.serializationProvider = serializationProvider;
     }
 

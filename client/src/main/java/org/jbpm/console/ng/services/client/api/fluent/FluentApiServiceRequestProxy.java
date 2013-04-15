@@ -7,7 +7,7 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 class FluentApiServiceRequestProxy extends AbstractServiceRequestProxy {
 
-    FluentApiServiceRequestProxy(String domainName, String sessionId, MessageSerializationProvider serializationProvider) { 
+    public FluentApiServiceRequestProxy(String domainName, Long sessionId, MessageSerializationProvider serializationProvider) { 
         // Message
         super(domainName,sessionId, serializationProvider);
     }
@@ -20,7 +20,7 @@ class FluentApiServiceRequestProxy extends AbstractServiceRequestProxy {
         
         this.request.addOperation(method, args);
         
-        return this;
+        return proxy;
     }
    
     

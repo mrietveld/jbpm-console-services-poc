@@ -1,13 +1,15 @@
 package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import org.jbpm.console.ng.services.client.api.MessageHolder;
 import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
+import org.jbpm.console.ng.services.client.api.fluent.FluentApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.fluent.api.FluentKieSessionRequest;
 import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
@@ -18,11 +20,12 @@ import org.junit.Test;
 public class SimpleJaxbTest {
 
     @Test
-    public void showRequestXML() throws Exception {
+    public void shouldBeAbleToMarshallSimpleMessage() throws Exception {
+        System.out.println();
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
-        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release", "correl-1"); 
+        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release", 23l); 
         
         taskServiceRequest.activate(1, "Danno");
         taskServiceRequest.claimNextAvailable("Steve", "en-UK");
@@ -36,11 +39,12 @@ public class SimpleJaxbTest {
     }
 
     @Test
-    public void showResponseXML() throws Exception {
+    public void shouldBeAbleToMarshallMoreSimpleMessages() throws Exception {
+        System.out.println();
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
-        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release", "correl-1"); 
+        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release");
         
         taskServiceRequest.activate(1, "Danno");
         taskServiceRequest.claimNextAvailable("Steve", "en-UK");
@@ -57,4 +61,26 @@ public class SimpleJaxbTest {
         marshaller.marshal(jaxbMsg, System.out);
     }
     
+    @Test
+    public void shouldBeAbleToMarshall() throws Exception {
+        // Factory
+        FluentApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewFluentApiInstance();
+        requestFactory.setSerialization(Type.JAXB);
+        
+        FluentKieSessionRequest request = requestFactory.createKieSessionRequest("dimaggio");
+        
+        // Operation
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("jersey", new Long(5));
+        request.startProcess("batter-up", params);
+
+        // Convert to message
+        ServiceMessage serviceMsg = ((MessageHolder) request).getRequest();
+        JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
+        
+        // Marshall
+        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class, JaxbArgument.class, JaxbMap.class, JaxbSingleArgument.class);
+        Marshaller marshaller = jaxbCtx.createMarshaller();
+        marshaller.marshal(jaxbMsg, System.out);
+    }
 }

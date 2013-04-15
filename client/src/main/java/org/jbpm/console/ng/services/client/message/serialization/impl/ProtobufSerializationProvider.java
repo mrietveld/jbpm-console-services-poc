@@ -8,16 +8,30 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 public class ProtobufSerializationProvider implements MessageSerializationProvider {
 
+    /**
+     * See {@link Type}.
+     */
+    private int serializationType = 2;
+    
     @Override
     public Message convertServiceMessageToJmsMessage(ServiceMessage request, Session jmsSession) throws Exception {
-        // DBG Auto-generated method stub
-        return null;
+        Message jmsMsg = jmsSession.createBytesMessage();
+        
+        jmsMsg.setIntProperty(SERIALIZATION_TYPE_PROPERTY, serializationType);
+        
+        return jmsMsg;
     }
 
     @Override
     public ServiceMessage convertJmsMessageToServiceMessage(Message msg) throws Exception {
-        // DBG Auto-generated method stub
-        return null;
+        ServiceMessage serviceMsg = null;
+        
+        return serviceMsg;
+    }
+
+    @Override
+    public int getSerializationType() {
+        return serializationType;
     }
 
 }

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
@@ -16,9 +17,11 @@ import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessa
 public class JaxbServiceMessage {
 
     @XmlElement
+    @XmlSchemaType(name="string")
     private String domain; 
     
     @XmlElement
+    @XmlSchemaType(name="string")
     private String sessionId; 
     
     @XmlElement(name="operation")
@@ -30,7 +33,9 @@ public class JaxbServiceMessage {
     
     public JaxbServiceMessage(ServiceMessage origRequest) { 
        this.domain = origRequest.getDomainName();
-       this.sessionId = origRequest.getSessionId();
+       if( origRequest.getSessionId() != null ) { 
+           this.sessionId = String.valueOf( origRequest.getSessionId() );
+       }
        this.operations = new ArrayList<JaxbOperation>();
        
        for( OperationMessage oper : origRequest.getOperations() ) { 

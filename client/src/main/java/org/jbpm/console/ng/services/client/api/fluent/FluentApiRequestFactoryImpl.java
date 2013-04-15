@@ -14,52 +14,43 @@ import org.jbpm.console.ng.services.client.message.ServiceMessage;
 public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
 
     static { 
-        ServiceRequestFactoryProvider.setInstance(RequestApiType.REMOTE, new FluentApiRequestFactoryImpl());
+        ServiceRequestFactoryProvider.setInstance(RequestApiType.FLUENT, new FluentApiRequestFactoryImpl());
     }
     
     private FluentApiRequestFactoryImpl() { 
         // private constructor
     }
 
-    public FluentTaskServiceRequest createTaskServiceRequest(String domainName, String sessionId) {
-        return internalCreateTaskRequest(domainName, sessionId);
+    public FluentTaskServiceRequest createTaskServiceRequest(String domainName, Long sessionId) {
+        return (FluentTaskServiceRequest) internalCreateRequest(domainName, sessionId);
     }
     
     public FluentTaskServiceRequest createTaskServiceRequest(String domainName) {
-        return internalCreateTaskRequest(domainName, null);
+        return (FluentTaskServiceRequest) internalCreateRequest(domainName, null);
     }
     
     public FluentTaskServiceRequest createTaskServiceRequest() {
-        return internalCreateTaskRequest(null, null);
+        return (FluentTaskServiceRequest) internalCreateRequest(null, null);
     }
     
-    public FluentKieSessionRequest createKieSessionRequest(String domainName, String sessionId) {
-        return internalCreateKieSessionRequest(domainName, sessionId);
+    public FluentKieSessionRequest createKieSessionRequest(String domainName, Long sessionId) {
+        return (FluentKieSessionRequest) internalCreateRequest(domainName, sessionId);
     }
     
     public FluentKieSessionRequest createKieSessionRequest(String domainName) {
-        return internalCreateKieSessionRequest(domainName, null);
+        return (FluentKieSessionRequest) internalCreateRequest(domainName, null);
     }
     
     public FluentKieSessionRequest createKieSessionRequest() {
-        return internalCreateKieSessionRequest(null, null);
+        return (FluentKieSessionRequest) internalCreateRequest(null, null);
     }
     
-    private FluentTaskServiceRequest internalCreateTaskRequest(String domainName, String sessionid) { 
+    private Object internalCreateRequest(String domainName, Long sessionid) { 
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }
-        Class<?>[] interfaces = { FluentTaskServiceRequest.class, MessageHolder.class };
-        return (FluentTaskServiceRequest) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
-                new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider ));
-    }
-
-    private FluentKieSessionRequest internalCreateKieSessionRequest(String domainName, String sessionid) { 
-        if( serializationProvider == null ) { 
-            throw new IllegalStateException("Serialization provider must be set before creating a request.");
-        }
-        Class<?>[] interfaces = { FluentKieSessionRequest.class, FluentWorkItemManagerRequest.class, MessageHolder.class };
-        return (FluentKieSessionRequest) Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
+        Class<?>[] interfaces = { FluentKieSessionRequest.class, FluentWorkItemManagerRequest.class, FluentTaskServiceRequest.class, MessageHolder.class };
+        return Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
                 new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider));
     }
 

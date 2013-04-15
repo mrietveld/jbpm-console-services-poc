@@ -1,13 +1,11 @@
 package org.jbpm.console.ng.services.ejb;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.jbpm.runtime.manager.api.RuntimeManagerCacheEntryPoint;
 import org.kie.internal.runtime.manager.RuntimeManager;
+import org.kie.internal.runtime.manager.RuntimeManagerCacheEntryPoint;
 
 /*
  * {@inheritdoc}

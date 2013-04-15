@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import org.jbpm.console.ng.services.client.api.AbstractServiceRequestProxy;
 import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
-class SameApiRequestProxy extends AbstractServiceRequestProxy {
+class SameApiServiceRequestProxy extends AbstractServiceRequestProxy {
 
     static { 
         String [] moreUnsuportedMethods = { 
@@ -17,7 +17,7 @@ class SameApiRequestProxy extends AbstractServiceRequestProxy {
         }
     }
     
-    public SameApiRequestProxy(String domainName, String sessionid, MessageSerializationProvider serializationProvider) {
+    public SameApiServiceRequestProxy(String domainName, Long sessionid, MessageSerializationProvider serializationProvider) {
         // Message
         super(domainName,sessionid, serializationProvider);
     }

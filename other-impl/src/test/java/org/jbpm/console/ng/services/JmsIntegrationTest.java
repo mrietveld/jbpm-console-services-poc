@@ -42,9 +42,9 @@ import org.slf4j.LoggerFactory;
 @RunAsClient
 @RunWith(Arquillian.class)
 @ServerSetup(ArquillianServerSetupTask.class)
-public class JMSIntegrationTest {
+public class JmsIntegrationTest {
 
-    private static Logger logger = LoggerFactory.getLogger(JMSIntegrationTest.class);
+    private static Logger logger = LoggerFactory.getLogger(JmsIntegrationTest.class);
 
     private static final String CONNECTION_FACTORY_NAME = "jms/RemoteConnectionFactory";
     private static final String DOMAIN_TASK_QUEUE_NAME = "jms/queue/JBPM.TASK.DOMAIN.TEST";
@@ -61,7 +61,7 @@ public class JMSIntegrationTest {
         String initalPropertiesFileName = "/initialContext.properties";
         Properties properties = new Properties();
         try {
-            InputStream initialContextProperties = JMSIntegrationTest.class.getResourceAsStream(initalPropertiesFileName);
+            InputStream initialContextProperties = JmsIntegrationTest.class.getResourceAsStream(initalPropertiesFileName);
             properties.load(initialContextProperties);
         } catch (IOException e) {
             throw new RuntimeException("Unable to read " + initalPropertiesFileName, e);

@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.util;
+package org.jbpm.console.ng.services.cdi;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;

@@ -2,11 +2,14 @@ package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 
@@ -31,7 +34,7 @@ public class JaxbOperation {
     @XmlElement(name = "result")
     private JaxbArgument result;
 
-    @XmlElement(name = "arg")
+    @XmlElementRef(name="args")
     public List<JaxbArgument> args = new ArrayList<JaxbArgument>();
 
     public JaxbOperation() {
@@ -43,14 +46,24 @@ public class JaxbOperation {
         this.serviceType = origOper.getServiceType();
         Object[] origArgs = origOper.getArgs();
         if (origOper.isResponse()) {
-            this.result = new JaxbArgument(origOper.getResult());
+            this.result = convertToJaxbArgument(origOper.getResult());
         } else {
             for (int i = 0; i < origArgs.length; ++i) {
-                JaxbArgument arg = new JaxbArgument(origArgs[i]);
+                JaxbArgument arg = convertToJaxbArgument(origArgs[i]);
                 arg.setIndex(i);
                 args.add(arg);
             }
         }
+    }
+
+    private JaxbArgument convertToJaxbArgument(Object obj) {
+        JaxbArgument arg = null;
+        if (obj instanceof Map) {
+            arg = new JaxbMap((Map<String, Object>) obj);
+        } else {
+            arg = new JaxbSingleArgument(obj);
+        }
+        return arg;
     }
 
     public int getServiceType() {
@@ -89,7 +102,9 @@ public class JaxbOperation {
         return args;
     }
 
-    public void addArg(Object arg) {
-        this.args.add(new JaxbArgument(arg));
+    public void addArg(Object obj) {
+        JaxbArgument arg = convertToJaxbArgument(obj);
+        arg.setIndex(args.size());
+        args.add(arg);
     }
 }

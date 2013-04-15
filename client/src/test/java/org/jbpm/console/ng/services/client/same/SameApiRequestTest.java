@@ -14,9 +14,9 @@ import org.kie.api.event.rule.DefaultAgendaEventListener;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.task.api.TaskService;
 
-public class RemoteApiRequestTest extends Assert { 
+public class SameApiRequestTest extends Assert { 
 
-    private SameApiRequestFactoryImpl getConsoleRequestFactory() { 
+    private SameApiRequestFactoryImpl getSameApiRequestFactory() { 
         SameApiRequestFactoryImpl factory = ServiceRequestFactoryProvider.createNewSameApiInstance();
         factory.setSerialization(Type.MAP_MESSAGE);
         return factory;
@@ -24,7 +24,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test
     public void createBasicRequest() { 
-       TaskService taskServiceRequest = getConsoleRequestFactory().createTaskRequest("release", "correl-1");
+       TaskService taskServiceRequest = getSameApiRequestFactory().createTaskRequest("release", 98l);
        
        long taskId = 3;
        String userId = "bob";
@@ -47,7 +47,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test
     public void createKieSessionRequest() { 
-       KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
+       KieSession kieSessionRequest = getSameApiRequestFactory().createKieSessionRequest("domain");
 
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
@@ -58,7 +58,7 @@ public class RemoteApiRequestTest extends Assert {
       
        // test method name
        OperationMessage operRequest = request.getOperations().get(0);
-       assertTrue("startProcess".equals(operRequest.getMethodName()));
+       assertEquals("startProcess".toLowerCase(), operRequest.getMethodName());
        
        // test args
        Object [] args = operRequest.getArgs();
@@ -68,7 +68,7 @@ public class RemoteApiRequestTest extends Assert {
 
     @Test
     public void requestOnlyCreatedOnce() { 
-        KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
+        KieSession kieSessionRequest = getSameApiRequestFactory().createKieSessionRequest("domain");
         
         kieSessionRequest.startProcess("test");
         kieSessionRequest.signalEvent("party-event", null);
@@ -84,7 +84,7 @@ public class RemoteApiRequestTest extends Assert {
         assertTrue("Expected 4 operations", operations.size() == 4);
         OperationMessage operRequest = operations.get(0);
         String firstMethod = operRequest.getMethodName();
-        assertTrue("First method incorrect: " + firstMethod, "startProcess".equals(firstMethod));
+        assertEquals( "First method incorrect.", "startProcess".toLowerCase(), firstMethod);
         
         operRequest = operations.get(2);
         Object [] args = operRequest.getArgs();
@@ -94,7 +94,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test(expected=UnsupportedOperationException.class)
     public void argumentsMustBePrimitives() { 
-        KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
+        KieSession kieSessionRequest = getSameApiRequestFactory().createKieSessionRequest("domain");
         
         kieSessionRequest.addEventListener(new DefaultAgendaEventListener());
     }

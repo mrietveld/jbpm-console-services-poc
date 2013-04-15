@@ -13,6 +13,11 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 public class MapMessageSerializationProvider implements MessageSerializationProvider {
 
+    /**
+     * See {@link Type}.
+     */
+    private int serializationType = 0;
+    
     private final static String DOMAIN_NAME     = "d";
     private final static String KIE_SESSION_ID  = "s";
     private final static String SERVICE_TYPE    = "t";
@@ -79,6 +84,7 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
             throw new UnsupportedOperationException("Unable to insert " + currentKey + " into JMS message.", e);
         }
 
+        message.setInt(SERIALIZATION_TYPE_PROPERTY, serializationType);
         return message;
     }
 
@@ -89,10 +95,10 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
         String currentKey = null;
 
         try {
-            String strValue = mapMsg.getStringProperty(DOMAIN_NAME);
+            String strValue = mapMsg.getString(DOMAIN_NAME);
             serviceMsg.setDomainName(strValue);
             
-            strValue = mapMsg.getStringProperty(KIE_SESSION_ID);
+            strValue = mapMsg.getString(KIE_SESSION_ID);
             serviceMsg.setSessionId(strValue);
 
             int numOperations = mapMsg.getIntProperty(NUM_OPERATIONS);
@@ -123,6 +129,11 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
         }
         
         return serviceMsg;
+    }
+
+    @Override
+    public int getSerializationType() {
+        return serializationType;
     }
     
 

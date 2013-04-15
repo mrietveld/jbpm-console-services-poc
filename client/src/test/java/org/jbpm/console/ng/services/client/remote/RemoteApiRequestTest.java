@@ -10,9 +10,8 @@ import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessa
 import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kie.internal.task.api.TaskService;
 
-public class ConsoleRequestFactoryTest extends Assert { 
+public class RemoteApiRequestTest extends Assert { 
 
     private RemoteApiRequestFactoryImpl getConsoleRequestFactory() { 
         RemoteApiRequestFactoryImpl factory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
@@ -22,7 +21,7 @@ public class ConsoleRequestFactoryTest extends Assert {
     
     @Test
     public void basicRequestShouldBeCreatedAndContainInfo() { 
-       TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createTaskRequest("release", "correl-1");
+       TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createTaskRequest("release", 42l);
        
        long taskId = 3;
        String userId = "bob";
@@ -57,7 +56,7 @@ public class ConsoleRequestFactoryTest extends Assert {
       
        // test method name
        OperationMessage operRequest = request.getOperations().get(0);
-       assertTrue("startProcess".equals(operRequest.getMethodName()));
+       assertEquals("startProcess".toLowerCase(), operRequest.getMethodName());
        
        // test args
        Object [] args = operRequest.getArgs();

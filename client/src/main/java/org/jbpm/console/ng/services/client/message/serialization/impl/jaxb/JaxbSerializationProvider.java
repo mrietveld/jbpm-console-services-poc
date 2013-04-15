@@ -13,12 +13,20 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 public class JaxbSerializationProvider implements MessageSerializationProvider {
 
+    /**
+     * See {@link Type}
+     */
+    private int serializationType = 1;
+            
     @Override
     public Message convertServiceMessageToJmsMessage(ServiceMessage request, Session jmsSession) throws Exception {
         JaxbServiceMessage jaxbRequest = new JaxbServiceMessage(request);
         String requestString = convertJaxbObjectToString(jaxbRequest);
 
-        return jmsSession.createObjectMessage(requestString);
+        Message jmsMsg =  jmsSession.createObjectMessage(requestString);
+        jmsMsg.setIntProperty(SERIALIZATION_TYPE_PROPERTY, serializationType);
+        
+        return jmsMsg;
     }
     
     public static String convertJaxbObjectToString(Object object) throws JAXBException {
@@ -37,6 +45,9 @@ public class JaxbSerializationProvider implements MessageSerializationProvider {
         return null;
     }
 
-
+    @Override
+    public int getSerializationType() {
+        return serializationType;
+    }
 
 }
