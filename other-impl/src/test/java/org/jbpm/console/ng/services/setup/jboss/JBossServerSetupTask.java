@@ -10,7 +10,7 @@ import org.jboss.as.controller.client.helpers.standalone.DeploymentPlan;
 import org.jboss.as.controller.client.helpers.standalone.ServerDeploymentActionResult;
 import org.jboss.as.controller.client.helpers.standalone.ServerDeploymentManager;
 import org.jboss.as.controller.client.helpers.standalone.ServerDeploymentPlanResult;
-import org.jbpm.console.ng.services.ArquillianIntegrationTest;
+import org.jbpm.console.ng.services.JMSIntegrationTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 public class JBossServerSetupTask {
 
-    private static Logger logger = LoggerFactory.getLogger(ArquillianIntegrationTest.class);
+    private static Logger logger = LoggerFactory.getLogger(JMSIntegrationTest.class);
 
     public static final String HORNETQ_JMS_XML = "/hornetq-jms.xml";
     public static final String JBPM_DS_XML = "/jbpm-ds.xml";
@@ -36,8 +36,8 @@ public class JBossServerSetupTask {
     public static void setupServer(ManagementClient managementClient, String containerId) throws Exception {
         logger.info("Deploying JMS Queues");
 
-        URL hornetqJmsXmlUrl = ArquillianIntegrationTest.class.getResource(HORNETQ_JMS_XML);
-        URL jbpmDSXmlUrl = ArquillianIntegrationTest.class.getResource(JBPM_DS_XML);
+        URL hornetqJmsXmlUrl = JMSIntegrationTest.class.getResource(HORNETQ_JMS_XML);
+        URL jbpmDSXmlUrl = JMSIntegrationTest.class.getResource(JBPM_DS_XML);
 
         URL[] urls = { hornetqJmsXmlUrl, jbpmDSXmlUrl };
 

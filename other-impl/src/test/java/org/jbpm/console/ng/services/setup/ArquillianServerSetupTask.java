@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.jboss.as.arquillian.api.ServerSetupTask;
 import org.jboss.as.arquillian.container.ManagementClient;
-import org.jbpm.console.ng.services.ArquillianIntegrationTest;
+import org.jbpm.console.ng.services.JMSIntegrationTest;
 import org.jbpm.console.ng.services.setup.jboss.DataSourceServerSetupTask;
 import org.jbpm.console.ng.services.setup.jboss.JBossServerSetupTask;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class ArquillianServerSetupTask implements ServerSetupTask {
     protected static Properties getArquillianLaunchProperties() {
         Properties properties = new Properties();
         try {
-            InputStream arquillianLaunchFile = ArquillianIntegrationTest.class.getResourceAsStream("/arquillian.launch");
+            InputStream arquillianLaunchFile = JMSIntegrationTest.class.getResourceAsStream("/arquillian.launch");
             properties.load(arquillianLaunchFile);
         } catch (IOException e) {
             throw new RuntimeException(e);

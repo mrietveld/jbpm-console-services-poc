@@ -10,10 +10,8 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceResponse;
-import org.jbpm.console.ng.services.client.jms.ServiceResponse.OperationResponse;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
 import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
 import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
 import org.slf4j.Logger;
@@ -21,6 +19,10 @@ import org.slf4j.Logger;
 /**
  * This class is the link between incoming request (whether via REST or JMS or .. whatever) 
  * and the Stateless EJB that processes the requests, the {@link ProcessRequestBean}. 
+ * </p>
+ * Responses to requests are <b>not</b> placed on the reply-to queue, but on the corresponding answer queue. 
+ * For example:<ul>
+ * <li>If the request arrived on the JBPM.TASK.DOMAIN.MYCOM, then the answer would be sent to the JBPM.TAS.
  * </p>
  * Because there are multiple queues to which an instance of this class could listen to, the (JMS queue) configuration is done 
  * in the ejb-jar.xml file, which allows us to configure instances of one class to listen to more than one queue.
@@ -44,26 +46,26 @@ public class RequestMessageBean implements MessageListener {
         Connection connection = null;
         Session session = null;
         try {
-            ServiceRequest request = serializationProvider.convertMessageToServerRequest(message);
-            ServiceResponse response = new ServiceResponse(request);
-            for (OperationRequest operation : request.getOperations()) {
-                OperationResponse operResponse = null;
+            ServiceMessage request = serializationProvider.convertJmsMessageToServiceMessage(message);
+            ServiceMessage response = new ServiceMessage(request);
+            for (OperationMessage operation : request.getOperations()) {
+                OperationMessage operResponse = null;
 
                 switch (operation.getServiceType()) {
-                case ServiceRequest.KIE_SESSION_REQUEST:
+                case ServiceMessage.KIE_SESSION_REQUEST:
                     operResponse = consoleProcessRequest.doKieSessionOperation(request, operation);
                     break;
-                case ServiceRequest.TASK_SERVICE_REQUEST:
+                case ServiceMessage.TASK_SERVICE_REQUEST:
                     operResponse = consoleProcessRequest.doTaskServiceOperation(request, operation);
                     break;
                 default:
                     // OCRAM exception handling
                 }
-
-                response.getResponses().add(operResponse);
+                
+                response.addOperation(operResponse);
             }
 
-            Message replyMessage = serializationProvider.convertResponseToMessage(response);
+            Message replyMessage = serializationProvider.convertServiceMessageToJmsMessage(response);
 
             connection = connectionFactory.createConnection();
             connection.start();

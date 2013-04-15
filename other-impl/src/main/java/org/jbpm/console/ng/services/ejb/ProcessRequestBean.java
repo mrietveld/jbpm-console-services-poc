@@ -6,13 +6,9 @@ import java.lang.reflect.Method;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.droolsjbpm.services.api.DomainManagerService;
-import org.jbpm.console.ng.services.ProcessRequestException;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceRequest.OperationRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceResponse;
-import org.jbpm.console.ng.services.client.jms.ServiceResponse.OperationResponse;
-import org.jbpm.console.ng.services.ejb.domain.DomainRuntimeManagerProvider;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage;
+import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
+import org.jbpm.runtime.manager.api.RuntimeManagerCacheEntryPoint;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.KieInternalServices;
 import org.kie.internal.process.CorrelationKeyFactory;
@@ -34,43 +30,47 @@ public class ProcessRequestBean {
     private static CorrelationKeyFactory keyFactory = KieInternalServices.Factory.get().newCorrelationKeyFactory();
 
     @Inject
-    private DomainRuntimeManagerProvider domainRuntimeManagerProvider;
+    private RuntimeManagerCacheEntryPoint runtimeManagerCache;
 
-    public OperationResponse doOperation(ServiceRequest request, OperationRequest operation) throws ProcessRequestException {
-        OperationResponse response = null;
+    public OperationMessage doOperation(ServiceMessage request, OperationMessage operation) {
+        OperationMessage response = null;
         switch( operation.getServiceType() ) { 
-        case ServiceRequest.KIE_SESSION_REQUEST: 
+        case ServiceMessage.KIE_SESSION_REQUEST: 
             response = doKieSessionOperation(request, operation);
             break;
-        case ServiceRequest.TASK_SERVICE_REQUEST:
+        case ServiceMessage.TASK_SERVICE_REQUEST:
             response = doTaskServiceOperation(request, operation);
             break;
         default:
-            throw new ProcessRequestException("Unknown service type: " + operation.getServiceType());
+            throw new UnsupportedOperationException("Unknown service type: " + operation.getServiceType());
         }
         
         return response;
     }
     
-    public OperationResponse doKieSessionOperation(ServiceRequest request, OperationRequest operation) {
-        KieSession kieSession = getRuntime(request.getDomainName(), request.getSessionid()).getKieSession();
+    public OperationMessage doKieSessionOperation(ServiceMessage request, OperationMessage operation) {
+        KieSession kieSession = getRuntimeEngine(request.getDomainName(), request.getSessionId()).getKieSession();
 
-        ServiceResponse.OperationResponse operResponse = new OperationResponse(operation);
-        operResponse.result = invokeMethod(KieSession.class, operation, kieSession);
+        Object result = invokeMethod(KieSession.class, operation, kieSession);
+        if( result != null ) { 
+            return new OperationMessage(operation, result);
+        }
 
-        return operResponse;
+        return null;
     }
     
-    public OperationResponse doTaskServiceOperation(ServiceRequest request, OperationRequest operation ) {
-        TaskService taskService = getRuntime(request.getDomainName(), request.getSessionid()).getTaskService();
+    public OperationMessage doTaskServiceOperation(ServiceMessage request, OperationMessage operation ) {
+        TaskService taskService = getRuntimeEngine(request.getDomainName(), request.getSessionId()).getTaskService();
 
-        ServiceResponse.OperationResponse operResponse = new OperationResponse(operation);
-        operResponse.result = invokeMethod(TaskService.class, operation, taskService);
+        Object result = invokeMethod(TaskService.class, operation, taskService);
+        if( result != null ) { 
+            return new OperationMessage(operation, result);
+        }
 
-        return operResponse;
+        return null;
     }
 
-    private Object invokeMethod(Class<?> serviceClass, OperationRequest request, Object serviceInstance) {
+    private Object invokeMethod(Class<?> serviceClass, OperationMessage request, Object serviceInstance) {
         Object[] args = request.getArgs();
         Class<?>[] paramTypes = new Class<?>[args.length];
         for (int i = 0; i < args.length; ++i) {
@@ -79,8 +79,8 @@ public class ProcessRequestBean {
 
         Object result = null;
         try {
-            Method taskMethod = serviceClass.getMethod(request.getMethodName(), paramTypes);
-            result = taskMethod.invoke(serviceInstance, args);
+            Method operationMethod = serviceClass.getMethod(request.getMethodName(), paramTypes);
+            result = operationMethod.invoke(serviceInstance, args);
         } catch (SecurityException se ) {
             handlException(request, se);
         } catch (NoSuchMethodException nsme) {
@@ -96,13 +96,13 @@ public class ProcessRequestBean {
         return result;
     }
 
-    private void handlException(OperationRequest request, Exception e) {
+    private void handlException(OperationMessage request, Exception e) {
         String serviceClassName = null;
         switch(request.getServiceType()) { 
-        case ServiceRequest.KIE_SESSION_REQUEST:
+        case ServiceMessage.KIE_SESSION_REQUEST:
             serviceClassName = KieSession.class.getName();
             break;
-        case ServiceRequest.TASK_SERVICE_REQUEST:
+        case ServiceMessage.TASK_SERVICE_REQUEST:
             serviceClassName = TaskService.class.getName();
             break;
         }
@@ -113,25 +113,40 @@ public class ProcessRequestBean {
     }
 
     /**
-     * add when org.kie/org.jbpm dependencies are added
+     * Retrieves the correct {@link RuntimeEngine}. <ul>
+     * <li>If the sessionId is null, uses an {@link EmptyContext} to get the {@link RuntimeEngine}.</li>
+     * <li>If the sessionId is a number, uses a 
+     * @param domainName
+     * @param ksessionId
+     * @return
      */
-    public RuntimeEngine getRuntime(String domainName, String ksessionId) {
-        RuntimeManager runtimeManager = domainRuntimeManagerProvider.getRuntimeManager(domainName);
-
+    protected RuntimeEngine getRuntimeEngine(String domainName, String sessionId) { 
+        return getRuntimeEngine(domainName, sessionId, null);
+    }
+    
+    protected RuntimeEngine getRuntimeEngine(String domainName, String sessionId, Long processInstanceId) { 
+        RuntimeManager runtimeManager = ((RuntimeManagerCacheImpl) runtimeManagerCache).getRuntimeManager(domainName);
+        Context<?> runtimeContext = getRuntimeManagerContext(sessionId, processInstanceId);
+        return runtimeManager.getRuntimeEngine(runtimeContext);
+    }
+    
+    private Context<?> getRuntimeManagerContext(String kieSessionId, Long processInstanceId) { 
         Context<?> managerContext;
-
-        if (ksessionId == null) {
+        
+        if( processInstanceId != null ) { 
+            managerContext = new ProcessInstanceIdContext(processInstanceId);
+        } else if (kieSessionId == null) {
             managerContext = EmptyContext.get();
         } else {
             try {
-                Long longId = Long.parseLong(ksessionId);
+                Long longId = Long.parseLong(kieSessionId);
                 managerContext = ProcessInstanceIdContext.get(longId);
             } catch (NumberFormatException nfe) {
-                managerContext = CorrelationKeyContext.get(keyFactory.newCorrelationKey(ksessionId));
+                managerContext = CorrelationKeyContext.get(keyFactory.newCorrelationKey(kieSessionId));
             }
         }
-
-        return runtimeManager.getRuntimeEngine(managerContext);
+        
+        return managerContext;
     }
 
 }
