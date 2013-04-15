@@ -21,11 +21,9 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
     private final static String NUM_ARGUMENTS   = "a";
     private final static String RESULT          = "r";
     
-    private Session jmsSession;
-
     @Override
     // Add throws exception instead of returning null?
-    public Message convertServiceMessageToJmsMessage(ServiceMessage request) throws Exception {
+    public Message convertServiceMessageToJmsMessage(ServiceMessage request, Session jmsSession) throws Exception {
         MapMessage message = null;
         String currentKey = null;
 

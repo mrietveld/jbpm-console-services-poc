@@ -21,12 +21,16 @@ public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         // private constructor
     }
 
-    public FluentTaskServiceRequest createTaskRequest(String domainName, String sessionId) {
+    public FluentTaskServiceRequest createTaskServiceRequest(String domainName, String sessionId) {
         return internalCreateTaskRequest(domainName, sessionId);
     }
     
-    public FluentTaskServiceRequest createTaskRequest(String domainName) {
+    public FluentTaskServiceRequest createTaskServiceRequest(String domainName) {
         return internalCreateTaskRequest(domainName, null);
+    }
+    
+    public FluentTaskServiceRequest createTaskServiceRequest() {
+        return internalCreateTaskRequest(null, null);
     }
     
     public FluentKieSessionRequest createKieSessionRequest(String domainName, String sessionId) {
@@ -35,6 +39,10 @@ public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
     
     public FluentKieSessionRequest createKieSessionRequest(String domainName) {
         return internalCreateKieSessionRequest(domainName, null);
+    }
+    
+    public FluentKieSessionRequest createKieSessionRequest() {
+        return internalCreateKieSessionRequest(null, null);
     }
     
     private FluentTaskServiceRequest internalCreateTaskRequest(String domainName, String sessionid) { 

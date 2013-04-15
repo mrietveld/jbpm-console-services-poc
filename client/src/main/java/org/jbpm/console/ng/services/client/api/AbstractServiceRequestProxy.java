@@ -5,8 +5,13 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.jms.Session;
+import javax.xml.bind.JAXBException;
+
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.impl.jaxb.JaxbSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.impl.jaxb.JaxbServiceMessage;
 
 public abstract class AbstractServiceRequestProxy implements InvocationHandler {
 
@@ -22,27 +27,32 @@ public abstract class AbstractServiceRequestProxy implements InvocationHandler {
     }
 
     // package level constructor
-    protected AbstractServiceRequestProxy(String domainName, String sessionId, MessageSerializationProvider serializationProvider) { 
+    protected AbstractServiceRequestProxy(String domainName, String sessionId, MessageSerializationProvider serializationProvider) {
         // Message
         this.request = new ServiceMessage(domainName, sessionId);
         this.serializationProvider = serializationProvider;
     }
-    
+
     public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
 
-    protected Object handleRequestHolderMethodsAndUnsupportedMethods(Method method) {
+    protected Object handleMessageHolderMethodsAndUnsupportedMethods(Method method, Object[] args) {
         if (MessageHolder.class.equals(method.getDeclaringClass())) {
-            // ClientRequestHolder.getRequest
+            ServiceMessage request = this.request;
+            this.request = new ServiceMessage(this.request);
             if ("getRequest".equals(method.getName())) {
-                return this.request;
-                // ClientRequestHolder.getRequest
-            } else if ("createMessage".equals(method.getName())) {
-                try { 
-                    ServiceMessage request = this.request;
-                    this.request = new ServiceMessage(this.request);
-                    return serializationProvider.convertServiceMessageToJmsMessage(request);
-                } catch( Exception e ) { 
+                return request;
+            } else if ("createJmsMessage".equals(method.getName())) {
+                try {
+                    return serializationProvider.convertServiceMessageToJmsMessage(request, (Session) args[0]);
+                } catch (Exception e) {
                     throw new RuntimeException("Unable to convert request to message: " + e.getMessage(), e);
+                }
+            } else if ("getMessageJaxbXml".equals(method.getName())) {
+                JaxbServiceMessage jaxbRequest = new JaxbServiceMessage(request);
+                try {
+                    return JaxbSerializationProvider.convertJaxbObjectToString(jaxbRequest);
+                } catch (JAXBException jaxbe) {
+                    throw new RuntimeException("Unable to convert request to XML string: " + jaxbe.getMessage(), jaxbe);
                 }
             }
         }
@@ -51,7 +61,7 @@ public abstract class AbstractServiceRequestProxy implements InvocationHandler {
         if (unsupportedMethods.contains(method.getName())) {
             throw new UnsupportedOperationException(method.getName() + " is unsupported as a request method!");
         }
-        
+
         return null;
     }
 

@@ -160,6 +160,6 @@ public interface FluentKieSessionRequest {
      * 
      * @return the <code>WorkItemManager</code> related to this session
      */
-    FluentKieSessionRequest getWorkItemManager();
+    FluentWorkItemManagerRequest getWorkItemManager();
 
 }

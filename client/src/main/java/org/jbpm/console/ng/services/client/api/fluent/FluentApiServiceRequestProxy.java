@@ -13,7 +13,7 @@ class FluentApiServiceRequestProxy extends AbstractServiceRequestProxy {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object result = handleRequestHolderMethodsAndUnsupportedMethods(method);
+        Object result = handleMessageHolderMethodsAndUnsupportedMethods(method, args);
         if( result != null ) { 
             return result;
         }

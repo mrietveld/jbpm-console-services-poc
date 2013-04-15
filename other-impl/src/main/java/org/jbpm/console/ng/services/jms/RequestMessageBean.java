@@ -65,7 +65,7 @@ public class RequestMessageBean implements MessageListener {
                 response.addOperation(operResponse);
             }
 
-            Message replyMessage = serializationProvider.convertServiceMessageToJmsMessage(response);
+            Message replyMessage = serializationProvider.convertServiceMessageToJmsMessage(response, session);
 
             connection = connectionFactory.createConnection();
             connection.start();

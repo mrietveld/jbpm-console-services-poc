@@ -33,10 +33,9 @@ public interface FluentWorkItemManagerRequest {
      * type of work
      * 
      * @param workItemName the type of work this work item handler can execute
-     * @param handler the handler for executing work items
+     * @param handlerClass the class handler for executing work items. The class must have a no argument constructor.
      */
-    FluentWorkItemManagerRequest registerWorkItemHandler(String workItemName,
-                                 WorkItemHandler handler); 
+    FluentWorkItemManagerRequest registerWorkItemHandlerClass(String workItemName, Class<? extends WorkItemHandler> handlerClass); 
     
     FluentKieSessionRequest getFluentKieSessionRequest();
     FluentTaskServiceRequest getFluentTaskServiceRequest();
