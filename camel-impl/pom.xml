@@ -9,8 +9,8 @@
   </parent>
 
   <artifactId>camel-impl</artifactId>
+  <name>jBPM Services PoC :: Camel impl</name>
   <packaging>war</packaging>
-  <name>jBPM Services PoC :: Camel Impl</name>
 
   <licenses>
     <license>
@@ -21,7 +21,7 @@
   </licenses>
 
   <properties>
-    <arquillian.version>1.0.0.Final</arquillian.version>
+    <restlet.version>2.0.15</restlet.version>
   </properties>
 
   <dependencies>
@@ -30,23 +30,20 @@
       <artifactId>client</artifactId>
     </dependency>
 
+    <!-- jbpm -->
     <dependency>
       <groupId>org.kie</groupId>
       <artifactId>kie-internal</artifactId>
     </dependency>
 
-    <!-- jms -->
+    <!-- general -->
     <dependency>
-      <groupId>javax.jms</groupId>
-      <artifactId>jms</artifactId>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.hornetq</groupId>
-      <artifactId>hornetq-core-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hornetq</groupId>
-      <artifactId>hornetq-jms-client</artifactId>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
     </dependency>
 
     <!-- camel -->
@@ -54,18 +51,29 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-jms</artifactId>
     </dependency>
-    <dependency>
+ <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-restlet</artifactId>
-      <version>${camel.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.restlet.jse</groupId>
+          <artifactId>org.restlet</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.restlet.jee</groupId>
+      <artifactId>org.restlet</artifactId>
+      <version>${restlet.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.restlet.jee</groupId>
+      <artifactId>org.restlet.ext.servlet</artifactId>
+      <version>${restlet.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-ejb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-cdi</artifactId>
     </dependency>
 
     <!-- general -->
@@ -138,13 +146,13 @@
       <resource>
         <directory>src/main/webapp</directory>
       </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
     </resources>
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>src/test/client</directory>
       </testResource>
     </testResources>
 
@@ -167,10 +175,6 @@
             <property>
               <name>arquillian.launch</name>
               <value>${arquillian.launch}</value>
-            </property>
-            <property>
-              <name>java.naming.factory.initial</name>
-              <name>${initial.context.factory}</name>
             </property>
           </systemProperties>
         </configuration>

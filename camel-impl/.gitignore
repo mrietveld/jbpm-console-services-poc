@@ -1,1 +1,6 @@
+# IDE compilation files
+/bin
+/local
 /target
+/nbproject
+
