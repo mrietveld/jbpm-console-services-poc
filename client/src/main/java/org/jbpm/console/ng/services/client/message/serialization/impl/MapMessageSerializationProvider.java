@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl;
+package org.jbpm.console.ng.services.client.message.serialization.impl;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
 public class MapMessageSerializationProvider implements MessageSerializationProvider {
 

@@ -3,11 +3,11 @@ package org.jbpm.console.ng.services.client.same;
 import java.util.List;
 
 import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.api.same.SameApiRequestFactoryImpl;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider.Type;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
@@ -24,7 +24,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test
     public void createBasicRequest() { 
-       TaskService taskServiceRequest = getConsoleRequestFactory().createConsoleTaskRequest("release", "correl-1");
+       TaskService taskServiceRequest = getConsoleRequestFactory().createTaskRequest("release", "correl-1");
        
        long taskId = 3;
        String userId = "bob";
@@ -47,7 +47,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test
     public void createKieSessionRequest() { 
-       KieSession kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
+       KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
 
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
@@ -68,7 +68,7 @@ public class RemoteApiRequestTest extends Assert {
 
     @Test
     public void requestOnlyCreatedOnce() { 
-        KieSession kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
+        KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
         
         kieSessionRequest.startProcess("test");
         kieSessionRequest.signalEvent("party-event", null);
@@ -94,7 +94,7 @@ public class RemoteApiRequestTest extends Assert {
     
     @Test(expected=UnsupportedOperationException.class)
     public void argumentsMustBePrimitives() { 
-        KieSession kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
+        KieSession kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
         
         kieSessionRequest.addEventListener(new DefaultAgendaEventListener());
     }

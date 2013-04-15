@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl.jaxb;
+package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
 
 @XmlRootElement(name = "operation")
 @XmlAccessorType(XmlAccessType.FIELD)

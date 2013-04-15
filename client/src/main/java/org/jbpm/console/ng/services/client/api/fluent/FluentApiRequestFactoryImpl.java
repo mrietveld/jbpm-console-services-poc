@@ -4,12 +4,12 @@ import java.lang.reflect.Proxy;
 
 import org.jbpm.console.ng.services.client.api.AbstractApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider.RequestApiType;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentKieSessionRequest;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentTaskServiceRequest;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentWorkItemManagerRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider.RequestApiType;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
 
 public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
 
@@ -21,23 +21,23 @@ public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         // private constructor
     }
 
-    public FluentTaskServiceRequest createConsoleTaskRequest(String domainName, String sessionId) {
-        return internalCreateConsoleTaskRequest(domainName, sessionId);
+    public FluentTaskServiceRequest createTaskRequest(String domainName, String sessionId) {
+        return internalCreateTaskRequest(domainName, sessionId);
     }
     
-    public FluentTaskServiceRequest createConsoleTaskRequest(String domainName) {
-        return internalCreateConsoleTaskRequest(domainName, null);
+    public FluentTaskServiceRequest createTaskRequest(String domainName) {
+        return internalCreateTaskRequest(domainName, null);
     }
     
-    public FluentKieSessionRequest createConsoleKieSessionRequest(String domainName, String sessionId) {
-        return internalCreateConsoleKieSessionRequest(domainName, sessionId);
+    public FluentKieSessionRequest createKieSessionRequest(String domainName, String sessionId) {
+        return internalCreateKieSessionRequest(domainName, sessionId);
     }
     
-    public FluentKieSessionRequest createConsoleKieSessionRequest(String domainName) {
-        return internalCreateConsoleKieSessionRequest(domainName, null);
+    public FluentKieSessionRequest createKieSessionRequest(String domainName) {
+        return internalCreateKieSessionRequest(domainName, null);
     }
     
-    private FluentTaskServiceRequest internalCreateConsoleTaskRequest(String domainName, String sessionid) { 
+    private FluentTaskServiceRequest internalCreateTaskRequest(String domainName, String sessionid) { 
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }
@@ -46,7 +46,7 @@ public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
                 new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider ));
     }
 
-    private FluentKieSessionRequest internalCreateConsoleKieSessionRequest(String domainName, String sessionid) { 
+    private FluentKieSessionRequest internalCreateKieSessionRequest(String domainName, String sessionid) { 
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }

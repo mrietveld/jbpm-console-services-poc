@@ -1,22 +1,19 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl.jaxb;
+package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
 import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider.Type;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
 import org.junit.Test;
-import org.kie.api.runtime.KieSession;
 
 public class SimpleJaxbTest {
 
@@ -25,7 +22,7 @@ public class SimpleJaxbTest {
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
-        TaskServiceRequest taskServiceRequest = requestFactory.createConsoleTaskRequest("release", "correl-1"); 
+        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release", "correl-1"); 
         
         taskServiceRequest.activate(1, "Danno");
         taskServiceRequest.claimNextAvailable("Steve", "en-UK");
@@ -43,7 +40,7 @@ public class SimpleJaxbTest {
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
-        TaskServiceRequest taskServiceRequest = requestFactory.createConsoleTaskRequest("release", "correl-1"); 
+        TaskServiceRequest taskServiceRequest = requestFactory.createTaskRequest("release", "correl-1"); 
         
         taskServiceRequest.activate(1, "Danno");
         taskServiceRequest.claimNextAvailable("Steve", "en-UK");
@@ -60,10 +57,4 @@ public class SimpleJaxbTest {
         marshaller.marshal(jaxbMsg, System.out);
     }
     
-    private byte[] convertToByteArray(Object input) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oout = new ObjectOutputStream(baos);
-        oout.writeObject(input);
-        return baos.toByteArray();
-    }
 }

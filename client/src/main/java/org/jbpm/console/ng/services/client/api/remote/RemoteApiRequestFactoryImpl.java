@@ -4,11 +4,11 @@ import java.lang.reflect.Proxy;
 
 import org.jbpm.console.ng.services.client.api.AbstractApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider.RequestApiType;
 import org.jbpm.console.ng.services.client.api.remote.api.KieSessionRequest;
 import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider.RequestApiType;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
 
 public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
 
@@ -20,23 +20,23 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         // private constructor
     }
 
-    public TaskServiceRequest createConsoleTaskRequest(String domainName, String sessionId) {
-        return internalCreateConsoleTaskRequest(domainName, sessionId);
+    public TaskServiceRequest createTaskRequest(String domainName, String sessionId) {
+        return internalCreateTaskRequest(domainName, sessionId);
     }
 
-    public TaskServiceRequest createConsoleTaskRequest(String domainName) {
-        return internalCreateConsoleTaskRequest(domainName, null);
+    public TaskServiceRequest createTaskRequest(String domainName) {
+        return internalCreateTaskRequest(domainName, null);
     }
 
     public KieSessionRequest createConsoleKieSessionRequest(String domainName, String sessionId) {
-        return internalCreateConsoleKieSessionRequest(domainName, sessionId);
+        return internalCreateKieSessionRequest(domainName, sessionId);
     }
 
-    public KieSessionRequest createConsoleKieSessionRequest(String domainName) {
-        return internalCreateConsoleKieSessionRequest(domainName, null);
+    public KieSessionRequest createKieSessionRequest(String domainName) {
+        return internalCreateKieSessionRequest(domainName, null);
     }
 
-    private TaskServiceRequest internalCreateConsoleTaskRequest(String domainName, String sessionid) {
+    private TaskServiceRequest internalCreateTaskRequest(String domainName, String sessionid) {
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }
@@ -45,7 +45,7 @@ public class RemoteApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
                 new RemoteApiServiceRequestProxy(domainName, sessionid, serializationProvider));
     }
 
-    private KieSessionRequest internalCreateConsoleKieSessionRequest(String domainName, String sessionid) {
+    private KieSessionRequest internalCreateKieSessionRequest(String domainName, String sessionid) {
         if( serializationProvider == null ) { 
             throw new IllegalStateException("Serialization provider must be set before creating a request.");
         }

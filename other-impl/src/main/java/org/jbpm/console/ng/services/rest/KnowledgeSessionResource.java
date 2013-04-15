@@ -8,15 +8,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessageValidator;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessageValidator;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
 import org.kie.api.runtime.KieSession;
 
 @Path("/")
 @RequestScoped
 public class KnowledgeSessionResource extends AbstractRuntimeResource {
 
+    
     @POST
     @Path("{oper: [a-zA-Z]+}")
     public void kieSessionOperation(@Context UriInfo uriInfo, @PathParam("oper") String operName) {

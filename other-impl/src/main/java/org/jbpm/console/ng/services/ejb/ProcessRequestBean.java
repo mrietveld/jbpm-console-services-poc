@@ -6,8 +6,8 @@ import java.lang.reflect.Method;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
 import org.jbpm.runtime.manager.api.RuntimeManagerCacheEntryPoint;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.KieInternalServices;

@@ -3,7 +3,7 @@ package org.jbpm.console.ng.services.client.api.same;
 import java.lang.reflect.Method;
 
 import org.jbpm.console.ng.services.client.api.AbstractServiceRequestProxy;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
 class SameApiRequestProxy extends AbstractServiceRequestProxy {
 

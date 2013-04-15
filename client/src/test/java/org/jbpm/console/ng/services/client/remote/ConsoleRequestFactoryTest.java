@@ -1,13 +1,13 @@
 package org.jbpm.console.ng.services.client.remote;
 
 import org.jbpm.console.ng.services.client.api.MessageHolder;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.remote.api.KieSessionRequest;
 import org.jbpm.console.ng.services.client.api.remote.api.TaskServiceRequest;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceRequestFactoryProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider.Type;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kie.internal.task.api.TaskService;
@@ -22,7 +22,7 @@ public class ConsoleRequestFactoryTest extends Assert {
     
     @Test
     public void basicRequestShouldBeCreatedAndContainInfo() { 
-       TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createConsoleTaskRequest("release", "correl-1");
+       TaskServiceRequest taskServiceRequest = getConsoleRequestFactory().createTaskRequest("release", "correl-1");
        
        long taskId = 3;
        String userId = "bob";
@@ -46,7 +46,7 @@ public class ConsoleRequestFactoryTest extends Assert {
     
     @Test
     public void shouldBeAbleToCreateKieSessionRequestAndAddInfo() { 
-       KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
+       KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
 
        String processName = "example-process";
        kieSessionRequest.startProcess("example-process");
@@ -67,7 +67,7 @@ public class ConsoleRequestFactoryTest extends Assert {
     
     @Test
     public void shouldBeAbleToAddMultipleOperations() { 
-        KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createConsoleKieSessionRequest("domain");
+        KieSessionRequest kieSessionRequest = getConsoleRequestFactory().createKieSessionRequest("domain");
         
         kieSessionRequest.startProcess("test");
         kieSessionRequest.signalEvent("party-event", null);

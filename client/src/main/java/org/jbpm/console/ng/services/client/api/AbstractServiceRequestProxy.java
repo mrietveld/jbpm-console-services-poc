@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
 public abstract class AbstractServiceRequestProxy implements InvocationHandler {
 

@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl.jaxb;
+package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
 import java.io.StringWriter;
 
@@ -7,8 +7,8 @@ import javax.jms.Session;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
 public class JaxbSerializationProvider implements MessageSerializationProvider {
 

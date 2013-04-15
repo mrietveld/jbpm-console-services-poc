@@ -1,9 +1,9 @@
 package org.jbpm.console.ng.services.client.api;
 
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.impl.MapMessageSerializationProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.impl.jaxb.JaxbSerializationProvider;
-import org.jbpm.console.ng.services.client.jms.serialization.impl.protobuf.ProtobufSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.impl.MapMessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.impl.ProtobufSerializationProvider;
+import org.jbpm.console.ng.services.client.message.serialization.impl.jaxb.JaxbSerializationProvider;
 
 public class AbstractApiRequestFactoryImpl {
 

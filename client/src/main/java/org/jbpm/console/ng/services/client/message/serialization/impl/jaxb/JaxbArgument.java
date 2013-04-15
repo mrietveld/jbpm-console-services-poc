@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl.jaxb;
+package org.jbpm.console.ng.services.client.message.serialization.impl.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

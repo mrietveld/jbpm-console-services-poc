@@ -1,9 +1,9 @@
-package org.jbpm.console.ng.services.client.jms.serialization.impl.protobuf;
+package org.jbpm.console.ng.services.client.message.serialization.impl;
 
 import javax.jms.Message;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 
 public class ProtobufSerializationProvider implements MessageSerializationProvider {
 

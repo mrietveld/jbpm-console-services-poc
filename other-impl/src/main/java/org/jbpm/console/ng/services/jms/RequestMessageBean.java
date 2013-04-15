@@ -10,9 +10,9 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import org.jbpm.console.ng.services.client.jms.ServiceMessage;
-import org.jbpm.console.ng.services.client.jms.ServiceMessage.OperationMessage;
-import org.jbpm.console.ng.services.client.jms.serialization.MessageSerializationProvider;
+import org.jbpm.console.ng.services.client.message.ServiceMessage;
+import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider;
 import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
 import org.slf4j.Logger;
 

@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services;
+package org.jbpm.console.ng.services.setup;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -28,6 +28,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
+import org.jbpm.console.ng.services.client.api.fluent.FluentApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
+import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,7 +55,14 @@ public class RestIntegrationTest {
 
     @Test
     public void testDeployment() { 
+        FluentApiRequestFactoryImpl requestFactory = getFluentRequestFactory();
         
+        requestFactory.createKieSessionRequest("test");
     }
-  
+
+    private FluentApiRequestFactoryImpl getFluentRequestFactory() { 
+        FluentApiRequestFactoryImpl factory = ServiceRequestFactoryProvider.createNewFluentApiInstance();
+        factory.setSerialization(Type.JAXB);
+        return factory;
+    }
 }

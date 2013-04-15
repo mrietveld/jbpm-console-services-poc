@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms;
+package org.jbpm.console.ng.services.client.message;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

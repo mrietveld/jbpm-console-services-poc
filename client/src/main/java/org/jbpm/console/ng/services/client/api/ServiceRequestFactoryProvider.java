@@ -1,4 +1,4 @@
-package org.jbpm.console.ng.services.client.jms;
+package org.jbpm.console.ng.services.client.api;
 
 import java.util.HashMap;
 
