@@ -23,10 +23,6 @@ public class ServiceMessage {
         // default constructor
     }
     
-    public ServiceMessage(ServiceMessage oldRequest) { 
-        this.domainName = oldRequest.domainName;
-    }
-    
     public ServiceMessage(String domainName) { 
         this.domainName = domainName;
     }

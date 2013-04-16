@@ -58,16 +58,11 @@ public class JaxbServiceMessage {
         this.version = version;
     }
 
-    // DELETE ME
-    public void addOperation(JaxbOperation oper) {
-        this.operations.add(oper);
-    }
-    
     public void addOperation(OperationMessage origOper) {
         this.operations.add(new JaxbOperation(origOper));
     }
 
-    public List<JaxbOperation> getOperation() { 
+    public List<JaxbOperation> getOperations() { 
         return this.operations;
     }
     

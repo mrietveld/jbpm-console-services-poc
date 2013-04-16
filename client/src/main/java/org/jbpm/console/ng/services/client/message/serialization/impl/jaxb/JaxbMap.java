@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 public class JaxbMap extends JaxbArgument {
 
     @XmlElement(name="entry")
-    public List<JaxbMapEntry> entryList = new ArrayList<JaxbMapEntry>();
+    private List<JaxbMapEntry> entryList = new ArrayList<JaxbMapEntry>();
     
     public JaxbMap() { 
         // Default constructor
@@ -28,6 +28,10 @@ public class JaxbMap extends JaxbArgument {
         }
     }
    
+    public List<JaxbMapEntry> getEntryList() {
+        return entryList;
+    }
+
     @XmlRootElement(name = "entry")
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class JaxbMapEntry { 

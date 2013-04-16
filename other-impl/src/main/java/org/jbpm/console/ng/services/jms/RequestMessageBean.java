@@ -11,6 +11,7 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 
 import org.apache.log4j.Logger;
+import org.jbpm.console.ng.services.UnfinishedError;
 import org.jbpm.console.ng.services.cdi.MessageSerializationProviderFactory;
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 import org.jbpm.console.ng.services.client.message.ServiceMessage.OperationMessage;
@@ -18,15 +19,16 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 import org.jbpm.console.ng.services.ejb.ProcessRequestBean;
 
 /**
- * This class is the link between incoming request (whether via REST or JMS or .. whatever) 
- * and the Stateless EJB that processes the requests, the {@link ProcessRequestBean}. 
+ * This class is the link between incoming request (whether via REST or JMS or .. whatever)
+ * and the Stateless EJB that processes the requests, the {@link ProcessRequestBean}.
  * </p>
- * Responses to requests are <b>not</b> placed on the reply-to queue, but on the corresponding answer queue. 
- * For example:<ul>
- * <li>If the request arrived on the JBPM.TASK.DOMAIN.MYCOM, then the answer would be sent to the JBPM.TAS.
- * </p>
- * Because there are multiple queues to which an instance of this class could listen to, the (JMS queue) configuration is done 
- * in the ejb-jar.xml file, which allows us to configure instances of one class to listen to more than one queue.
+ * Responses to requests are <b>not</b> placed on the reply-to queue, but on the corresponding answer queue.
+ * For example:
+ * <ul>
+ * <li>If the request arrived on the JBPM.TASK.DOMAIN.MYCOM, then the answer would be sent to the JBPM.TASK</li>
+ * </p> 
+ * Because there are * multiple queues to which an instance of this class could listen to, the (JMS queue) configuration is done in the ejb-jar.xml
+ * file, which allows us to configure instances of one class to listen to more than one queue.
  */
 public class RequestMessageBean implements MessageListener {
 
@@ -37,7 +39,7 @@ public class RequestMessageBean implements MessageListener {
     private ConnectionFactory connectionFactory;
 
     @Inject
-    private ProcessRequestBean consoleProcessRequest;
+    private ProcessRequestBean processRequestBean;
 
     @Inject
     private MessageSerializationProviderFactory serializationProviderFactory;
@@ -48,23 +50,12 @@ public class RequestMessageBean implements MessageListener {
         Session session = null;
         try {
             int serializationType = message.getIntProperty("serializationType");
-            MessageSerializationProvider serializationProvider = serializationProviderFactory.getMessageSerializationProvider(serializationType);
+            MessageSerializationProvider serializationProvider = serializationProviderFactory
+                    .getMessageSerializationProvider(serializationType);
             ServiceMessage request = serializationProvider.convertJmsMessageToServiceMessage(message);
-            ServiceMessage response = new ServiceMessage(request);
+            ServiceMessage response = new ServiceMessage(request.getDomainName());
             for (OperationMessage operation : request.getOperations()) {
-                OperationMessage operResponse = null;
-
-                switch (operation.getServiceType()) {
-                case ServiceMessage.KIE_SESSION_REQUEST:
-                    operResponse = consoleProcessRequest.doKieSessionOperation(request, operation);
-                    break;
-                case ServiceMessage.TASK_SERVICE_REQUEST:
-                    operResponse = consoleProcessRequest.doTaskServiceOperation(request, operation);
-                    break;
-                default:
-                    // OCRAM exception handling
-                }
-                
+                OperationMessage operResponse = processRequestBean.doOperation(request, operation);
                 response.addOperation(operResponse);
             }
 
@@ -76,12 +67,8 @@ public class RequestMessageBean implements MessageListener {
 
             MessageProducer producer = session.createProducer(message.getJMSReplyTo());
             producer.send(replyMessage);
-        } catch (InvalidDestinationException e) {
-            // OCRAM
-            System.out.println("Dropping invalid message" + e.getMessage());
         } catch (Exception e) {
-            // OCRAM
-            throw new RuntimeException("Could not reply to message", e);
+            throw new UnfinishedError("Not sure what to do with error handling", e);
         } finally {
             if (connection != null) {
                 try {

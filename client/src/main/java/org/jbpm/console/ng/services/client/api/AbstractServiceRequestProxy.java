@@ -38,7 +38,7 @@ public abstract class AbstractServiceRequestProxy implements InvocationHandler {
     protected Object handleMessageHolderMethodsAndUnsupportedMethods(Method method, Object[] args) {
         if (MessageHolder.class.equals(method.getDeclaringClass())) {
             ServiceMessage request = this.request;
-            this.request = new ServiceMessage(this.request);
+            this.request = new ServiceMessage(this.request.getDomainName());
             if ("getRequest".equals(method.getName())) {
                 return request;
             } else if ("createJmsMessage".equals(method.getName())) {

@@ -46,6 +46,7 @@ public class JaxbOperation {
         Object[] origArgs = origOper.getArgs();
         if (origOper.isResponse()) {
             this.result = convertToJaxbArgument(origOper.getResult());
+            this.result.setIndex(0);
         } else {
             for (int i = 0; i < origArgs.length; ++i) {
                 JaxbArgument arg = convertToJaxbArgument(origArgs[i]);
@@ -92,10 +93,6 @@ public class JaxbOperation {
 
     public JaxbArgument getResult() {
         return result;
-    }
-
-    public void setResult(JaxbArgument result) {
-        this.result = result;
     }
 
     public List<JaxbArgument> getArgs() {
