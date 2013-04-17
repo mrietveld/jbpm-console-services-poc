@@ -30,7 +30,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jbpm.console.ng.services.setup.ArquillianServerSetupTask;
+import org.jbpm.console.ng.services.setup.ArquillianJbossServerSetupTask;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  */
 @RunAsClient
 @RunWith(Arquillian.class)
-@ServerSetup(ArquillianServerSetupTask.class)
+@ServerSetup(ArquillianJbossServerSetupTask.class)
 public class JmsIntegrationTest {
 
     private static Logger logger = LoggerFactory.getLogger(JmsIntegrationTest.class);

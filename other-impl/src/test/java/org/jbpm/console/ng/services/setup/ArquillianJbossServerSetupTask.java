@@ -1,6 +1,9 @@
-package org.jbpm.console.ng.services.setup.jboss;
+package org.jbpm.console.ng.services.setup;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -14,26 +17,28 @@ import org.jbpm.console.ng.services.JmsIntegrationTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * This is a Arquillian {@link ServerSetupTask} class.
- * </p>
- * This class is used to deploy/create the following:
- * <ul>
- * <li>the JMS queues (in <code>hornetq-jms.xml</code>)</li>
- * <li>the jdbc datasource (in <code>jbpm-ds.xml</code>)</li>
- * </ul>
- * Both this test and the main classes in this module expect these
- * to exist on the application server.
- */
+public class ArquillianJbossServerSetupTask implements ServerSetupTask {
 
-public class JBossServerSetupTask {
+    protected static Properties arquillianLaunchProperties = getArquillianLaunchProperties();
 
     private static Logger logger = LoggerFactory.getLogger(JmsIntegrationTest.class);
 
     public static final String HORNETQ_JMS_XML = "/hornetq-jms.xml";
     public static final String JBPM_DS_XML = "/jbpm-ds.xml";
 
-    public static void setupServer(ManagementClient managementClient, String containerId) throws Exception {
+    protected static Properties getArquillianLaunchProperties() {
+        Properties properties = new Properties();
+        try {
+            InputStream arquillianLaunchFile = JmsIntegrationTest.class.getResourceAsStream("/arquillian.launch");
+            properties.load(arquillianLaunchFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return properties;
+    }
+
+    @Override
+    public void setup(ManagementClient managementClient, String containerId) throws Exception {
         logger.info("Deploying JMS Queues");
 
         URL hornetqJmsXmlUrl = JmsIntegrationTest.class.getResource(HORNETQ_JMS_XML);
@@ -56,7 +61,8 @@ public class JBossServerSetupTask {
         }
     }
 
-    public static void cleanUpServer(ManagementClient managementClient, String containerId) throws Exception {
+    @Override
+    public void tearDown(ManagementClient managementClient, String containerId) throws Exception {
         ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(managementClient.getControllerClient());
         DeploymentPlan undeployPlan = manager.newDeploymentPlan().undeploy(HORNETQ_JMS_XML).undeploy(JBPM_DS_XML)
                 .andRemoveUndeployed().build();
