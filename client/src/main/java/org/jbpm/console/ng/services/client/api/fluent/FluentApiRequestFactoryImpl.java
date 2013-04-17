@@ -51,7 +51,7 @@ public class FluentApiRequestFactoryImpl extends AbstractApiRequestFactoryImpl {
         }
         Class<?>[] interfaces = { FluentKieSessionRequest.class, FluentWorkItemManagerRequest.class, FluentTaskServiceRequest.class, MessageHolder.class };
         return Proxy.newProxyInstance(ServiceMessage.class.getClassLoader(), interfaces,
-                new FluentApiServiceRequestProxy(domainName, sessionid, serializationProvider));
+                new FluentApiServiceRequestProxy(domainName, serializationProvider));
     }
 
 }

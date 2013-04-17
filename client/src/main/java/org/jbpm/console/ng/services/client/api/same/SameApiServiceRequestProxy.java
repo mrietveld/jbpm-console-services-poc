@@ -19,7 +19,7 @@ class SameApiServiceRequestProxy extends AbstractServiceRequestProxy {
     
     public SameApiServiceRequestProxy(String domainName, Long sessionid, MessageSerializationProvider serializationProvider) {
         // Message
-        super(domainName,sessionid, serializationProvider);
+        super(domainName, serializationProvider);
     }
 
     @Override

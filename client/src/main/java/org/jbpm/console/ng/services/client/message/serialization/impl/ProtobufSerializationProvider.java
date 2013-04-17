@@ -11,7 +11,7 @@ public class ProtobufSerializationProvider implements MessageSerializationProvid
     /**
      * See {@link Type}.
      */
-    private int serializationType = 2;
+    private int serializationType = Type.PROTOBUF.getValue();
     
     @Override
     public Message convertServiceMessageToJmsMessage(ServiceMessage request, Session jmsSession) throws Exception {

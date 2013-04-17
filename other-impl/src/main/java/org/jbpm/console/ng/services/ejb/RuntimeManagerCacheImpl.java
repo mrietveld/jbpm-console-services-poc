@@ -34,11 +34,4 @@ public class RuntimeManagerCacheImpl implements RuntimeManagerCacheEntryPoint {
        return runtimeManagerMap.get(domainName);
     }
 
-    public RuntimeManager getRuntimeManager(String domainName, Long processInstanceId) { 
-       return null; 
-    }
-
-    public void saveProcessInstanceIdDomainAndSession(Long processInstanceId, String domain, String sessionId) {
-        
-    }
 }

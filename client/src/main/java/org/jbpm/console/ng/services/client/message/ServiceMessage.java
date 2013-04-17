@@ -13,9 +13,9 @@ public class ServiceMessage {
 
     public static transient final int KIE_SESSION_REQUEST = 0;
     public static transient final int TASK_SERVICE_REQUEST = 1;
-    
+
+    private final static int version = 1;
     private String domainName;
-    private String sessionId;
     
     private List<OperationMessage> operations = new ArrayList<ServiceMessage.OperationMessage>();
 
@@ -25,18 +25,19 @@ public class ServiceMessage {
     
     public ServiceMessage(ServiceMessage oldRequest) { 
         this.domainName = oldRequest.domainName;
-        this.sessionId = oldRequest.sessionId;
     }
     
-    public ServiceMessage(String domainName, String sessionId) { 
+    public ServiceMessage(String domainName) { 
         this.domainName = domainName;
-        this.sessionId = sessionId;
     }
     
     public List<OperationMessage> getOperations() {
         return operations;
     }
 
+    public int getVersion() {
+        return version;
+    }
 
     public void setDomainName(String domainName) {
         this.domainName = domainName;
@@ -46,14 +47,6 @@ public class ServiceMessage {
         return domainName;
     }
 
-    public void setSessionId(String sessionid) {
-        this.sessionId = sessionid;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-    
     public void addOperation(Method method, Object [] args) { 
         OperationMessage request = new OperationMessage(method, args);
         operations.add(request); 
@@ -73,7 +66,7 @@ public class ServiceMessage {
         private boolean response = false;
         private String methodName;
         private int serviceType;
-        private Long processInstance;
+        private Long objectId;
         private Object [] args;
 
         public OperationMessage(String methodName, int serviceType, boolean response) { 
@@ -186,12 +179,12 @@ public class ServiceMessage {
             return response;
         }
 
-        public Long getProcessInstance() {
-            return processInstance;
+        public Long getObjectId() {
+            return objectId;
         }
 
-        public void setProcessInstance(Long processInstance) {
-            this.processInstance = processInstance;
+        public void setObjectId(Long processInstanceOrTaskId) {
+            this.objectId = processInstanceOrTaskId;
         }
 
     }

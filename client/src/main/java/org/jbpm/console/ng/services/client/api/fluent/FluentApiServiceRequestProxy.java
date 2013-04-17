@@ -7,9 +7,9 @@ import org.jbpm.console.ng.services.client.message.serialization.MessageSerializ
 
 class FluentApiServiceRequestProxy extends AbstractServiceRequestProxy {
 
-    public FluentApiServiceRequestProxy(String domainName, Long sessionId, MessageSerializationProvider serializationProvider) { 
+    public FluentApiServiceRequestProxy(String domainName, MessageSerializationProvider serializationProvider) { 
         // Message
-        super(domainName,sessionId, serializationProvider);
+        super(domainName, serializationProvider);
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

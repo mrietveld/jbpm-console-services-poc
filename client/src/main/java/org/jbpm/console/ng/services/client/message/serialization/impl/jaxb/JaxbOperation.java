@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 
@@ -56,6 +55,7 @@ public class JaxbOperation {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private JaxbArgument convertToJaxbArgument(Object obj) {
         JaxbArgument arg = null;
         if (obj instanceof Map) {

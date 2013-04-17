@@ -35,5 +35,9 @@ public interface MessageSerializationProvider {
         private Type(int intValue) { 
             this.value = intValue;
         }
+        
+        public int getValue() {
+            return this.value;
+        }
     }
 }

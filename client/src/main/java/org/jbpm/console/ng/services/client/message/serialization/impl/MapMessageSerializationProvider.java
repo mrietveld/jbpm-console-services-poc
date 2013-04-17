@@ -16,10 +16,10 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
     /**
      * See {@link Type}.
      */
-    private int serializationType = 0;
+    private int serializationType = Type.MAP_MESSAGE.getValue();
     
     private final static String DOMAIN_NAME     = "d";
-    private final static String KIE_SESSION_ID  = "s";
+    private final static String VERSION         = "v";
     private final static String SERVICE_TYPE    = "t";
     private final static String NUM_OPERATIONS  = "o";
     private final static String METHOD_NAME     = "m";
@@ -35,14 +35,12 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
         try {
             message = jmsSession.createMapMessage();
 
+            currentKey = VERSION;
+            message.setInt(currentKey, request.getVersion());
+
             if (request.getDomainName() != null) {
                 currentKey = DOMAIN_NAME;
                 message.setString(currentKey, request.getDomainName());
-            }
-
-            if (request.getSessionId() != null) {
-                currentKey = KIE_SESSION_ID;
-                message.setString(currentKey, request.getSessionId());
             }
 
             List<OperationMessage> operations = request.getOperations();
@@ -95,11 +93,14 @@ public class MapMessageSerializationProvider implements MessageSerializationProv
         String currentKey = null;
 
         try {
+            int msgVer = mapMsg.getInt(VERSION);
+            if( msgVer != 1 ) { 
+                throw new RuntimeException("Unsupported service message version: " + msgVer );
+            }
+            
             String strValue = mapMsg.getString(DOMAIN_NAME);
             serviceMsg.setDomainName(strValue);
             
-            strValue = mapMsg.getString(KIE_SESSION_ID);
-            serviceMsg.setSessionId(strValue);
 
             int numOperations = mapMsg.getIntProperty(NUM_OPERATIONS);
             for (int i = 0; i < numOperations; ++i) {

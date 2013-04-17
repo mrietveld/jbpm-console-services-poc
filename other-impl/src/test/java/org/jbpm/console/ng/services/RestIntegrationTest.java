@@ -20,7 +20,6 @@ package org.jbpm.console.ng.services;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -40,13 +39,9 @@ import org.jbpm.console.ng.services.client.api.MessageHolder;
 import org.jbpm.console.ng.services.client.api.ServiceRequestFactoryProvider;
 import org.jbpm.console.ng.services.client.api.fluent.FluentApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.api.fluent.api.FluentKieSessionRequest;
-import org.jbpm.console.ng.services.client.api.remote.RemoteApiRequestFactoryImpl;
 import org.jbpm.console.ng.services.client.message.serialization.MessageSerializationProvider.Type;
-import org.jbpm.console.ng.services.client.message.serialization.impl.jaxb.JaxbServiceMessage;
-import org.jbpm.example.ExampleWorkItemHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.internal.fluent.FluentKnowledgeBase;
 
 @RunAsClient
 @RunWith(Arquillian.class)
@@ -59,7 +54,7 @@ public class RestIntegrationTest {
         String warName = project + "-" + version + ".war";
         String warPath = "target/" + warName;
         
-        ZipImporter importer = ShrinkWrap.create(ZipImporter.class, warName).importFrom(new File(warPath));
+        ZipImporter importer = ShrinkWrap.create(ZipImporter.class, "arquillian.war").importFrom(new File(warPath));
         return importer.as(WebArchive.class);
     }
 
@@ -67,7 +62,7 @@ public class RestIntegrationTest {
     URL deploymentUrl;
 
     @Test
-    public void simpleTest() throws Exception { 
+    public void shouldBeAbleToDeployAndProcessSimpleRestRequest() throws Exception { 
         FluentApiRequestFactoryImpl requestFactory = getFluentRequestFactory();
 
         // create service request
@@ -80,13 +75,13 @@ public class RestIntegrationTest {
 
         // create REST request
         String urlString = new URL(deploymentUrl, "test" + "/session/startProcess").toExternalForm();
+        System.out.println( ">> " + urlString );
         
         ClientRequest restRequest = new ClientRequest(urlString);
-        restRequest.setHttpMethod("POST");
         restRequest.body(MediaType.APPLICATION_XML, msgXmlString);
 
         // Get response
-        ClientResponse<String> responseObj = restRequest.get();
+        ClientResponse<String> responseObj = restRequest.post(String.class);
 
         // Check response
         assertEquals(200, responseObj.getStatus());

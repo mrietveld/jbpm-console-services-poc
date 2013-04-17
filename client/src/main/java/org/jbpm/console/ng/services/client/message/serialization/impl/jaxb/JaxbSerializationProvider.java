@@ -16,7 +16,7 @@ public class JaxbSerializationProvider implements MessageSerializationProvider {
     /**
      * See {@link Type}
      */
-    private int serializationType = 1;
+    private int serializationType = Type.JAXB.getValue();
             
     @Override
     public Message convertServiceMessageToJmsMessage(ServiceMessage request, Session jmsSession) throws Exception {
@@ -30,7 +30,11 @@ public class JaxbSerializationProvider implements MessageSerializationProvider {
     }
     
     public static String convertJaxbObjectToString(Object object) throws JAXBException {
-        Marshaller marshaller = JAXBContext.newInstance(object.getClass()).createMarshaller();
+        Class<?> [] jaxbClasses = { 
+                  JaxbArgument.class, JaxbSingleArgument.class, JaxbMap.class,
+                  JaxbServiceMessage.class, JaxbOperation.class
+        };
+        Marshaller marshaller = JAXBContext.newInstance(jaxbClasses).createMarshaller();
         StringWriter stringWriter = new StringWriter();
         
         marshaller.marshal(object, stringWriter);

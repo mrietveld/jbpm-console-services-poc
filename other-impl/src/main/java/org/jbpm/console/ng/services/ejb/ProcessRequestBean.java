@@ -1,6 +1,5 @@
 package org.jbpm.console.ng.services.ejb;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.ejb.Stateless;
@@ -47,8 +46,8 @@ public class ProcessRequestBean {
         return response;
     }
     
-    public OperationMessage doKieSessionOperation(ServiceMessage request, OperationMessage operation) {
-        KieSession kieSession = getRuntimeEngine(request.getDomainName(), request.getSessionId()).getKieSession();
+    private OperationMessage doKieSessionOperation(ServiceMessage request, OperationMessage operation) {
+        KieSession kieSession = getRuntimeEngine(request.getDomainName()).getKieSession();
 
         Object result = invokeMethod(KieSession.class, operation, kieSession);
         if( result != null ) { 
@@ -58,8 +57,8 @@ public class ProcessRequestBean {
         return null;
     }
     
-    public OperationMessage doTaskServiceOperation(ServiceMessage request, OperationMessage operation ) {
-        TaskService taskService = getRuntimeEngine(request.getDomainName(), request.getSessionId()).getTaskService();
+    private OperationMessage doTaskServiceOperation(ServiceMessage request, OperationMessage operation ) {
+        TaskService taskService = getRuntimeEngine(request.getDomainName()).getTaskService();
 
         Object result = invokeMethod(TaskService.class, operation, taskService);
         if( result != null ) { 
@@ -80,16 +79,8 @@ public class ProcessRequestBean {
         try {
             Method operationMethod = serviceClass.getMethod(request.getMethodName(), paramTypes);
             result = operationMethod.invoke(serviceInstance, args);
-        } catch (SecurityException se ) {
-            handlException(request, se);
-        } catch (NoSuchMethodException nsme) {
-            handlException(request, nsme);
-        } catch (IllegalArgumentException iae) {
-            handlException(request, iae);
-        } catch (IllegalAccessException iae) {
-            handlException(request, iae);
-        } catch (InvocationTargetException ite) {
-            handlException(request, ite);
+        } catch (Exception e ) {
+            handlException(request, e);
         }
 
         return result;
@@ -107,23 +98,19 @@ public class ProcessRequestBean {
         }
         logger.error("Failed to invoke method " + serviceClassName + "." + request.getMethodName(), e);
 
-        // OCRAM:
-        e.printStackTrace();
+        // TODO: how to handle the exception? "FAIL" OperationMessage back to sender/requester? 
     }
 
     /**
-     * Retrieves the correct {@link RuntimeEngine}. <ul>
-     * <li>If the sessionId is null, uses an {@link EmptyContext} to get the {@link RuntimeEngine}.</li>
-     * <li>If the sessionId is a number, uses a 
+     * Retrieves the {@link RuntimeEngine}.
      * @param domainName
-     * @param ksessionId
      * @return
      */
-    protected RuntimeEngine getRuntimeEngine(String domainName, String sessionId) { 
-        return getRuntimeEngine(domainName, sessionId, null);
+    protected RuntimeEngine getRuntimeEngine(String domainName) { 
+        return getRuntimeEngine(domainName, null);
     }
     
-    protected RuntimeEngine getRuntimeEngine(String domainName, String sessionId, Long processInstanceId) { 
+    protected RuntimeEngine getRuntimeEngine(String domainName, Long processInstanceId) { 
         RuntimeManager runtimeManager = ((RuntimeManagerCacheImpl) runtimeManagerCache).getRuntimeManager(domainName);
         Context<?> runtimeContext = getRuntimeManagerContext(processInstanceId);
         return runtimeManager.getRuntimeEngine(runtimeContext);

@@ -20,9 +20,9 @@ public class JaxbServiceMessage {
     @XmlSchemaType(name="string")
     private String domain; 
     
-    @XmlElement
-    @XmlSchemaType(name="string")
-    private String sessionId; 
+    @XmlElement(name="ver")
+    @XmlSchemaType(name="int")
+    private Integer version; 
     
     @XmlElement(name="operation")
     private List<JaxbOperation> operations = new ArrayList<JaxbOperation>();
@@ -33,9 +33,7 @@ public class JaxbServiceMessage {
     
     public JaxbServiceMessage(ServiceMessage origRequest) { 
        this.domain = origRequest.getDomainName();
-       if( origRequest.getSessionId() != null ) { 
-           this.sessionId = String.valueOf( origRequest.getSessionId() );
-       }
+       this.version = origRequest.getVersion();
        this.operations = new ArrayList<JaxbOperation>();
        
        for( OperationMessage oper : origRequest.getOperations() ) { 
@@ -52,12 +50,12 @@ public class JaxbServiceMessage {
         this.domain = domain;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public int getVersion() {
+        return version;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     // DELETE ME

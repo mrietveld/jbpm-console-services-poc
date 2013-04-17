@@ -21,7 +21,6 @@ public class SimpleJaxbTest {
 
     @Test
     public void shouldBeAbleToMarshallSimpleMessage() throws Exception {
-        System.out.println();
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
@@ -32,15 +31,13 @@ public class SimpleJaxbTest {
 
         ServiceMessage serviceMsg = ((MessageHolder) taskServiceRequest).getRequest();
         JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
-        
-        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class);
-        Marshaller marshaller = jaxbCtx.createMarshaller();
-        marshaller.marshal(jaxbMsg, System.out);
+
+        // marshall
+        String xmlStr = JaxbSerializationProvider.convertJaxbObjectToString(jaxbMsg);
     }
 
     @Test
     public void shouldBeAbleToMarshallMoreSimpleMessages() throws Exception {
-        System.out.println();
         RemoteApiRequestFactoryImpl requestFactory = ServiceRequestFactoryProvider.createNewRemoteApiInstance();
         requestFactory.setSerialization(Type.JAXB);
         
@@ -56,9 +53,8 @@ public class SimpleJaxbTest {
         }
         JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
         
-        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class);
-        Marshaller marshaller = jaxbCtx.createMarshaller();
-        marshaller.marshal(jaxbMsg, System.out);
+        // marshall
+        String xmlStr = JaxbSerializationProvider.convertJaxbObjectToString(jaxbMsg);
     }
     
     @Test
@@ -78,9 +74,7 @@ public class SimpleJaxbTest {
         ServiceMessage serviceMsg = ((MessageHolder) request).getRequest();
         JaxbServiceMessage jaxbMsg = new JaxbServiceMessage(serviceMsg);
         
-        // Marshall
-        JAXBContext jaxbCtx = JAXBContext.newInstance(JaxbServiceMessage.class, JaxbArgument.class, JaxbMap.class, JaxbSingleArgument.class);
-        Marshaller marshaller = jaxbCtx.createMarshaller();
-        marshaller.marshal(jaxbMsg, System.out);
+        // marshall
+        String xmlStr = JaxbSerializationProvider.convertJaxbObjectToString(jaxbMsg);
     }
 }
