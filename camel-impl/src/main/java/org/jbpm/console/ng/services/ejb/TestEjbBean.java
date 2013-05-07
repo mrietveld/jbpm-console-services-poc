@@ -4,10 +4,11 @@ import javax.ejb.Stateless;
 
 import org.jbpm.console.ng.services.client.message.ServiceMessage;
 
-@Stateless(mappedName="TestBean")
+@Stateless(name="Test")
 public class TestEjbBean {
 
-    public void print(ServiceMessage serviceMsg) { 
-        System.out.println(">>> " + serviceMsg.getDomainName());
+    public String print(Object object) { 
+        System.out.println(">>> " + object.getClass().getName() );
+        return object.getClass().getSimpleName();
     }
 }

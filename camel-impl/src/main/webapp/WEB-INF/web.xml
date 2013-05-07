@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="oryx" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app id="oryx" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-  <display-name>Console Services </display-name>
+  <display-name>Console Services</display-name>
+
+  <servlet>
+    <servlet-name>CXFRSServlet</servlet-name>
+    <display-name>CXF RS Servlet</display-name>
+    <servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
+    <init-param>
+      <param-name>jaxrs.serviceClasses</param-name>
+      <param-value>org.jbpm.console.ng.services.rest.DomainResource</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
 
 </web-app>

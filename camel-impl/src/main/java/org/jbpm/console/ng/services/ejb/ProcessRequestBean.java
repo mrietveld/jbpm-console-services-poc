@@ -20,7 +20,7 @@ import org.kie.internal.task.api.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Stateless(name = "ProcessRequestBean", mappedName = "ProcessRequestBean")
+@Stateless(name = "ProcessRequest")
 public class ProcessRequestBean {
 
     private static Logger logger = LoggerFactory.getLogger(ProcessRequestBean.class);
