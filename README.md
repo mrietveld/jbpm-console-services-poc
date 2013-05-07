@@ -1,3 +1,8 @@
+**UPDATE**
+
+See https://github.com/mrietveld/jbpm/tree/remote/jbpm-services/jbpm-services-remote
+for an updated version of the client module. 
+
 # jbpm-console-services-poc
 
 Proof of Concept (PoC) project for jBPM services via JMS and REST.
