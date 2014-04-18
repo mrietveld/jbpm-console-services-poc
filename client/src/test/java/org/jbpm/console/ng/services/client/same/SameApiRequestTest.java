@@ -12,7 +12,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.task.api.TaskService;
 
 public class SameApiRequestTest extends Assert { 
 
@@ -24,7 +23,7 @@ public class SameApiRequestTest extends Assert {
     
     @Test
     public void createBasicRequest() { 
-       TaskService taskServiceRequest = getSameApiRequestFactory().createTaskRequest("release", 98l);
+       getSameApiRequestFactory().createTaskRequest("release", 98l);
        
        long taskId = 3;
        String userId = "bob";
