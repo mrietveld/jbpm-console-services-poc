@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+    xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:id="http://id.services.test.org" 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:tns="http://services.test.org/hello" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    name="HelloService" 
+    targetNamespace="http://services.test.org/hello">
+  
+  <!-- JAX-WS Customizations: Wrapper style and Async. -->
+  <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+    <jaxws:enableWrapperStyle>true</jaxws:enableWrapperStyle>
+    <jaxws:enableAsyncMapping>false</jaxws:enableAsyncMapping>
+  </jaxws:bindings>
+  <types xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:schema 
+        xmlns:jxb="http://java.sun.com/xml/ns/jaxb" 
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+        jxb:extensionBindingPrefixes="xjc" 
+        jxb:version="1.0" 
+        targetNamespace="http://services.test.org/hello" 
+        version="1.0">
+      <xs:annotation>
+        <xs:appinfo>
+          <jxb:globalBindings collectionType="java.util.LinkedList" fixedAttributeAsConstantProperty="true" generateIsSetMethod="false">
+            <xjc:serializable uid="1"/>
+          </jxb:globalBindings>
+        </xs:appinfo>
+      </xs:annotation> 
+      <!-- Element definitions: -->
+      <xs:element name="HelloServiceException" type="tns:ServiceFaultInfoSO"/>
+      <xs:element name="sayHello" type="tns:SayHello"/>
+      <xs:element name="sayHelloResponse" type="tns:SayHelloResponse"/>
+      <xs:element name="sayHelloRefSO" type="tns:SayHelloRefSO"/>
+      <xs:element name="sayHelloRefSOResponse" type="tns:SayHelloRefSOResponse"/>
+      <xs:element name="version" type="tns:Version"/>
+      <xs:element name="versionResponse" type="tns:VersionResponse"/>
+      <!-- Complex types: Service Wrappers -->
+      <xs:complexType name="SayHello">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperSayHello"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="arg0" type="tns:SayHelloInputSO"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SayHelloResponse">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperSayHelloResponse"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="return" type="tns:SayHelloOutputSO"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SayHelloRefSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperSayHelloRefSO"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="arg0" type="tns:NameSO"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="SayHelloRefSOResponse">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperSayHelloRefSOResponse"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="return" type="tns:MessageSO"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Version">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperVersion"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="VersionResponse">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class name="WrapperVersionResponse"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="return" type="tns:VersionSO"/>
+        </xs:sequence>
+      </xs:complexType>
+      <!-- Complex types: Service Objects -->
+      <xs:complexType name="GreetingSO">
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element name="greeting" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="MessageSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class>
+              <jxb:javadoc>Pre-defined output SO that contains the reply.</jxb:javadoc>
+            </jxb:class>
+          </xs:appinfo>
+          <xs:documentation>Pre-defined output SO that contains the reply.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element name="greeting" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="NameSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class>
+              <jxb:javadoc>Pre-defined input SO to provide the user's name.</jxb:javadoc>
+            </jxb:class>
+          </xs:appinfo>
+          <xs:documentation>Pre-defined input SO to provide the user's name.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="yourName" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="SayHelloInputSO">
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="yourName" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="SayHelloOutputSO">
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element name="greeting" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="YourNameSO">
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="yourName" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <!-- Complex types: Service Framework -->
+      <xs:complexType abstract="true" name="AbstractServiceObject">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class ref="org.kie.services.remote.ws.wsdl.AbstractServiceObject"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="ServiceFaultInfoSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class ref="org.kie.services.remote.ws.wsdl.ServiceFaultInfoSO"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element minOccurs="0" name="correlationId" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="meldingLijst" type="tns:ServiceMeldingSO"/>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+          <xs:element minOccurs="0" name="originator" type="tns:Originator"/>
+          <xs:element minOccurs="0" name="type" type="tns:ExceptionType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="ServiceMeldingSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class ref="org.kie.services.remote.ws.wsdl.ServiceMeldingSO"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="code" type="xs:string"/>
+          <xs:element name="omschrijving" type="xs:string"/>
+          <xs:element default="ERROR" minOccurs="0" name="type" type="tns:ServiceMeldingType"/>
+          <xs:element minOccurs="0" name="variabele" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="VersionSO">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:class ref="org.kie.services.remote.ws.wsdl.VersionSO">
+            </jxb:class>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:complexContent>
+          <xs:extension base="tns:AbstractServiceObject">
+            <xs:sequence>
+              <xs:element name="version" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <!-- Simple types: Service Framework Enumerations -->
+      <xs:simpleType name="ExceptionType">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumClass ref="org.kie.services.remote.ws.wsdl.ExceptionType"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SYSTEM"/>
+          <xs:enumeration value="VALIDATION"/>
+          <xs:enumeration value="AUTORISATION"/>
+          <xs:enumeration value="CONNECTION"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Originator">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumClass ref="org.kie.services.remote.ws.wsdl.Originator"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SOAL"/>
+          <xs:enumeration value="SAS"/>
+          <xs:enumeration value="KIS"/>
+          <xs:enumeration value="EB"/>
+          <xs:enumeration value="MQ"/>
+          <xs:enumeration value="JAXB"/>
+          <xs:enumeration value="IDB"/>
+          <xs:enumeration value="STORAGE"/>
+          <xs:enumeration value="RTDS"/>
+          <xs:enumeration value="DHZ"/>
+          <xs:enumeration value="SMTP"/>
+          <xs:enumeration value="LDAP"/>
+          <xs:enumeration value="FODB"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="ServiceMeldingType">
+        <xs:annotation>
+          <xs:appinfo>
+            <jxb:typesafeEnumClass ref="org.kie.services.remote.ws.wsdl.ServiceMeldingType"/>
+          </xs:appinfo>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="ERROR"/>
+          <xs:enumeration value="DEBUG"/>
+          <xs:enumeration value="INFO"/>
+          <xs:enumeration value="WARN"/>
+          <xs:enumeration value="FATAL"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </types>
+  <message name="HelloService_sayHello">
+    <part element="tns:sayHello" name="sayHello"/>
+  </message>
+  <message name="HelloService_sayHelloResponse">
+    <part element="tns:sayHelloResponse" name="sayHelloResponse"/>
+  </message>
+  <message name="HelloService_sayHelloRefSO">
+    <part element="tns:sayHelloRefSO" name="sayHelloRefSO"/>
+  </message>
+  <message name="HelloService_sayHelloRefSOResponse">
+    <part element="tns:sayHelloRefSOResponse" name="sayHelloRefSOResponse"/>
+  </message>
+  <message name="HelloService_version">
+    <part element="tns:version" name="version"/>
+  </message>
+  <message name="HelloService_versionResponse">
+    <part element="tns:versionResponse" name="versionResponse"/>
+  </message>
+  <message name="HelloServiceException">
+    <part element="tns:HelloServiceException" name="HelloServiceException"/>
+  </message>
+  <message name="HeaderIdMessage">
+    <part element="id:identification" name="identification"/>
+  </message>
+  <portType name="HelloService">
+      <!-- JAX-WS Customizations: WebServiceClient Name. -->
+    <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+      <jaxws:class name="HelloWebService"/>
+    </jaxws:bindings>
+    <documentation>A simple service example.</documentation>
+    <operation name="sayHello" parameterOrder="sayHello">
+      <documentation>1. Simplest example. This will generate default Input/Output SO's.</documentation>
+      <input message="tns:HelloService_sayHello"/>
+      <output message="tns:HelloService_sayHelloResponse"/>
+      <fault message="tns:HelloServiceException" name="HelloServiceException">
+        <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+          <jaxws:class name="HelloWebServiceException"/>
+        </jaxws:bindings>
+      </fault>
+    </operation>
+    <operation name="sayHelloRefSO" parameterOrder="sayHelloRefSO">
+      <documentation>3. Referenced SO example. This will use pre-defined Input/Output SO's.</documentation>
+      <input message="tns:HelloService_sayHelloRefSO"/>
+      <output message="tns:HelloService_sayHelloRefSOResponse"/>
+      <fault message="tns:HelloServiceException" name="HelloServiceException">
+        <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+          <jaxws:class name="HelloWebServiceException"/>
+        </jaxws:bindings>
+      </fault>
+    </operation>
+    <operation name="version" parameterOrder="version">
+      <input message="tns:HelloService_version"/>
+      <output message="tns:HelloService_versionResponse"/>
+      <fault message="tns:HelloServiceException" name="HelloServiceException">
+        <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+          <jaxws:class name="HelloWebServiceException"/>
+        </jaxws:bindings>
+      </fault>
+    </operation>
+  </portType>
+  <binding name="HelloServiceBinding" type="tns:HelloService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="sayHello">
+      <soap:operation soapAction="urn:SayHello"/>
+      <input>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="HelloServiceException">
+        <soap:fault name="HelloServiceException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="sayHelloRefSO">
+      <soap:operation soapAction="urn:SayHelloRefSO"/>
+      <input>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="HelloServiceException">
+        <soap:fault name="HelloServiceException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="version">
+      <soap:operation soapAction="urn:Version"/>
+      <input>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:header message="tns:HeaderIdMessage" part="identification" use="literal"/>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="HelloServiceException">
+        <soap:fault name="HelloServiceException" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="HelloServiceService">
+    <!-- JAX-WS Customizations: WebServiceClient Name. -->
+    <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+      <jaxws:class name="HelloServiceClient"/>
+    </jaxws:bindings>
+    <port binding="tns:HelloServiceBinding" name="HelloServicePort">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>
