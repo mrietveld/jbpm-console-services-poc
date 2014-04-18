@@ -39,7 +39,7 @@ The code is structured as follows:
 
 ## Best Practices
 
-Service characteristics:
+*Service characteristics*
 - accessible
 - documented
 - robust
@@ -47,24 +47,23 @@ Service characteristics:
 - simple
 - predictable
 
-Small API's
+*Small API's*
 - beware adding functionality
 - small, flexible API's
 - few methods as possible
 - easy to use
 
+*General Best Practices*
 - A Web Service should be defined with a WSDL (or WADL in case of REST) and all responses returned by the Web Service should comply with the advertised WSDL.
-    - This can for example be tested with tools like SoapUI (see my blog entry Web Service Testing with soapUI) or XMLSpy, which validate SOAP responses against a WSDL.
 - Use XML Schema to define the input and output of your Web Service operations.
     - Make sure to define return types for all returned data, preferably as XSD ComplexTypes.
     - Do not use the AnyType tag, as it makes it impossible (or non-beneficial) to use XML binding libraries to auto-generate code to construct request/response objects.
     - For ComplexTypes, make sure the occurrence indicators (minOccurs and maxOccurs) are correctly defined, so that it is clear to the consumer which fields are required and which are optional and the frequency of each field.
     - Make sure your namespaces are well defined (not some default like "org.tempuri")
-- Do not use a proprietary authentication protocol for your Web Service.  Rather use common standards like HttpAuth or Kerberos.  Or define username/password as part of your XML payload and expose your Web Service via SSL.
+- Do not use a proprietary authentication protocol for your Web Service.
 - Keep it simple  
     - Write a Web Service with many simple methods rather than one large method (with numerous arguments) that tries to be everything to everyone.
     - Adhere to the OO principles of maximizing cohesion and minimizing coupling when designing your Web Services.
 - Make sure your Web Service returns error messages that are useful for debugging/tracking problems.  For example, include an error code and a human readable error description.
-- Make sure to offer a development environment for your service, which preferably runs the same Web Service version as production, but off of a test database rather than production data.
 - Thoroughly test your Web Service, in a technology-agnostic manner, before having others integrate with it.
 
