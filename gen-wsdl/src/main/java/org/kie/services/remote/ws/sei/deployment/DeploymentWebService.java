@@ -8,8 +8,8 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kie.services.remote.ws.sei.task.TaskOperationRequest;
-import org.kie.services.remote.ws.sei.task.TaskServiceException;
+import org.kie.remote.ServicesVersion;
+import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 
 
 /**
@@ -20,27 +20,26 @@ import org.kie.services.remote.ws.sei.task.TaskServiceException;
  * Generated source version: 2.1
  * 
  */
-@WebService(name = "HistoryService", targetNamespace = DeploymentWebService.NAMESPACE)
+@WebService(name = "DeploymentService", targetNamespace = DeploymentWebService.NAMESPACE)
 public interface DeploymentWebService {
 
-    final static String NAMESPACE = "http://services.remote.kie.org/deploy";
+    final static String NAMESPACE = "http://services.remote.kie.org/" + ServicesVersion.VERSION + "/deploy";
     
-    @WebMethod(action = "urn:Manage")
+    @WebResult(targetNamespace = "manage")
+    @RequestWrapper(localName = "manage", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentIdRequest")
+    @ResponseWrapper(localName = "manageResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentInfoResponse")
+    public DeploymentInfoResponse manage(@WebParam(name = "arg0", targetNamespace = "") DeploymentIdRequest arg0) throws KieRemoteWebServiceException;
+
+    @WebMethod(action = "urn:GetProcessDefinitionIds")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "manage", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentId")
-    @ResponseWrapper(localName = "manageResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentInfo")
-    public DeploymentInfo manage(@WebParam(name = "arg0", targetNamespace = "") DeploymentId arg0) throws TaskServiceException;
+    @RequestWrapper(localName = "getProcessDefinitionIds", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperGetProcessDefinitionIds")
+    @ResponseWrapper(localName = "getProcessDefinitionIds", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperGetProcessDefinitionIds")
+    public ProcessIdsResponse getProcessDefinitionIds(@WebParam(name = "arg0", targetNamespace = "") DeploymentIdRequest arg0) throws KieRemoteWebServiceException;
 
     @WebMethod(action = "urn:GetStatus")
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getStatus", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentId")
     @ResponseWrapper(localName = "getStatusResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentInfo")
-    public DeploymentInfo getStatus(@WebParam(name = "arg0", targetNamespace = "") DeploymentId arg0) throws TaskServiceException;
-
-    @WebMethod(action = "urn:GetStatus")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getStatus", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentId")
-    @ResponseWrapper(localName = "getStatusResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperDeploymentInfo")
-    public ProcessIdsResponse getProcessDefinitions(@WebParam(name = "arg0", targetNamespace = "") DeploymentId arg0) throws TaskServiceException;
+    public ProcessDefinitionResponse getProcessDefinition(@WebParam(name = "arg0", targetNamespace = "") DeploymentIdRequest arg0) throws KieRemoteWebServiceException;
 
 }

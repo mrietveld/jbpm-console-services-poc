@@ -2,7 +2,7 @@ package org.kie.services.remote.ws.sei.process;
 
 import javax.jws.WebService;
 
-import org.kie.services.remote.ws.objects.KieRemoteWebServiceException;
+import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 
 /**
  * Only used for WSDL generation
@@ -15,25 +15,25 @@ import org.kie.services.remote.ws.objects.KieRemoteWebServiceException;
 public class ProcessWebServiceWsdlGenerationImpl implements ProcessWebService {
 
     @Override
-    public ProcessInstanceInfo startProcess(ProcessDefIdAndParameters procDefIdAndParams) throws KieRemoteWebServiceException {
+    public ProcessInstanceResponse startProcess(ProcessDefIdAndParametersRequest procDefIdAndParams) throws KieRemoteWebServiceException {
         return null;
     }
 
     @Override
-    public void abortProcess(ProcessInstanceId procInstId) throws KieRemoteWebServiceException { }
+    public void abortProcess(ProcessInstanceIdAndSignalRequest procInstIdRequest) throws KieRemoteWebServiceException { }
 
     @Override
-    public void signalProcess(ProcessInstanceIdAndSignal procInstIdAndSignal) throws KieRemoteWebServiceException { }
+    public void signalProcess(ProcessInstanceIdAndSignalRequest procInstIdAndSignalRequest) throws KieRemoteWebServiceException { }
 
     @Override
-    public ProcessInstanceInfo getProcessInstanceInfo(ProcessInstanceInfoRequest getProcessInstanceInfo) throws KieRemoteWebServiceException {
+    public ProcessInstanceResponse getProcessInstanceInfo(ProcessInstanceInfoRequest getProcessInstanceInfo) throws KieRemoteWebServiceException {
         return null;
     }
 
     @Override
-    public void completeWorkItem(WorkItemId workItemId) throws KieRemoteWebServiceException { }
+    public void completeWorkItem(WorkItemIdRequest workItemId) throws KieRemoteWebServiceException { }
 
     @Override
-    public void abortWorkItem(WorkItemId workItemId) throws KieRemoteWebServiceException { }
+    public void abortWorkItem(WorkItemIdRequest workItemId) throws KieRemoteWebServiceException { }
 
 }

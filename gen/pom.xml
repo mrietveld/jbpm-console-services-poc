@@ -16,7 +16,7 @@
     <!-- generated code -->
     <dependency>
       <groupId>org.kie.remote</groupId>
-      <artifactId>jax-ws-poc-wsdl</artifactId>
+      <artifactId>jax-ws-poc-common</artifactId>
     </dependency>
   </dependencies>
 
@@ -60,7 +60,7 @@
               <wsdlLocation>file:///wsdl/*</wsdlLocation>
               <wsdlDirectory>${basedir}//src/main/resources/META-INF/wsdl</wsdlDirectory>
               <wsdlFiles>
-                <wsdlFile>HelloService.wsdl</wsdlFile>              
+                <wsdlFile>CommandService.wsdl</wsdlFile>              
                 <!-- <wsdlFile>${basedir}/src/mywsdls/c.wsdl</wsdlFile> produces wsdlLocation = /path/to/basedir/src/mywsdls/c.wsdl -->
               </wsdlFiles>
             </configuration>

@@ -1,14 +1,21 @@
 package org.kie.services.remote.ws.sei.task;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.jbpm.services.task.commands.CancelDeadlineCommand;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessInstanceId", propOrder = {
-    "deploymentId",
-    "processInstanceId"
+@XmlType(name = "TaskQueryResponse", propOrder = {
+    "taskSummary",
 })
 public class TaskQueryResponse {
 
+    @XmlElement(type=TaskSummaryResponse.class)
+    private List<TaskSummaryResponse> taskSummary;
+    
 }

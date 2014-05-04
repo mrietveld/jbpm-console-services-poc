@@ -8,7 +8,8 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kie.services.remote.ws.objects.KieRemoteWebServiceException;
+import org.kie.remote.ServicesVersion;
+import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 
 
 /**
@@ -22,7 +23,7 @@ import org.kie.services.remote.ws.objects.KieRemoteWebServiceException;
 @WebService(name = "ProcessService", targetNamespace = TaskWebService.NAMESPACE)
 public interface TaskWebService {
 
-    final static String NAMESPACE = "http://services.remote.kie.org/task";
+    final static String NAMESPACE = "http://services.remote.kie.org/" + ServicesVersion.VERSION + "/task";
     
     @WebMethod(action = "urn:TaskOperation")
     @WebResult(targetNamespace = "")
@@ -35,11 +36,5 @@ public interface TaskWebService {
     @RequestWrapper(localName = "queryTasks", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperTaskQueryRequest")
     @ResponseWrapper(localName = "queryTasksResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperTaskQueryResponse")
     public TaskQueryResponse query(@WebParam(name = "arg0", targetNamespace = "") TaskQueryRequest arg0) throws KieRemoteWebServiceException;
-
-    @WebMethod(action = "urn:GetTaskContent")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getTaskContent", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperTaskContentRequest")
-    @ResponseWrapper(localName = "getTaskContent", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperTaskContentResponse")
-    public TaskContentResponse getTaskContent(@WebParam(name = "arg0", targetNamespace = "") TaskContentRequest arg0) throws KieRemoteWebServiceException;
 
 }

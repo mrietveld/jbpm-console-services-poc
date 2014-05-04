@@ -8,8 +8,8 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kie.services.remote.ws.sei.task.TaskOperationRequest;
-import org.kie.services.remote.ws.sei.task.TaskServiceException;
+import org.kie.remote.ServicesVersion;
+import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 
 
 /**
@@ -23,24 +23,24 @@ import org.kie.services.remote.ws.sei.task.TaskServiceException;
 @WebService(name = "HistoryService", targetNamespace = HistoryWebService.NAMESPACE)
 public interface HistoryWebService {
 
-    final static String NAMESPACE = "http://services.remote.kie.org/history";
+    final static String NAMESPACE = "http://services.remote.kie.org/" + ServicesVersion.VERSION  + "/history";
     
-    @WebMethod(action = "urn:Stop")
+    @WebMethod(action = "urn:FindProcessInstanceLogs")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "stopTask", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTask")
-    @ResponseWrapper(localName = "stopTaskResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTaskResponse")
-    public ProcessInstanceLogResponse findProcessInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws TaskServiceException;
+    @RequestWrapper(localName = "FindProcessInstanceLogs", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindProcInstanceLogs")
+    @ResponseWrapper(localName = "FindProcessInstanceLogsResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindProcessInstLogsResponse")
+    public ProcessInstanceLogResponse findProcessInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws KieRemoteWebServiceException;
 
-    @WebMethod(action = "urn:Stop")
+    @WebMethod(action = "urn:FindNodeInstanceLogs")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "stopTask", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTask")
-    @ResponseWrapper(localName = "stopTaskResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTaskResponse")
-    public VariableInstanceLogResponse findVariableInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws TaskServiceException;
+    @RequestWrapper(localName = "FindNodeInstanceLogs", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindNodeInstLogs")
+    @ResponseWrapper(localName = "FindNodeInstanceLogsResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindNodeInstLogsResponse")
+    public VariableInstanceLogResponse findNodeInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws KieRemoteWebServiceException;
 
-    @WebMethod(action = "urn:Stop")
+    @WebMethod(action = "urn:FindVariableInstanceLogs")
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "stopTask", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTask")
-    @ResponseWrapper(localName = "stopTaskResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperStopTaskResponse")
-    public NodeInstanceLogResponse findNodeInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws TaskServiceException;
+    @RequestWrapper(localName = "FindVariableInstanceLogs", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindVariableInstLogs")
+    @ResponseWrapper(localName = "FindVariableInstanceLogsResponse", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperFindVariableInstLogsResponse")
+    public VariableInstanceLogResponse findVariableInstanceLogs(@WebParam(name = "arg0", targetNamespace = "") HistoryInstanceLogRequest historyInstLogRequest) throws KieRemoteWebServiceException;
 
 }

@@ -8,10 +8,8 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kie.services.remote.ws.objects.KieRemoteWebServiceException;
-import org.kie.services.remote.ws.sei.history.ProcessInstanceLogResponse;
-import org.kie.services.remote.ws.sei.task.TaskOperationRequest;
-import org.kie.services.remote.ws.sei.task.TaskServiceException;
+import org.kie.remote.ServicesVersion;
+import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 
 
 /**
@@ -25,30 +23,30 @@ import org.kie.services.remote.ws.sei.task.TaskServiceException;
 @WebService(name = "KnowledgeStoreService", targetNamespace = KnowledgeStoreWebService.NAMESPACE)
 public interface KnowledgeStoreWebService {
 
-    static final String NAMESPACE = "http://services.remote.kie.org/knowledge";
+    static final String NAMESPACE = "http://services.remote.kie.org/" + ServicesVersion.VERSION + "/knowledge";
     
     @WebMethod(action = "urn:GetRepositories")
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getRepositories", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperRepositoriesRequest")
     @ResponseWrapper(localName = "getRepositories", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperRepositoriesResponse")
-    public RepositoriesResponse getRepositories(@WebParam(name = "arg0", targetNamespace = "") RepositoriesRequest arg0) throws KieRemoteWebServiceException;
+    public RepositoryResponse getRepositories(@WebParam(name = "arg0", targetNamespace = "") RepositoriesRequest arg0) throws KieRemoteWebServiceException;
 
     @WebMethod(action = "urn:ManageRepositories")
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "manageRepositories", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageRepositoriesRequest")
     @ResponseWrapper(localName = "manageRepositories", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageRepositoriesResponse")
-    public RepositoryOperationResponse getRepositories(@WebParam(name = "arg0", targetNamespace = "") RepositoryOperationRequest arg0) throws KieRemoteWebServiceException;
+    public void manageRepositories(@WebParam(name = "arg0", targetNamespace = "") RepositoryOperationRequest arg0) throws KieRemoteWebServiceException;
 
     @WebMethod(action = "urn:ManageProjects")
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "manageProjects", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageProjectsRequest")
     @ResponseWrapper(localName = "manageProjects", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageProjectsResponse")
-    public ProjectsResponse getRepositories(@WebParam(name = "arg0", targetNamespace = "") ProjectsResponse arg0) throws KieRemoteWebServiceException;
+    public ProjectsResponse getProjects(@WebParam(name = "arg0", targetNamespace = "") ProjectsResponse arg0) throws KieRemoteWebServiceException;
 
     @WebMethod(action = "urn:ManageProjects")
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "manageProjects", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageProjectsRequest")
     @ResponseWrapper(localName = "manageProjects", targetNamespace = NAMESPACE, className = "org.kie.services.remote.ws.wsdl.generated.WrapperManageProjectsResponse")
-    public ProjectOperationResponse getRepositories(@WebParam(name = "arg0", targetNamespace = "") ProjectOperationRequest arg0) throws KieRemoteWebServiceException;
+    public void manageProjects(@WebParam(name = "arg0", targetNamespace = "") ProjectOperationRequest arg0) throws KieRemoteWebServiceException;
 
 }

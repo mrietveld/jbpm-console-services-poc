@@ -5,20 +5,71 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessInstanceId", propOrder = {
-    "deploymentId",
-    "processInstanceId"
+@XmlType(name = "NodeInstanceLogResponse", propOrder = {
+    "id",
+    "processInstanceId",
+    "processId",
+    "date",
+    "type",
+    "nodeInstanceId",
+    "nodeId",
+    "nodeName",
+    "nodeType",
+    "workItemId",
+    "connection",
+    "externalId"
 })
 public class NodeInstanceLogResponse {
 
-    @XmlElement(required=true)
-    @XmlSchemaType(name="string")
-    private String deploymentId;
-    
-    @XmlElement(required=true)
-    @XmlSchemaType(name="string")
+    @XmlElement
+    @XmlSchemaType(name="long")
+    private Long id;
+
+    @XmlElement
+    @XmlSchemaType(name="long")
     private Long processInstanceId;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String processId;
+
+    @XmlElement
+    @XmlSchemaType(name="dateTime")
+    private XMLGregorianCalendar date;
+
+    @XmlElement
+    @XmlSchemaType(name="int")
+    private Integer type;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String nodeInstanceId;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String nodeId;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String nodeName;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String nodeType;
+
+    @XmlElement
+    @XmlSchemaType(name="long")
+    private Long workItemId;    
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String connection;
+
+    @XmlElement
+    @XmlSchemaType(name="string")
+    private String externalId;
 
 }

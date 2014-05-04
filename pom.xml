@@ -44,6 +44,11 @@
       <!-- this poc -->
       <dependency>
         <groupId>org.kie.remote</groupId>
+        <artifactId>jax-ws-poc-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.kie.remote</groupId>
         <artifactId>jax-ws-poc-wsdl</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -61,6 +66,12 @@
         <groupId>org.kie.remote</groupId>
         <artifactId>jax-ws-poc-impl</artifactId>
         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.kie.remote</groupId>
+        <artifactId>kie-services-jaxb</artifactId>
+        <version>${jbpm.version}</version>
       </dependency>
 
       <!-- TEST -->

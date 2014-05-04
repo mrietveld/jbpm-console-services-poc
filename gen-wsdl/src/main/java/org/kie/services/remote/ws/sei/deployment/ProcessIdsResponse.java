@@ -1,24 +1,19 @@
 package org.kie.services.remote.ws.sei.deployment;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessInstanceId", propOrder = {
-    "deploymentId",
-    "processInstanceId"
+@XmlType(name = "ProcessIdsResponse", propOrder = {
+    "processId",
 })
 public class ProcessIdsResponse {
 
-    @XmlElement(required=true)
-    @XmlSchemaType(name="string")
-    private String deploymentId;
+    @XmlElement
+    private List<String> processId;
     
-    @XmlElement(required=true)
-    @XmlSchemaType(name="string")
-    private Long processInstanceId;
-
 }

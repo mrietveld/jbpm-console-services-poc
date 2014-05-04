@@ -9,9 +9,12 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessInstanceId", propOrder = {
-    "deploymentId",
-    "processInstanceId"
+@XmlType(name = "TaskOperationRequest", propOrder = {
+    "type",
+    "targetEntityId",
+    "language",
+    "user",
+    "group"
 })
 public class TaskOperationRequest {
 
@@ -27,12 +30,10 @@ public class TaskOperationRequest {
     private String language;
    
     // For nominate
-    @XmlElement(required=false, name="user")
-    @XmlSchemaType(name="string")
-    private List<String> users;
+    @XmlElement(required=false)
+    private List<String> user;
     
-    @XmlElement(required=false, name="group")
-    @XmlSchemaType(name="string")
-    private List<String> groups;
+    @XmlElement(required=false)
+    private List<String> group;
     
 }

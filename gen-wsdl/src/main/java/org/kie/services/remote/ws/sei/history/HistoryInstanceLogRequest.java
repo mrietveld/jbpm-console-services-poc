@@ -7,18 +7,31 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessInstanceId", propOrder = {
-    "deploymentId",
-    "processInstanceId"
+@XmlType(name = "HistoryInstanceLogRequest", propOrder = {
+    "logType",
+    "processInstanceId",
+    "nodeId",
+    "variableId",
+    "variableValue"
 })
 public class HistoryInstanceLogRequest {
 
-    @XmlElement(required=true)
-    @XmlSchemaType(name="string")
-    private String deploymentId;
+    @XmlElement
+    private HistoryInstanceLogType logType;
     
-    @XmlElement(required=true)
+    @XmlElement(required=false)
     @XmlSchemaType(name="string")
     private Long processInstanceId;
 
+    @XmlElement(required=false)
+    @XmlSchemaType(name="string")
+    private String nodeId;
+
+    @XmlElement(required=false)
+    @XmlSchemaType(name="string")
+    private String variableId;
+
+    @XmlElement(required=false)
+    @XmlSchemaType(name="string")
+    private String variableValue;
 }
