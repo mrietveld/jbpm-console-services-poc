@@ -23,9 +23,9 @@
   </licenses>
 
   <modules>
+    <module>common</module>
     <module>gen</module>
-    <module>impl</module>
-    <module>client</module>
+    <module>gen-wsdl</module>
     <module>test</module> 
   </modules>
 

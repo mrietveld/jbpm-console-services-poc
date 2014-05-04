@@ -17,7 +17,7 @@ import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
 public class CommandWebServiceWsdlGenerationImpl implements CommandWebService {
 
     @Override
-    public JaxbCommandsResponse execute(JaxbCommandsRequest arg0) throws KieRemoteWebServiceException {
+    public JaxbCommandsResponse execute(JaxbCommandsRequest arg0) throws CommandWebServiceException {
         return null;
     }
 

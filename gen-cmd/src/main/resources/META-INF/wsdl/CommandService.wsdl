@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions 
-    xmlns="http://schemas.xmlsoap.org/wsdl/" 
-    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-    xmlns:tns="http://services.remote.kie.org/command" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
-    name="CommandService" 
-    targetNamespace="http://services.remote.kie.org/6.1.0.1/command" 
-    >
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:tns="http://services.remote.kie.org/6.1.0.1/command" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
+	name="CommandService" 
+	targetNamespace="http://services.remote.kie.org/6.1.0.1/command" 
+	>
   <!-- JAX-WS Customizations: Wrapper styles, async. -->
   <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
     <jaxws:enableWrapperStyle>true</jaxws:enableWrapperStyle>
@@ -29,83 +29,16 @@
         </xs:appinfo>
       </xs:annotation> 
 
-      <xs:element name="KieRemoteWebServiceException" type="tns:KieRemoteWebServiceException"/>
-      <!-- commands --> 
-      <xs:element name="abortWorkItemCommand" type="tns:abortWorkItemCommand"/>
-      <xs:element name="activate-task-command" type="tns:activateTaskCommand"/>
-      <xs:element name="add-task-command" type="tns:addTaskCommand"/>
-      <xs:element name="attachment" type="tns:jaxbAttachment"/>
-      <xs:element name="cancel-deadline-command" type="tns:cancelDeadlineCommand"/>
-      <xs:element name="claim-next-task-command" type="tns:claimNextAvailableTaskCommand"/>
-      <xs:element name="claim-task-command" type="tns:claimTaskCommand"/>
-      <xs:element name="clearHistoryLogsCommand" type="tns:clearHistoryLogsCommand"/>
+      <xs:element name="CommandWebServiceException" type="tns:WebServiceFaultInfo"/>
       <xs:element name="command-request" type="tns:jaxbCommandsRequest"/>
       <xs:element name="command-response" type="tns:jaxbCommandsResponse"/>
-      <xs:element name="comment" type="tns:jaxbComment"/>
-      <xs:element name="complete-task-command" type="tns:completeTaskCommand"/>
-      <xs:element name="completeWorkItemCommand" type="tns:completeWorkItemCommand"/>
-      <xs:element name="content" type="tns:jaxbContent"/>
-      <xs:element name="content-response" type="tns:jaxbContentResponse"/>
-      <xs:element name="delegate-task-command" type="tns:delegateTaskCommand"/>
-      <xs:element name="dummy-deadlines" type="tns:jaxbDeadlines"/>
-      <xs:element name="exception" type="tns:jaxbExceptionResponse"/>
+
       <xs:element name="execute" type="tns:execute"/>
-      <xs:element name="execute-task-rules-command" type="tns:executeTaskRulesCommand"/>
       <xs:element name="executeResponse" type="tns:executeResponse"/>
-      <xs:element name="exit-task-command" type="tns:exitTaskCommand"/>
-      <xs:element name="fact-handle" type="tns:defaultFactHandle"/>
-      <xs:element name="fail-task-command" type="tns:failTaskCommand"/>
-      <xs:element name="findActiveProcessInstancesCommand" type="tns:findActiveProcessInstancesCommand"/>
-      <xs:element name="findNodeInstancesCommand" type="tns:findNodeInstancesCommand"/>
-      <xs:element name="findProcessInstanceCommand" type="tns:findProcessInstanceCommand"/>
-      <xs:element name="findProcessInstancesCommand" type="tns:findProcessInstancesCommand"/>
-      <xs:element name="findSubProcessInstancesCommand" type="tns:findSubProcessInstancesCommand"/>
-      <xs:element name="findVariableInstancesByNameCommand" type="tns:findVariableInstancesByNameCommand"/>
-      <xs:element name="findVariableInstancesCommand" type="tns:findVariableInstancesCommand"/>
-      <xs:element name="forward-task-command" type="tns:forwardTaskCommand"/>
-      <xs:element name="get-attachment-command" type="tns:getAttachmentCommand"/>
-      <xs:element name="get-content-command" type="tns:getContentCommand"/>
-      <xs:element name="get-task-assigned-pot-owner-command" type="tns:getTaskAssignedAsPotentialOwnerCommand"/>
-      <xs:element name="get-task-by-owner-command" type="tns:getTasksOwnedCommand"/>
-      <xs:element name="get-task-by-proc-inst-id-command" type="tns:getTasksByProcessInstanceIdCommand"/>
-      <xs:element name="get-task-by-status-proc-inst-id-command" type="tns:getTasksByStatusByProcessInstanceIdCommand"/>
-      <xs:element name="get-task-by-various-fields-command" type="tns:getTasksByVariousFieldsCommand"/>
-      <xs:element name="get-task-by-work-item-command" type="tns:getTaskByWorkItemIdCommand"/>
-      <xs:element name="get-task-command" type="tns:getTaskCommand"/>
-      <xs:element name="get-tasks-assigned-bus-admin-command" type="tns:getTaskAssignedAsBusinessAdminCommand"/>
-      <xs:element name="i18n-text" type="tns:jaxbI18NText"/>
-      <xs:element name="linked-list" type="tns:abstractBaseLinkedListNode"/>
-      <xs:element name="log-instance-list" type="tns:jaxbHistoryLogList"/>
-      <xs:element name="long-list" type="tns:jaxbLongListResponse"/>
-      <xs:element name="node-instance-log" type="tns:jaxbNodeInstanceLog"/>
-      <xs:element name="nominate-task-command" type="tns:nominateTaskCommand"/>
-      <xs:element name="organizational-entity" type="tns:jaxbOrganizationalEntity"/>
-      <xs:element name="other" type="tns:jaxbOtherResponse"/>
-      <xs:element name="people-assignments" type="tns:jaxbPeopleAssignments"/>
-      <xs:element name="primitive" type="tns:jaxbPrimitiveResponse"/>
-      <xs:element name="process-instance" type="tns:jaxbProcessInstanceResponse"/>
-      <xs:element name="process-instance-list" type="tns:jaxbProcessInstanceListResponse"/>
-      <xs:element name="process-instance-log" type="tns:jaxbProcessInstanceLog"/>
-      <xs:element name="process-sub-tasks-command" type="tns:processSubTaskCommand"/>
-      <xs:element name="release-task-command" type="tns:releaseTaskCommand"/>
-      <xs:element name="resume-task-command" type="tns:resumeTaskCommand"/>
-      <xs:element name="skip-task-command" type="tns:skipTaskCommand"/>
-      <xs:element name="start-task-command" type="tns:startTaskCommand"/>
-      <xs:element name="stop-task-command" type="tns:stopTaskCommand"/>
-      <xs:element name="suspend-task-command" type="tns:suspendTaskCommand"/>
-      <xs:element name="task" type="tns:jaxbTask"/>
-      <xs:element name="task-composite-command" type="tns:compositeCommand"/>
-      <xs:element name="task-data" type="tns:jaxbTaskData"/>
-      <xs:element name="task-response" type="tns:jaxbTaskResponse"/>
-      <xs:element name="task-summary" type="tns:jaxbTaskSummary"/>
-      <xs:element name="task-summary-list" type="tns:jaxbTaskSummaryListResponse"/>
-      <xs:element name="variable-instance-log" type="tns:jaxbVariableInstanceLog"/>
-      <xs:element name="variables" type="tns:jaxbVariablesResponse"/>
-      <xs:element name="work-item" type="tns:jaxbWorkItem"/>
 
       <xs:complexType name="execute">
         <xs:sequence>
-          <xs:element name="arg0" type="tns:jaxbCommandsRequest" minOccurs="0"/>
+          <xs:element name="request" type="tns:jaxbCommandsRequest" minOccurs="0"/>
         </xs:sequence>
       </xs:complexType>
 
@@ -131,28 +64,6 @@
         </xs:annotation>
       </xs:complexType>
 
-      <xs:complexType name="KieRemoteWebServiceException">
-        <xs:annotation>
-          <xs:appinfo>
-            <jxb:class ref="org.kie.services.remote.ws.common.KieRemoteWebServiceException"/>
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:sequence>
-          <xs:element name="faultInfo" type="tns:WebServiceFaultInfo" minOccurs="0"/>
-        </xs:sequence>
-      </xs:complexType>
-
-      <xs:complexType name="WebServiceFaultInfo">
-        <xs:complexContent>
-          <xs:extension base="tns:serializableServiceObject">
-            <xs:sequence>
-              <xs:element name="type" type="tns:exceptionType" minOccurs="0"/>
-              <xs:element name="correlationId" type="xs:string" minOccurs="0"/>
-            </xs:sequence>
-          </xs:extension>
-        </xs:complexContent>
-      </xs:complexType>
-
       <xs:complexType name="serializableServiceObject" abstract="true">
         <xs:annotation>
           <xs:appinfo>
@@ -162,20 +73,14 @@
         <xs:sequence/>
       </xs:complexType>
 
-      <xs:simpleType name="exceptionType">
+      <xs:complexType name="WebServiceFaultInfo">
         <xs:annotation>
           <xs:appinfo>
-            <jxb:class ref="org.kie.services.remote.ws.common.ExceptionType"/>
+            <jxb:class ref="org.kie.services.remote.ws.common.WebServiceFaultInfo"/>
           </xs:appinfo>
         </xs:annotation>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="SYSTEM"/>
-          <xs:enumeration value="CONFIGURATION"/>
-          <xs:enumeration value="VALIDATION"/>
-          <xs:enumeration value="PERMISSION"/>
-          <xs:enumeration value="CONFLICT"/>
-        </xs:restriction>
-      </xs:simpleType>
+      </xs:complexType>
+
     </xs:schema>
   </types>
   <message name="execute">
@@ -184,14 +89,14 @@
   <message name="executeResponse">
     <part name="parameters" element="tns:executeResponse"/>
   </message>
-  <message name="KieRemoteWebServiceException">
-    <part name="fault" element="tns:KieRemoteWebServiceException"/>
+  <message name="CommandWebServiceException">
+    <part name="fault" element="tns:CommandWebServiceException"/>
   </message>
   <portType name="CommandService">
     <operation name="execute">
       <input wsam:Action="http://services.remote.kie.org/6.1.0.1/command/CommandService/executeRequest" message="tns:execute"/>
       <output wsam:Action="http://services.remote.kie.org/6.1.0.1/command/CommandService/executeResponse" message="tns:executeResponse"/>
-      <fault message="tns:KieRemoteWebServiceException" name="KieRemoteWebServiceException" wsam:Action="http://services.remote.kie.org/6.1.0.1/command/CommandService/execute/Fault/KieRemoteWebServiceException"/>
+      <fault message="tns:CommandWebServiceException" name="CommandWebServiceException" wsam:Action="http://services.remote.kie.org/6.1.0.1/command/CommandService/execute/Fault/CommandWebServiceException"/>
     </operation>
   </portType>
   <binding name="CommandServicePortBinding" type="tns:CommandService">
@@ -204,12 +109,12 @@
       <output>
         <soap:body use="literal"/>
       </output>
-      <fault name="KieRemoteWebServiceException">
-        <soap:fault name="KieRemoteWebServiceException" use="literal"/>
+      <fault name="CommandWebServiceException">
+        <soap:fault name="CommandWebServiceException" use="literal"/>
       </fault>
     </operation>
   </binding>
-  <service name="CommandService">
+  <service name="CommandServicePort">
     <port name="CommandServicePort" binding="tns:CommandServicePortBinding">
       <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
     </port>
