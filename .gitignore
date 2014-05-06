@@ -1,14 +1,24 @@
-# build directories
-bin/
+# Build dirs
 target/
 local/
+bin/
 
-# Eclipse ide
+# Configuration/IDE
+.*
+!.gitignore
+
+# - Eclipse: .settings/ .project .classpath
 .project
 .classpath
 .settings/
+# - Intellij
+*.ipr
+# - NetBeans
+nbproject/
+*.iws
+*.iml
 
-# things that don't exist here
-/asciidoc/
-/target/
-/scratch-ws-*/
+# Test data
+*.db
+*.tlog
+*.log
