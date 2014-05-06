@@ -2,6 +2,7 @@ package org.kie.services.remote.ws.sei.command;
 
 import javax.jws.WebService;
 
+import org.kie.remote.ServicesVersion;
 import org.kie.services.client.serialization.jaxb.impl.JaxbCommandsRequest;
 import org.kie.services.client.serialization.jaxb.impl.JaxbCommandsResponse;
 import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
@@ -16,6 +17,8 @@ import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
         targetNamespace = CommandWebService.NAMESPACE)
 public class CommandWebServiceWsdlGenerationImpl implements CommandWebService {
 
+    final static String NAMESPACE = "http://services.remote.kie.org/" + ServicesVersion.VERSION + "/command";
+    
     @Override
     public JaxbCommandsResponse execute(JaxbCommandsRequest arg0) throws CommandWebServiceException {
         return null;
