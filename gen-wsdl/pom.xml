@@ -4,12 +4,12 @@
 
   <parent>
     <groupId>org.kie.remote</groupId>
-    <artifactId>jax-ws-poc</artifactId>
+    <artifactId>kie-remote-ws-poc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <packaging>jar</packaging>
-  <artifactId>jax-ws-poc-wsdl</artifactId>
+  <artifactId>kie-remote-ws-poc-wsdl</artifactId>
   <name>KIE Services WS PoC :: WSDL creation</name>
 
   <dependencies>
@@ -22,7 +22,7 @@
     
     <dependency>
       <groupId>org.kie.remote</groupId>
-      <artifactId>jax-ws-poc-common</artifactId>
+      <artifactId>kie-remote-ws-poc-common</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.remote</groupId>

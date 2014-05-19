@@ -4,19 +4,19 @@
 
   <parent>
     <groupId>org.kie.remote</groupId>
-    <artifactId>jax-ws-poc</artifactId>
+    <artifactId>kie-remote-ws-poc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <packaging>jar</packaging>
-  <artifactId>jax-ws-poc-gen</artifactId>
+  <artifactId>kie-remote-ws-poc-gen</artifactId>
   <name>KIE Services WS PoC :: Generated Classes</name>
 
   <dependencies>
     <!-- generated code -->
     <dependency>
       <groupId>org.kie.remote</groupId>
-      <artifactId>jax-ws-poc-common</artifactId>
+      <artifactId>kie-remote-ws-poc-common</artifactId>
     </dependency>
   </dependencies>
 
@@ -60,7 +60,7 @@
               <wsdlLocation>file:///wsdl/*</wsdlLocation>
               <wsdlDirectory>${basedir}//src/main/resources/META-INF/wsdl</wsdlDirectory>
               <wsdlFiles>
-                <wsdlFile>CommandService.wsdl</wsdlFile>              
+                <wsdlFile>HelloService.wsdl</wsdlFile>              
                 <!-- <wsdlFile>${basedir}/src/mywsdls/c.wsdl</wsdlFile> produces wsdlLocation = /path/to/basedir/src/mywsdls/c.wsdl -->
               </wsdlFiles>
             </configuration>

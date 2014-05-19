@@ -9,7 +9,7 @@
   </parent>
 
   <groupId>org.kie.remote</groupId>
-  <artifactId>jax-ws-poc</artifactId>
+  <artifactId>kie-remote-ws-poc</artifactId>
   <packaging>pom</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>jBPM Services PoC</name>
@@ -44,27 +44,27 @@
       <!-- this poc -->
       <dependency>
         <groupId>org.kie.remote</groupId>
-        <artifactId>jax-ws-poc-common</artifactId>
+        <artifactId>kie-remote-ws-poc-common</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.kie.remote</groupId>
-        <artifactId>jax-ws-poc-wsdl</artifactId>
+        <artifactId>kie-remote-ws-poc-wsdl</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.kie.remote</groupId>
-        <artifactId>jax-ws-poc-gen</artifactId>
+        <artifactId>kie-remote-ws-poc-gen</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.kie.remote</groupId>
-        <artifactId>jax-ws-poc-client</artifactId>
+        <artifactId>kie-remote-ws-poc-client</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.kie.remote</groupId>
-        <artifactId>jax-ws-poc-impl</artifactId>
+        <artifactId>kie-remote-ws-poc-impl</artifactId>
         <version>${project.version}</version>
       </dependency>
 

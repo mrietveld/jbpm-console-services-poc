@@ -4,12 +4,12 @@
 
   <parent>
     <groupId>org.kie.remote</groupId>
-    <artifactId>jax-ws-poc</artifactId>
+    <artifactId>kie-remote-ws-poc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <packaging>jar</packaging>
-  <artifactId>jax-ws-poc-test-eap</artifactId>
+  <artifactId>kie-remote-ws-poc-test-eap</artifactId>
   <name>KIE Services WS PoC :: Integration Tests</name>
 
   <properties>
@@ -23,7 +23,7 @@
   <dependencies>
     <dependency>
       <groupId>org.kie.remote</groupId>
-      <artifactId>jax-ws-poc-impl</artifactId>
+      <artifactId>kie-remote-ws-poc-impl</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

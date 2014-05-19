@@ -24,12 +24,11 @@ import org.jboss.shrinkwrap.descriptor.api.webapp30.WebAppDescriptor;
 import org.jboss.shrinkwrap.descriptor.api.webcommon30.WebAppVersionType;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.services.remote.ws.HelloServiceImpl;
-import org.kie.services.remote.ws.wsdl.generated.HelloService;
 import org.kie.services.remote.ws.wsdl.generated.HelloServiceClient;
+import org.kie.services.remote.ws.wsdl.generated.HelloWebService;
 import org.kie.services.remote.ws.wsdl.generated.SayHelloInputSO;
 import org.kie.services.remote.ws.wsdl.generated.SayHelloOutputSO;
 import org.slf4j.Logger;
@@ -101,7 +100,7 @@ public class HelloServiceEapIntegrationTest {
     }
 
     private static QName getServiceQName() { 
-        WebService wsAnno = HelloService.class.getAnnotation(WebService.class);
+        WebService wsAnno = HelloWebService.class.getAnnotation(WebService.class);
         String namespace = wsAnno.targetNamespace();
         String name = wsAnno.name();
         return new QName(namespace, name);

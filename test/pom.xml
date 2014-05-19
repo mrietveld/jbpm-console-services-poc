@@ -4,12 +4,12 @@
 
   <parent>
     <groupId>org.kie.remote</groupId>
-    <artifactId>jax-ws-poc</artifactId>
+    <artifactId>kie-remote-ws-poc</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <packaging>pom</packaging>
-  <artifactId>jax-ws-poc-test</artifactId>
+  <artifactId>kie-remote-ws-poc-test</artifactId>
   <name>KIE Services WS PoC :: Integration Tests</name>
 
   <properties>
