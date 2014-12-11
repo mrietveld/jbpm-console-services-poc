@@ -25,7 +25,8 @@
   <modules>
     <module>common</module>
     <module>gen</module>
-    <module>gen-wsdl</module>
+    <module>impl</module>
+    <module>wsdl-create</module>
     <module>test</module> 
   </modules>
 

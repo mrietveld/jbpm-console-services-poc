@@ -26,7 +26,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.services.remote.ws.HelloServiceImpl;
+import org.kie.services.remote.ws.HelloWebServiceImpl;
 import org.kie.services.remote.ws.wsdl.generated.HelloServiceClient;
 import org.kie.services.remote.ws.wsdl.generated.HelloWebService;
 import org.kie.services.remote.ws.wsdl.generated.SayHelloInputSO;
@@ -43,13 +43,14 @@ public class HelloServiceEapIntegrationTest {
     @Deployment(testable = false, name="helloservice-ws")
     public static Archive<?> createDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(HelloServiceImpl.class)
+                .addClasses(HelloWebServiceImpl.class)
                 .setWebXML(generateWebXMLAsset())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
       
         File [] pocDeps = Maven.resolver()
                 .loadPomFromFile("pom.xml")
-                .resolve("org.kie.remote:jax-ws-poc-gen",
+                .resolve("org.kie.remote:kie-remote-ws-poc-gen",
+                         "org.kie.remote:kie-remote-ws-poc-impl",
                          "org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec",
                          "org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.2_spec")
                 .withTransitivity()

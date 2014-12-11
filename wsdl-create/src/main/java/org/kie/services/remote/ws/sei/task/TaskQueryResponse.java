@@ -7,8 +7,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.jbpm.services.task.commands.CancelDeadlineCommand;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TaskQueryResponse", propOrder = {
     "taskSummary",

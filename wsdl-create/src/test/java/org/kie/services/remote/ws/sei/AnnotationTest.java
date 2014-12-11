@@ -1,6 +1,7 @@
 package org.kie.services.remote.ws.sei;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -8,12 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.drools.core.command.assertion.AssertEquals;
 import org.junit.Test;
-import org.kie.remote.ServicesVersion;
+import org.kie.services.shared.ServicesVersion;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.MethodAnnotationsScanner;

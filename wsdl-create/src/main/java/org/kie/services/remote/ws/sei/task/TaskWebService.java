@@ -8,8 +8,8 @@ import javax.jws.WebService;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kie.remote.ServicesVersion;
 import org.kie.services.remote.ws.common.KieRemoteWebServiceException;
+import org.kie.services.shared.ServicesVersion;
 
 
 /**

@@ -6,10 +6,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kie.internal.deployment.DeploymentUnit.RuntimeStrategy;
-import org.kie.services.client.serialization.jaxb.impl.deploy.JaxbDeploymentUnit;
-import org.kie.services.client.serialization.jaxb.impl.deploy.JaxbDeploymentUnit.JaxbDeploymentStatus;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DeploymentInfoResponse", propOrder = {
     "groupId",
