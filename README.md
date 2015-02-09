@@ -1,4 +1,3 @@
-Various Proof-of-Concept Projects
-=================================
+Testing AsciiDoc to Docbook conversion via maven
+================================================
 
-Various branches of this project are used to test and develop new ideas and projects I have
