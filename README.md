@@ -1,4 +1,4 @@
-scratch-switchyard-jbpm-services
-================================
+Various Proof-of-Concept Projects
+=================================
 
-Scratch project for PoC in revealing jBPM services (core + HT) via various mediums (camel, jms, REST, etc.)
+Various branches of this project are used to test and develop new ideas and projects I have

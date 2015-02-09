@@ -1,0 +1,14 @@
+# build directories
+bin/
+target/
+local/
+
+# Eclipse ide
+.project
+.classpath
+.settings/
+
+# things that don't exist here
+/asciidoc/
+/target/
+/scratch-ws-*/
