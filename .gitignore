@@ -10,5 +10,4 @@ local/
 
 # things that don't exist here
 /asciidoc/
-/target/
 /scratch-ws-*/
