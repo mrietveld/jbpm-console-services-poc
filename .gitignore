@@ -3,10 +3,25 @@ bin/
 target/
 local/
 
-# Eclipse ide
+# Configuration/IDE
+.*
+!.gitignore
+
+# - Eclipse: .settings/ .project .classpath
 .project
 .classpath
 .settings/
+# - Intellij
+*.ipr
+# - NetBeans
+nbproject/
+*.iws
+*.iml
+
+# Test data
+*.db
+*.tlog
+*.log
 
 # things that don't exist here
 /asciidoc/
