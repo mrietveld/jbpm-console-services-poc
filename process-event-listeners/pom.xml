@@ -21,10 +21,6 @@
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.apache.deltaspike.core</groupId>
-      <artifactId>deltaspike-core-api</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.kie</groupId>
@@ -40,11 +36,11 @@
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-flow</artifactId>
+      <artifactId>jbpm-runtime-manager</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jbpm</groupId>
-      <artifactId>jbpm-runtime-manager</artifactId>
+      <artifactId>jbpm-flow</artifactId>
     </dependency>
   </dependencies>
 
